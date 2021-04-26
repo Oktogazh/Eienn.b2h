@@ -1,7 +1,7 @@
 <template>
-    <h1 @click="digoret = !digoret">Ξ</h1>
-    <Kevreañ class="centered" v-if="digoret" :digoret="digoret" @klozañ="digoret = false"/>
-    <pre>
+    <h1 @click="pajenn.digoret = true">Ξ</h1>
+    <Kevreañ v-if="pajenn.digoret" :digoret="pajenn.digoret" @klozañ="pajenn.digoret = false"/>
+    <pre>{{ pajenn }}
     </pre>
 </template>
 
@@ -9,13 +9,15 @@
 import Kevreañ from './Kevreañ'
 
 export default {
-  name: 'Modal',
+  name: 'Gwagennigoù',
   components: {
     Kevreañ
   },
   data() {
     return {
-      digoret: false
+      pajenn: {
+        digoret: false
+      }
     };
   },
   methods: {
@@ -35,6 +37,14 @@ h1 {
 }
 h1:hover {
   cursor: pointer;
-  color: rgb(38, 130, 191)
+  color: rgb(38, 130, 191);
+}
+a {
+  color: hsv(144, 80%, 75%);
+}
+pre {
+  position: absolute;
+  text-align: left;
+  padding: 5rem
 }
 </style>

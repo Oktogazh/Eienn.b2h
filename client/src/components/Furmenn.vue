@@ -12,11 +12,12 @@ export default {
 
 <style scoped>
 .furmenn {
-  position: sticky;
+  position: absolute;
   z-index: 2;
   background: rgb(255, 255, 255);
-  padding: 40px;
-  width: 300px;
+  padding: 30px;
+  margin-top: 5rem;
+  width: 250px;
 }
 
 </style>

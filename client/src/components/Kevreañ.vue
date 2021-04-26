@@ -1,5 +1,5 @@
 <template>
-  <div class="kreiz">
+  <div class="furmenn">
     <Furmenn />
   </div>
   <Teñval @click="$emit('klozañ')"/>
@@ -10,7 +10,7 @@ import Teñval from './Teñval'
 import Furmenn from './Furmenn'
 
 export default {
-  name: 'modal',
+  name: 'Kevreañ',
   components: {
     Teñval,
     Furmenn
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.kreiz {
+.furmenn {
   display: flex;
   justify-content: center;
   align-items: center;

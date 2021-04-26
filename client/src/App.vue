@@ -1,14 +1,14 @@
 <template>
-  <Modal/>
+  <Gwagennigoù />
 </template>
 
 <script>
-import Modal from './components/Modal.vue'
+import Gwagennigoù from './components/Gwagennigoù.vue'
 
 export default {
   name: 'App',
   components: {
-    Modal
+    Gwagennigoù
   }
 }
 </script>
