@@ -25,7 +25,6 @@ export default {
 .furmenn {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 </style>
