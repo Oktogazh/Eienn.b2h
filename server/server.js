@@ -12,15 +12,8 @@ require('dotenv').config();
 // Configuring port
 const port = process.env.PORT || 9000;
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
-});
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+require('./config/mongoose');
+require('./models/User');
 
 const app = express();
 

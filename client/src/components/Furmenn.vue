@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     emezelet() {
-      if (this.postel != '') { //To do: check if password is valide
+      if (this.postel != '') {
         this.$store.dispatch({
           type: 'kasPostel',
           email: this.postel
@@ -35,15 +35,16 @@ export default {
       }
     },
     kevreañ() {
-      if (this.gerKuzh === this.enrollañ) {
+      if (this.$store.state.ezel) {
         this.$store.dispatch({
-          type: 'enrollañ',
+          type: 'kevreañ',
           email: this.postel,
           psw: this.gerKuzh
         })
-      } if (this.store.state.ezel) {
-        this.$store.distpatch({
-          type: 'kevreañ',
+      }
+      if (this.gerKuzh === this.kadarnaat) { //TODO: check if password is valide
+        this.$store.dispatch({
+          type: 'enrollañ',
           email: this.postel,
           psw: this.gerKuzh
         })

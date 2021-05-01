@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-require('../models/User');
 const User = mongoose.model('User');
 
 const router = express.Router();
@@ -29,7 +28,7 @@ router.post('/kevrea%C3%B1', (req, res) => {
   const email = req.body.email
   const psw = req.body.psw
   User.findOne({'email': email}, (err, user) => {
-    res.json({'email': email, 'ezel': !!user})
+    res.json({'jwt': 'x.x.x'})
   })
 });
 
