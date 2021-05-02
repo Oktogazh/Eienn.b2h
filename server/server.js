@@ -12,31 +12,30 @@ require('dotenv').config();
 // Configuring port
 const port = process.env.PORT || 9000;
 
-require('./config/mongoose');
 require('./models/User');
 
-const app = express();
+const server = express();
 
 // Configure middlewares
-app.use('*', cors());
-app.use(express.json());
-app.use(morgan('tiny'));
+server.use('*', cors());
+server.use(express.json());
+server.use(morgan('tiny'));
 
-app.set('view engine', 'ejs');
+server.set('view engine', 'ejs');
 
 // Static folder
-app.use(express.static(__dirname + '/views/'));
+server.use(express.static(__dirname + '/views/'));
 
 // Defining route middleware
-app.use('/api', require('./routes/api'));
+server.use('/api', require('./routes/api'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+server.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+server.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -47,7 +46,9 @@ app.use(function(err, req, res, next) {
 });
 
 // Listening to port
-app.listen(port);
-console.log(`Listening On http://localhost:${port}/api`);
+server.listen(port, err => {
+  if (err) console.error('Error starting', err);
+  else console.log(`Listening On http://localhost:${port}/api`);
+});
 
-module.exports = app;
+module.exports = server;

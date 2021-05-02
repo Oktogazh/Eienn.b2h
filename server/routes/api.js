@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const auth = require('../middlewares/auth.js')
 
 const router = express.Router();
 
@@ -24,12 +25,11 @@ router.post('/enrolla%C3%B1', (req, res) => {
   })
 });
 
-router.post('/kevrea%C3%B1', (req, res) => {
-  const email = req.body.email
-  const psw = req.body.psw
-  User.findOne({'email': email}, (err, user) => {
-    res.json({'jwt': 'x.x.x'})
-  })
-});
+router.post('/kevrea%C3%B1',
+  // middleware that handles the sign in process
+  auth.signIn,
+  // json handler
+  auth.signJWTForUser
+);
 
 module.exports = router;

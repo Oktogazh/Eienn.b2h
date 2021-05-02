@@ -1,6 +1,6 @@
 <template>
-  <div class="furmenn">
-    <Furmenn />
+  <div class="furmenn-flex">
+    <Furmenn @klozañ="$emit('klozañ')" />
   </div>
   <Teñval @click="$emit('klozañ')"/>
 </template>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.furmenn {
+.furmenn-flex {
   display: flex;
   justify-content: center;
 }

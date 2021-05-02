@@ -1,16 +1,16 @@
 <template>
   <div class="furmenn">
     <form class="signin-up" name="signin-up" @submit.prevent="kevreañ">
-      <h3>{{ $store.state.ezel? 'Connexion':'Créez un compte'}}</h3><br>
+      <h3>{{ $store.state.user.ezel? 'Connexion':'Créez un compte'}}</h3><br>
       <h4>Email</h4>
       <input v-model="postel" type="email" name="email">
       <h4>Mot de passe</h4>
       <input v-model="gerKuzh" @focus="emezelet" type="password" name="ger-kuzh">
-      <h4 v-show="!$store.state.ezel">Confirmez votre mot de passe</h4>
-      <input v-model="kadarnaat" v-show="!$store.state.ezel" type="password">
+      <h4 v-show="!$store.state.user.ezel">Confirmez votre mot de passe</h4>
+      <input v-model="kadarnaat" v-show="!$store.state.user.ezel" type="password">
       <button type="submit">Kas
       </button>
-      <pre>{{ $store.state }}</pre>
+      <pre>{{ $store.state.user }}</pre>
     </form>
   </div>
 </template>
@@ -35,18 +35,22 @@ export default {
       }
     },
     kevreañ() {
-      if (this.$store.state.ezel) {
+      const self = this;
+      if (this.$store.state.user.ezel) {
         this.$store.dispatch({
           type: 'kevreañ',
           email: this.postel,
-          psw: this.gerKuzh
+          password: this.gerKuzh
         })
+          .then(function() {
+             self.$emit('klozañ')
+           })
       }
       if (this.gerKuzh === this.kadarnaat) { //TODO: check if password is valide
         this.$store.dispatch({
           type: 'enrollañ',
           email: this.postel,
-          psw: this.gerKuzh
+          password: this.gerKuzh
         })
       }
     }
@@ -64,6 +68,7 @@ export default {
 }
 .signin-up {
   display: block;
+  width: inherit;
 }
 input {
   margin: 2vmin;

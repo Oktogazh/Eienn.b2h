@@ -1,12 +1,16 @@
 <template>
-  <Gwagennigoù />
+  <div id="nav">
+    <Gwagennigoù />
+  </div>
+  <pre>{{ this.$store.state.user }}
+  </pre>
 </template>
 
 <script>
-import Gwagennigoù from './components/Gwagennigoù.vue'
+// @ is an alias to /src
+import Gwagennigoù from '@/components/Gwagennigoù'
 
 export default {
-  name: 'App',
   components: {
     Gwagennigoù
   }
@@ -19,10 +23,19 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: rgb(13, 38, 64);
-  margin-top: 10px;
+  color: #2c3e50;
 }
-#colorChart {
-  color: hsv(144, 80%, 75%);
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

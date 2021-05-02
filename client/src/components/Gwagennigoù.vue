@@ -1,8 +1,9 @@
 <template>
     <h1 @click="pajenn.digoret = true">Ξ</h1>
     <Kevreañ v-if="pajenn.digoret" :digoret="pajenn.digoret" @klozañ="pajenn.digoret = false"/>
-    <pre>{{ pajenn }}
+<!--    <pre>{{ pajenn }}
     </pre>
+-->
 </template>
 
 <script>
