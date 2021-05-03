@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style media="screen">
+<style scoped media="screen">
 * {
   box-sizing: border-box;
 }
