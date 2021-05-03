@@ -1,8 +1,8 @@
 <template>
   <div class="furmenn-flex">
-    <Furmenn @klozañ="$emit('klozañ')" />
+    <Furmenn @klozañ="klozañModal" />
   </div>
-  <Teñval @click="$emit('klozañ')"/>
+  <Teñval @click="klozañModal"/>
 </template>
 
 <script>
@@ -15,8 +15,13 @@ export default {
     Teñval,
     Furmenn
   },
-  props: {
-    digoret: Boolean
+  methods: {
+    klozañModal() {
+      this.$store.dispatch({
+        type: 'klozañPrenestr',
+        prenestr: 'gwagennigoù'
+      })
+    }
   }
 }
 </script>

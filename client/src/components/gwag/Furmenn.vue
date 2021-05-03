@@ -43,7 +43,10 @@ export default {
           password: this.gerKuzh
         })
           .then(function() {
-             self.$emit('klozañ')
+             self.$store.dispatch({
+               type: 'klozañPrenestr',
+               prenestr: 'gwagennigoù'
+             })
            })
       }
       if (this.gerKuzh === this.kadarnaat) { //TODO: check if password is valide

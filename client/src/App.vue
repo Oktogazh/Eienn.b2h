@@ -2,13 +2,14 @@
   <div id="nav">
     <Gwagennigoù />
   </div>
-  <pre>{{ this.$store.state.user }}
+  <pre>{{ this.$store.state }}
   </pre>
+  <router-view />
 </template>
 
 <script>
 // @ is an alias to /src
-import Gwagennigoù from '@/components/Gwagennigoù'
+import Gwagennigoù from '@/components/gwag/Gwagennigoù'
 
 export default {
   components: {
@@ -37,5 +38,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+pre {
+  text-align: left;
 }
 </style>

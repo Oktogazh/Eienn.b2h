@@ -4,6 +4,11 @@ import axios from 'axios'
 export default createStore({
   state: {
     API: '//localhost:9000',
+    prenestrier: {
+      gwagennigoù: {
+        digoret: false,
+      }
+    },
     user: {
       email: JSON.parse(localStorage.getItem('userData')).email,
       ezel: true,
@@ -12,31 +17,40 @@ export default createStore({
     }
   },
   mutations: {
-    SET_EMAIL(state, data) {
-      state.user.email = data.email
-      state.user.ezel = data.ezel
+    DIGERIÑ_PRENESTR(state, prenestr) {
+      state.prenestrier[prenestr].digoret = false
     },
     KEVREAÑ(state, data) {
-      console.log(data)
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
+    KLOZAÑ_PRENESTR(state, prenestr) {
+      state.prenestrier[prenestr].digoret = false
+    },
+    SET_EMAIL(state, data) {
+        state.user.email = data.email
+        state.user.ezel = data.ezel
+    },
   },
   actions: {
-    kasPostel(context, email) {
-      axios.post(`${this.state.API}/api/ezel`, email).then(response => {
+    kasPostel(context, {email}) {
+      console.log(email)
+      axios.post(`${this.state.API}/api/ezel`, {email}).then(response => {
         context.commit('SET_EMAIL', response.data)
       })
     },
-    enrollañ(context, email, psw) {
-      axios.post(`${this.state.API}/api/enrollañ`, email, psw).then(response => {
+    enrollañ(context, {email, psw}) {
+      axios.post(`${this.state.API}/api/enrollañ`, {email, psw}).then(response => {
         context.commit('SET_EMAIL', response.data)
       })
     },
-    kevreañ(context, email, psw) {
-      axios.post(`${this.state.API}/api/kevreañ`, email, psw).then(response => {
+    kevreañ(context, {email, psw}) {
+      axios.post(`${this.state.API}/api/kevreañ`, {email, psw}).then(response => {
         context.commit('KEVREAÑ', response.data)
       })
+    },
+    klozañPrenestr(context, {prenestr}) {
+      context.commit('KLOZAÑ_PRENESTR', prenestr)
     }
   },
   modules: {

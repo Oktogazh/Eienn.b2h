@@ -1,6 +1,6 @@
 <template>
-    <h1 @click="pajenn.digoret = true">Ξ</h1>
-    <Kevreañ v-if="pajenn.digoret" :digoret="pajenn.digoret" @klozañ="pajenn.digoret = false"/>
+    <h1 @click="$store.state.prenestrier.gwagennigoù.digoret = true">Ξ</h1>
+    <Kevreañ v-if="$store.state.prenestrier.gwagennigoù.digoret"/>
 <!--    <pre>{{ pajenn }}
     </pre>
 -->
@@ -15,14 +15,6 @@ export default {
     Kevreañ
   },
   data() {
-    return {
-      pajenn: {
-        digoret: false
-      }
-    };
-  },
-  methods: {
-
   },
   props: {
     msg: String
