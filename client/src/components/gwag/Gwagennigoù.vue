@@ -14,8 +14,6 @@ export default {
   components: {
     Kevreañ
   },
-  data() {
-  },
   props: {
     msg: String
   }

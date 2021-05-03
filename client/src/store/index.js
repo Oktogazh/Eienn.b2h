@@ -18,7 +18,7 @@ export default createStore({
   },
   mutations: {
     DIGERIÑ_PRENESTR(state, prenestr) {
-      state.prenestrier[prenestr].digoret = false
+      state.prenestrier[prenestr].digoret = true
     },
     KEVREAÑ(state, data) {
       localStorage.setItem('userData', JSON.stringify(data))

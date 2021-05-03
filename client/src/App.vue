@@ -2,9 +2,9 @@
   <div id="nav">
     <Gwagennigoù />
   </div>
-  <pre>{{ this.$store.state }}
-  </pre>
   <router-view />
+  <pre>{{ $store.state }}
+  </pre>
 </template>
 
 <script>
@@ -18,7 +18,10 @@ export default {
 }
 </script>
 
-<style>
+<style @media="screen">
+body {
+  background: #eee;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
