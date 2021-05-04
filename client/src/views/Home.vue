@@ -1,20 +1,20 @@
 <template>
-  <Spletenn />
+  <Spletennoù />
 </template>
 
 <script>
-import Spletenn from '@/components/spletenn/Spletenn'
+import Spletennoù from '@/components/spletennoù/Spletennoù'
 
 export default {
   name: 'Home',
   components: {
-    Spletenn
+    Spletennoù
   }
 }
 </script>
 
 <style media="screen">
-.Spletenn {
+.Spletennoù {
   display: flex;
   justify-content: center;
 }
