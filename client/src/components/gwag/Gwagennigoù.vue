@@ -25,6 +25,7 @@ export default {
 h1 {
   text-align: right;
   margin: 5vmin;
+  margin-bottom: 1vmin;
 }
 h1:hover {
   cursor: pointer;
@@ -36,6 +37,5 @@ a {
 pre {
   position: absolute;
   text-align: left;
-  padding: 5rem
 }
 </style>

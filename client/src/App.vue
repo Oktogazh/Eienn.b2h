@@ -21,6 +21,7 @@ export default {
 <style @media="screen">
 body {
   background: #eee;
+  margin: 4vmin;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -28,10 +29,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
 }
 
 #nav a {

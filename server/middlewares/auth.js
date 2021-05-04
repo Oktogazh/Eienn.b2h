@@ -7,6 +7,10 @@ const jwtSecret = process.env.JWT_PRIV_KEY
 const jwtAlgorithm = 'HS256'
 const jwtExpiresIn = '7 days'
 
+/**
+ * Middleware from https://github.com/Gurenax/express-mongoose-passport-jwt
+ */
+
 passport.use(User.createStrategy())
 
 function register(req, res, next) {
@@ -81,8 +85,8 @@ function signJWTForUser(req, res) {
   // Send the token
   res.status(200).json({
     token,
-    'email': `${user.email}`,
-    'sub': `${user.subscriptionActive}`
+    'email': user.email,
+    'sub': user.subscriptionActive
   })
 }
 

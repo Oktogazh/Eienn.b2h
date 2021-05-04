@@ -7,19 +7,16 @@
     <label for="spletenn-2">{{ geriaoueg.titl }}</label>
 
     <input type="radio" name="spletenn" id="spletenn-3">
-    <label style="float: right" for="spletenn-3">{{ notennoù.titl }}</label>
+    <label style="float: right" for="spletenn-3">←</label>
 
     <div class="spletenn">
       <div>
-        <h2>{{ notennoù.titl }}</h2>
         <p>{{ danvez }}</p>
       </div>
       <div>
-        <h2>{{ geriaoueg.titl }}</h2>
         <p>{{ danvez }}</p>
       </div>
       <div>
-        <h2>{{ notennoù.titl }}</h2>
         <p>{{ danvez }}</p>
       </div>
     </div>
@@ -75,7 +72,6 @@ export default {
   padding: 12px 20px;
   cursor: pointer;
   transition: background-color .3s;
-  z-index: 1;
 }
 
 .spletennoù > label:hover {
@@ -90,8 +86,8 @@ export default {
   border: 2px solid #99abff;
   border-bottom: solid 2px #fff;
   margin: -2px 3px;
-  z-index: 1;
   transition: border-bottom .3s;
+  -webkit-text-stroke-width: .25px;
 }
 
 .spletenn {
@@ -103,8 +99,8 @@ export default {
   border: 2px solid #99abff;
   padding: 10px 30px 40px;
   line-height: 1.4em;
+  font-size: 1.1em;
   display: none;
-  z-index: 0;
 }
 
 #spletenn-1:checked ~ .spletenn > div:nth-of-type(1),
@@ -112,17 +108,21 @@ export default {
 #spletenn-3:checked ~ .spletenn > div:nth-of-type(3)
 {
   display: block;
-  z-index: 1;
 }
 
-@media only screen and (max-width: 700px)
+@media only screen and (max-width: calc(700px + 8vmin))
 {
   .spletennoù {
-    width: 90%;
+    width: 100%;
   }
-  .spletennoù > div {
-    width: 90%;
-    line-height: 1em;
+  .spletennoù > label {
+    font-size-adjust: 2.33vmax;
+    padding: 8px 15px;
+  }
+  .spletenn > div {
+    font-size-adjust: 2.33vmax;
+    line-height: 2.8vmax;
+    padding: 1.32vmax 3.97vmax 5.3vmax;
   }
 
 }
