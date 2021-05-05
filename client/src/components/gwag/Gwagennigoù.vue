@@ -25,7 +25,7 @@ export default {
         }).then(function() {
           return self.$store.state.lastSelected %=  2
         })
-      } else if (this.$store.state.user.token) {
+      } else if (JSON.parse(localStorage.getItem('userData') || "{}").token) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',
           prenestr: 'perzhioù',

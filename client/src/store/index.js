@@ -4,7 +4,6 @@ import axios from 'axios'
 export default createStore({
   state: {
     API: '//localhost:9000',
-    lastSelected: 0,
     prenestrier: {
       kevreañ: {
         digoret: false,
@@ -14,17 +13,22 @@ export default createStore({
       }
     },
     user: {
-      email: JSON.parse(localStorage.getItem('userData')).email,
+      email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
-      sub: JSON.parse(localStorage.getItem('userData')).sub,
-      token: JSON.parse(localStorage.getItem('userData')).token,
+      sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
+      token: JSON.parse(localStorage.getItem('userData') || "{}").token,
     }
   },
   mutations: {
     DIGERIÑ_PRENESTR(state, prenestr) {
       state.prenestrier[prenestr].digoret = true
     },
+    ENROLLAÑ(state, data) {
+      state.user = data
+      localStorage.setItem('userData', JSON.stringify(data))
+    },
     KEVREAÑ(state, data) {
+      state.user = data
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
@@ -37,19 +41,19 @@ export default createStore({
     },
   },
   actions: {
+    enrollañ(context, {email, password}) {
+      axios.post(`${this.state.API}/api/enrollañ`, {email, password}).then(response => {
+        context.commit('ENROLLAÑ', response.data)
+      })
+    },
     kasPostel(context, {email}) {
       console.log(email)
       axios.post(`${this.state.API}/api/ezel`, {email}).then(response => {
         context.commit('SET_EMAIL', response.data)
       })
     },
-    enrollañ(context, {email, psw}) {
-      axios.post(`${this.state.API}/api/enrollañ`, {email, psw}).then(response => {
-        context.commit('SET_EMAIL', response.data)
-      })
-    },
-    kevreañ(context, {email, psw}) {
-      axios.post(`${this.state.API}/api/kevreañ`, {email, psw}).then(response => {
+    kevreañ(context, {email, password}) {
+      axios.post(`${this.state.API}/api/kevreañ`, {email, password}).then(response => {
         context.commit('KEVREAÑ', response.data)
       })
     },

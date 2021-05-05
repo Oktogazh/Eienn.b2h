@@ -1,9 +1,9 @@
 <template>
   <div class="spletennoù">
-    <input type="radio" name="spletenn" id="spletenn-1" value="0" v-model="$store.state.lastSelected">
+    <input type="radio" name="spletenn" id="spletenn-1" checked>
     <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-1" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ notennoù.titl }}</label>
 
-    <input type="radio" name="spletenn" id="spletenn-2" value="1" v-model="$store.state.lastSelected">
+    <input type="radio" name="spletenn" id="spletenn-2">
     <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-2" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ geriaoueg.titl }}</label>
 
     <div class="spletenn">

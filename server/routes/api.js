@@ -17,13 +17,12 @@ router.post('/ezel', (req, res) => {
   })
 });
 
-router.post('/enrolla%C3%B1', (req, res) => {
-  const email = req.body.email
-  const psw = req.body.psw
-  User.findOne({'email': email}, (err, user) => {
-    res.json({'email': email, 'ezel': !!user})
-  })
-});
+router.post('/enrolla%C3%B1',
+  // middleware that creates a new user doc
+  auth.register,
+  // create a token
+  auth.signJWTForUser
+);
 
 router.post('/kevrea%C3%B1',
   // middleware that handles the sign in process

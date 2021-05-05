@@ -44,8 +44,9 @@ export default {
         })
           .then(function() {
              self.$store.dispatch({
-               type: 'klozañPrenestr',
-               prenestr: 'gwagennigoù'
+               type: 'gwintañPrenestr',
+               prenestr: 'kevreañ',
+               boolean: false
              })
            })
       }
@@ -55,6 +56,13 @@ export default {
           email: this.postel,
           password: this.gerKuzh
         })
+          .then(function() {
+             self.$store.dispatch({
+               type: 'gwintañPrenestr',
+               prenestr: 'kevreañ',
+               boolean: false
+             })
+           })
       }
     }
   }

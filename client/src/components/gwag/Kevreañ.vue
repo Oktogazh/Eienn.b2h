@@ -18,8 +18,9 @@ export default {
   methods: {
     klozañModal() {
       this.$store.dispatch({
-        type: 'klozañPrenestr',
-        prenestr: 'gwagennigoù'
+        type: 'gwintañPrenestr',
+        prenestr: 'kevreañ',
+        boolean: false
       })
     }
   }
