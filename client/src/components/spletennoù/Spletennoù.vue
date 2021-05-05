@@ -1,23 +1,23 @@
 <template>
   <div class="spletennoù">
-    <input type="radio" name="spletenn" id="spletenn-1" checked>
-    <label for="spletenn-1">{{ notennoù.titl }}</label>
+    <input type="radio" name="spletenn" id="spletenn-1" value="0" v-model="$store.state.lastSelected">
+    <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-1" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ notennoù.titl }}</label>
 
-    <input type="radio" name="spletenn" id="spletenn-2">
-    <label for="spletenn-2">{{ geriaoueg.titl }}</label>
-
-    <input type="radio" name="spletenn" id="spletenn-3">
-    <label style="float: right" for="spletenn-3">←</label>
+    <input type="radio" name="spletenn" id="spletenn-2" value="1" v-model="$store.state.lastSelected">
+    <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-2" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ geriaoueg.titl }}</label>
 
     <div class="spletenn">
-      <div>
-        <p>{{ danvez }}</p>
+      <div v-if="$store.state.prenestrier.perzhioù.digoret" >
+          <Perzhioù />
+      </div>
+      <div v-if="$store.state.prenestrier.perzhioù.digoret" >
+          <Perzhioù />
       </div>
       <div>
         <p>{{ danvez }}</p>
       </div>
       <div>
-        <Perzhioù />
+        <p>{{ danvez }}</p>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Perzhioù from './Perzhioù'
+import Perzhioù from '../perzhioù/Perzhioù'
 
 export default {
   name: 'Spletennoù',
@@ -94,6 +94,10 @@ export default {
   -webkit-text-stroke-width: .25px;
 }
 
+.perzhioù {
+  float: right;
+}
+
 .spletenn {
   clear: both;
 }
@@ -108,8 +112,7 @@ export default {
 }
 
 #spletenn-1:checked ~ .spletenn > div:nth-of-type(1),
-#spletenn-2:checked ~ .spletenn > div:nth-of-type(2),
-#spletenn-3:checked ~ .spletenn > div:nth-of-type(3)
+#spletenn-2:checked ~ .spletenn > div:nth-of-type(2)
 {
   display: block;
 }

@@ -4,8 +4,12 @@ import axios from 'axios'
 export default createStore({
   state: {
     API: '//localhost:9000',
+    lastSelected: 0,
     prenestrier: {
-      gwagennigoù: {
+      kevreañ: {
+        digoret: false,
+      },
+      perzhioù: {
         digoret: false,
       }
     },
@@ -49,8 +53,8 @@ export default createStore({
         context.commit('KEVREAÑ', response.data)
       })
     },
-    klozañPrenestr(context, {prenestr}) {
-      context.commit('KLOZAÑ_PRENESTR', prenestr)
+    gwintañPrenestr(context, {prenestr, boolean}) {
+      context.commit(boolean? 'DIGERIÑ_PRENESTR':'KLOZAÑ_PRENESTR', prenestr)
     }
   },
   modules: {
