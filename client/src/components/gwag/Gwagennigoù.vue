@@ -16,14 +16,11 @@ export default {
   },
   methods: {
     gwintañ() {
-      const self = this
       if (this.$store.state.prenestrier.perzhioù.digoret) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',
           prenestr: 'perzhioù',
           boolean: false
-        }).then(function() {
-          return self.$store.state.lastSelected %=  2
         })
       } else if (JSON.parse(localStorage.getItem('userData') || "{}").token) {
         this.$store.dispatch({
