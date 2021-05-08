@@ -1,6 +1,7 @@
 <template>
   <h1>Mon compte</h1>
   <h2 @click="$emit('klozañ')">←</h2>
+  <h4 @click="sendEmailVerificationCode">Vérifier mon adresse email</h4>
   <h4 @click="dilemelKont">Supprimer mon compte</h4>
 
 </template>
@@ -18,6 +19,11 @@ export default {
         return // TODO: ask for the password confirmation
       }
     },
+    sendEmailVerificationCode() {
+      this.$store.dispatch({
+        type: 'sendEmailVerificationCode'
+      })
+    }
   }
 }
 </script>

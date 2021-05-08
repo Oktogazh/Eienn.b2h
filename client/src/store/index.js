@@ -8,9 +8,6 @@ export default createStore({
       kevreañ: {
         digoret: false,
       },
-      kont: {
-        digoret: false,
-      },
       perzhioù: {
         digoret: false,
       }
@@ -20,6 +17,7 @@ export default createStore({
       ezel: true,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
+      verified: JSON.parse(localStorage.getItem('userData') || "{}").verified || false,
     }
   },
   mutations: {
@@ -49,20 +47,35 @@ export default createStore({
         context.commit('ENROLLAÑ', response.data)
       })
     },
-    kasPostel(context, {email}) {
+    ezel(context, {email}) {
       console.log(email)
       axios.post(`${this.state.API}/api/ezel`, {email}).then(response => {
         context.commit('SET_EMAIL', response.data)
       })
+    },
+    gwintañPrenestr(context, {prenestr, boolean}) {
+      context.commit(boolean? 'DIGERIÑ_PRENESTR':'KLOZAÑ_PRENESTR', prenestr)
+    },
+    gwiriekaat() {
+      const email = this.state.user.email
+      axios.post(`${this.state.API}/api/gwiriekaat`, {email: email, /* code : code*/})
+      .then(
+        function() { return null }
+      )
+      .catch(function(err) { return alert(`resevet kemennadenn: ${err}`)})
+    },
+    sendEmailVerificationCode() {
+      axios.post(`${this.state.API}/api/kas_kod_postel`).then(
+        function() { return alert('Un mail vient de vous être envoyé.\n' +
+        'Vérifier dans votre boîte de réception ou vos spams pour valider votre adresse mail.')}
+      )
+      .catch(function(err) { return alert(`resevet kemennadenn: ${err}`)})
     },
     kevreañ(context, {email, password}) {
       axios.post(`${this.state.API}/api/kevreañ`, {email, password}).then(response => {
         context.commit('KEVREAÑ', response.data)
       })
     },
-    gwintañPrenestr(context, {prenestr, boolean}) {
-      context.commit(boolean? 'DIGERIÑ_PRENESTR':'KLOZAÑ_PRENESTR', prenestr)
-    }
   },
   modules: {
   },

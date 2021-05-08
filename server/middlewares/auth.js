@@ -86,7 +86,8 @@ function signJWTForUser(req, res) {
   res.status(200).json({
     token,
     'email': user.email,
-    'sub': user.subscriptionActive
+    'sub': user.subscriptionActive,
+    'verified': user.verified.email || false
   })
 }
 

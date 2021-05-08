@@ -1,8 +1,10 @@
 const mongoose = require('./init');
 const passportLocalMongoose = require('passport-local-mongoose');
+const Schema = mongoose.Schema
 
 
-var user = new mongoose.Schema({
+
+var user = new Schema({
     email: String,
     passwordHash: String,
     ResetPassword: String,
@@ -22,7 +24,14 @@ var user = new mongoose.Schema({
         default: null}
     },
     badges: [String],
-  }, {timestamps: true});
+    verified: {
+      type: Boolean,
+      default: false,
+      required: true
+    }
+  },
+  {timestamps: true}
+);
 
 user.plugin(passportLocalMongoose, {
     usernameField: 'email',

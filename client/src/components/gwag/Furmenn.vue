@@ -29,7 +29,7 @@ export default {
     emezelet() {
       if (this.postel != '') {
         this.$store.dispatch({
-          type: 'kasPostel',
+          type: 'ezel',
           email: this.postel
         })
       }
