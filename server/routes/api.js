@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/ezel',
-  body('email').isEmail().normalizeEmail().trim(),
+  body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).trim(),
   (req, res) => {
   console.log(req.body.email)
   const email = req.body.email

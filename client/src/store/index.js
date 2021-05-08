@@ -8,6 +8,9 @@ export default createStore({
       kevreañ: {
         digoret: false,
       },
+      kont: {
+        digoret: false,
+      },
       perzhioù: {
         digoret: false,
       }
