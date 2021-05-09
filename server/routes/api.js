@@ -29,12 +29,18 @@ router.post('/ezel',
   })
 });
 
-router.post('/gwiriekaat', verifyEmail.verify
+router.post('/gwiriekaat',
+  auth.requireJWT,
+  verifyEmail.verify
 );
 
 router.post('/kas_kod_postel',
   auth.requireJWT,
-  verifyEmail.sendCode
+  // send the verification email
+  verifyEmail.sendCode,
+  (req, res) => {
+  res.status(200).send('Emeur o paouez kas ar c\'hod da ' + req.user.email + '.');
+ }
 );
 
 router.post('/kevrea%C3%B1',

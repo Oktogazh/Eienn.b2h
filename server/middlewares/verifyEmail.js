@@ -24,7 +24,6 @@ function sendCode(req, res, next) {
       // Saving the code in the emailCode collection
       .save(function (err, code) {
         if (err) { return res.status(500).send({ msg: err.message }); }
-        console.log(code.code);
         done(err, user.email, code.code)
       })
     },
@@ -36,7 +35,7 @@ function sendCode(req, res, next) {
         text: 'Voici votre code de validation :\n' +
         code +
         '\nVous pouvez rentrer ce code dans la fenêtre qui s\'est ouverte lors de la création de ce mail, ou bien vous pouvez cliquer sur le lien suivant et complèter l\'opération :\n'+
-        process.env.APP_URI + 'gwiriekaat'
+        process.env.APP_URI + '#/gwiriekaat'
       }
       // Sends the email
       const transporter = nodemailer.createTransport({
@@ -48,14 +47,31 @@ function sendCode(req, res, next) {
       })
       .sendMail(mailOptions, function (err) {
         if (err) { return res.status(500).send({ msg: err.message }); }
-        res.status(200).send('A verification email has been sent to ' + email + '.');
+        done(next());
       })
     }
   ]);
 }
 
 function verify(req, res, next) {
-  res.status(200).json(req.body.email)
+  const code = req.body.kod
+  const user = req.user
+  EmailCode.findOne({code})
+  .then(doc => {
+    (doc._userId.equals(user._id))?
+      User.findById(user._id)
+      .then((user) => {
+        user.verified = true
+        user.save();
+        return user
+      })
+      .then((user) => {
+        res.status(200).json(user)
+      })
+      .catch(err => res.status(401))
+    :console.log('Not the same id');;
+  })
+  .catch( (err) => { res.sendStatus(401) });
 }
 
 module.exports = {
