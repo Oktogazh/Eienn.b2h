@@ -22,12 +22,13 @@ export default {
           prenestr: 'perzhioù',
           boolean: false
         })
+        this.$router.push({name:'Home'})
       } else if (JSON.parse(localStorage.getItem('userData') || "{}").token) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',
           prenestr: 'perzhioù',
           boolean: true
-        }).then(function() {})
+        })
       } else {
         this.$store.dispatch({
           type: 'gwintañPrenestr',

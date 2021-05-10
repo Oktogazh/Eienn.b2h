@@ -66,7 +66,7 @@ function verify(req, res, next) {
         return user
       })
       .then((user) => {
-        res.status(200).json(user)
+        res.status(200).json(user.verified)
       })
       .catch(err => res.status(401))
     :console.log('Not the same id');;

@@ -1,5 +1,5 @@
 <template>
-    <form class="emailForm" @submit.prevent="gwiriekaatPostel">
+    <form  class="emailForm" @submit.prevent="gwiriekaatPostel">
       <h1>Entrez votre code :</h1>
       <input type="text" v-model="kod" maxlength="6">
       <button type="submit">

@@ -28,6 +28,7 @@ export default createStore({
     ENROLLAÑ(state, data) {
       state.user = data
       localStorage.setItem('userData', JSON.stringify(data))
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
     KEVREAÑ(state, data) {
       state.user = data
@@ -41,16 +42,21 @@ export default createStore({
         state.user.email = data.email
         state.user.ezel = data.ezel
     },
-    SET_VERIFIED(state, data) {
-        state.user.verified = data.verified
+    SET_VERIFIED(state, verified) {
+        state.user.verified = verified
     },
   },
   actions: {
     enrollañ(context, {email, password}) {
-      axios.post(`${this.state.API}/api/enrollañ`, {email, password}).then(response => {
+      const self = this
+      axios.post(`${this.state.API}/api/enrollañ`, {email, password})
+      .then(response => {
         context.commit('ENROLLAÑ', response.data)
+      }).then(() => {
+        self.dispatch({
+          type: 'sendEmailVerificationCode'
+        })
       })
-      this.gwiriekaat()
     },
     ezel(context, {email}) {
       console.log(email)
@@ -62,6 +68,7 @@ export default createStore({
       context.commit(boolean? 'DIGERIÑ_PRENESTR':'KLOZAÑ_PRENESTR', prenestr)
     },
     gwiriekaat(context, {kod}) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
       axios.post(`${this.state.API}/api/gwiriekaat`, {kod})
       .then( (response) => {
         context.commit('SET_VERIFIED', response.data)
@@ -73,9 +80,10 @@ export default createStore({
      })
     },
     sendEmailVerificationCode() {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
       axios.post(`${this.state.API}/api/kas_kod_postel`)
       .then( () => {
-         return router.push({path: '/gwiriekaat'})
+          return router.push({path: '/gwiriekaat'})
       })
       .catch(function(err) { return alert(`resevet ar gemennadenn: ${err}`)})
     },

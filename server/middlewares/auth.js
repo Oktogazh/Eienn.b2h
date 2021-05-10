@@ -87,7 +87,7 @@ function signJWTForUser(req, res) {
     token,
     'email': user.email,
     'sub': user.subscriptionActive,
-    'verified': user.verified.email || false
+    'verified': user.verified || false
   })
 }
 
