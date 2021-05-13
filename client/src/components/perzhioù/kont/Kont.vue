@@ -1,28 +1,15 @@
 <template>
   <h1>Mon compte</h1>
   <h2 @click="$emit('klozañ')">←</h2>
-  <h4 v-if="!$store.state.user.verified" @click="sendEmailVerificationCode">Vérifier mon adresse email</h4>
-  <h4 @click="dilemelKont">Supprimer mon compte</h4>
+  <h4 @click="koumanantiñ">M'abonner!</h4>
 
 </template>
 
 <script>
 export default {
-  name: 'Kont',
+  name: 'Koumanannt',
   methods: {
-    dilemelKont() {
-      if (JSON.parse(localStorage.getItem('userData')).sub) {
-        alert('Vous devez résilier votre abbonement avant de supprimer votre compte !')
-        return
-      }
-      else {
-        return // TODO: ask for the password confirmation
-      }
-    },
-    sendEmailVerificationCode() {
-      this.$store.dispatch({
-        type: 'sendEmailVerificationCode'
-      })
+    koumanantiñ() {
     }
   }
 }
