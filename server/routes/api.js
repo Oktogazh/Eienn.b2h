@@ -50,4 +50,6 @@ router.post('/kevrea%C3%B1',
   auth.signJWTForUser
 );
 
+router.use('/stal', require('./stal'));
+
 module.exports = router;
