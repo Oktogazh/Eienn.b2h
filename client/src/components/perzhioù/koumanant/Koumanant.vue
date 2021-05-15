@@ -1,8 +1,7 @@
 <template>
   <h1>Abonnement</h1>
   <h2 @click="$emit('klozañ')">←</h2>
-  <h4 v-if="!$store.state.user.verified" @click="sendEmailVerificationCode">Vérifier mon adresse email</h4>
-  <h4 @click="dilemelKont">Supprimer mon compte</h4>
+  <h4 v-if="!$store.state.user.sub" @click="Koumanantiñ">M'abonner!</h4>
 
 </template>
 

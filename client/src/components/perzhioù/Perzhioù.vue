@@ -11,7 +11,7 @@
 
 <script>
 import Kont from './kont/Kont.vue'
-import Koumanant from './kont/Koumanant.vue'
+import Koumanant from './koumanant/Koumanant.vue'
 
 export default {
   name: 'Perzhioù',
