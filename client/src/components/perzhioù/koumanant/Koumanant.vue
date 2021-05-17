@@ -1,7 +1,7 @@
 <template>
   <h1>Abonnement</h1>
   <h2 @click="$emit('klozañ')">←</h2>
-  <h4 v-if="!$store.state.user.sub" @click="Koumanantiñ">M'abonner!</h4>
+  <h4 v-if="!$store.state.user.sub" @click="koumanantiñ">M'abonner!</h4>
 
 </template>
 
@@ -9,18 +9,9 @@
 export default {
   name: 'Kont',
   methods: {
-    dilemelKont() {
-      if (JSON.parse(localStorage.getItem('userData')).sub) {
-        alert('Vous devez résilier votre abbonement avant de supprimer votre compte !')
-        return
-      }
-      else {
-        return // TODO: ask for the password confirmation
-      }
-    },
-    sendEmailVerificationCode() {
-      this.$store.dispatch({
-        type: 'sendEmailVerificationCode'
+    koumanantiñ() {
+      this.$router.push({
+        path: '/stal'
       })
     }
   }
