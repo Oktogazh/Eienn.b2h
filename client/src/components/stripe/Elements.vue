@@ -1,6 +1,6 @@
 <template>
-  <div class="card"><h2>Komz a ran brezhoneg</h2>
-    <form class="kef" @submit.prevent="paeañ">
+  <div class="container"><h2>Komz a ran brezhoneg</h2>
+    <form>
           <fieldset>
             <div class="row">
               <label for="email">Email</label>
@@ -18,17 +18,17 @@
               <label for="zip">Ville</label>
               <input id="zip" v-model="annez" maxlength="5" placeholder="44000">
               <input id="city" v-model="city" placeholder="Naoned" type="text">
-              <label for="zip">Pays</label>
-              <input id="country" v-model="bro" placeholder="BZH" type="text">
+              <label for="state">Pays</label>
+              <input id="state" v-model="bro" placeholder="BZH" type="text">
             </div>
           </fieldset>
           <fieldset>
             <div class="row">
-              <div id="card" class="StripeElement StripeElement--complete">
+              <div id="cardElements" class="StripeElement StripeElement--complete">
               </div>
             </div>
           </fieldset>
-          <button type="submit" data-tid="elements_examples.form.pay_button">BREMAÑ!</button>
+          <button type="submit">BREMAÑ!</button>
           <div class="error" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
               <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
@@ -60,12 +60,12 @@ export default {
       console.log('o paeañ!')
     }
   },
-  mounted: function () {
+  mounted: function() {
     // Vue integration to Elements from https://www.digitalocean.com/community/tutorials/vuejs-stripe-elements-vue-integration
     if (card) {
       // if a card were created before
       // this destroy the previous one
-      card.destroy('#card');
+      card.destroy('#cardElements');
     }
 
     // style comming from https://github.com/stripe/elements-examples/tree/888b4bdca59a450314c172534290fdb04861d34b
@@ -88,17 +88,17 @@ export default {
           },
         },
         invalid: {
-          iconColor: '#FFC7EE',
-          color: '#FFC7EE',
+          iconColor: '#ffcfc7',
+          color: '#ffcfc7',
         },
       },
     }
 
-    function registerElements(elements, exampleName) {
-      var formClass = '.' + exampleName;
-      var example = document.querySelector(formClass);
+    function registerElements(elements, container) {
+      var formClass = '.' + container;
+      var formContainer = document.querySelector(formClass);
 
-      var form = example.querySelector('form');
+      var form = formContainer.querySelector('form');
       var error = form.querySelector('.error');
       var errorMessage = error.querySelector('.message');
 
@@ -141,17 +141,17 @@ export default {
         e.preventDefault();
 
         // Show a loading screen...
-        example.classList.add('submitting');
+        formContainer.classList.add('submitting');
 
         // Disable all inputs.
         disableInputs();
 
         // Gather additional customer data we may have collected in our form.
-        var name = form.querySelector('#' + exampleName + '-name');
-        var address1 = form.querySelector('#' + exampleName + '-address');
-        var city = form.querySelector('#' + exampleName + '-city');
-        var state = form.querySelector('#' + exampleName + '-state');
-        var zip = form.querySelector('#' + exampleName + '-zip');
+        var name = form.querySelector('#anv');
+        var address1 = form.querySelector('#address');
+        var city = form.querySelector('#city');
+        var state = form.querySelector('#state');
+        var zip = form.querySelector('#zip');
         var additionalData = {
           name: name ? name.value : undefined,
           address_line1: address1 ? address1.value : undefined,
@@ -165,15 +165,17 @@ export default {
         // in the additional customer data we collected in our form.
         stripe.createToken(elements[0], additionalData).then(function(result) {
           // Stop loading!
-          example.classList.remove('submitting');
+          formContainer.classList.remove('submitting');
 
           if (result.token) {
             // If we received a token, show the token ID.
-            example.querySelector('.token').innerText = result.token.id;
-            example.classList.add('submitted');
+            /*formContainer.querySelector('.token').innerText = result.token.id;*/
+            formContainer.classList.add('submitted');
+            alert(`${result.token.id}`)
           } else {
             // Otherwise, un-disable inputs.
             enableInputs();
+            console.log('did not get any token');
           }
         });
       });
@@ -183,13 +185,13 @@ export default {
 
         // Resetting the form does not un-disable inputs, so we need to do it separately:
         enableInputs();
-        example.classList.remove('submitted');
+        formContainer.classList.remove('submitted');
     }
 
     card = elements.create('card', style);
-    card.mount('#card');
+    card.mount('#cardElements');
 
-    registerElements([card], 'kef')
+    registerElements([card], 'container')
   },
   watch: {
     annez: function(annez) {
@@ -205,7 +207,7 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.container {
   padding: 3vmax;
   margin-top: 2vmax;
   margin: auto;
@@ -220,7 +222,6 @@ export default {
   font-size: 16px;
   font-weight: 500;
   background-color: #6772e5;
-  width: auto;
 }
 
 h2 {
@@ -293,8 +294,8 @@ input {
   align-items: stretch;
 }
 
-#country {
-  width: 20%;
+#state {
+  width: 15ch;
 }
 
 
@@ -315,7 +316,7 @@ button {
   width: calc(100% - 30px);
   height: 40px;
   margin: 40px 15px 0;
-  background-color: rgba(119, 249, 128, 0.85);
+  background-color: rgba(73, 255, 86, 0.85);
   box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   border: 0;
@@ -325,9 +326,9 @@ button {
 }
 
 button:active {
-  background-color: #d782d9;
+  background-color: rgba(41, 238, 55, 0.85);
   box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 #e298d8;
+    inset 0 1px 0 #9a98e2;
 }
 
 .error {
@@ -436,14 +437,27 @@ button:active {
 }
 
 
-@media only screen and (max-width: 570px) {
-  .card {
+@media only screen and (max-width: 670px) {
+  .container {
+    margin-left: 0px;
+    max-width: 100vw;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+  }
+
+}
+
+
+@media only screen and (max-width: 615px) {
+  .container {
     margin-left: 0px;
     margin-right: 0px;
-    padding: 10px 0px 0px;
+    padding: 15px 0px 0px;
     width: 100vw;
     position: absolute;
-    left: 0px
+    left: 0px;
+    right: 0px;
   }
   .row {
     display: grid;
@@ -461,19 +475,20 @@ button:active {
     padding: 5px 0px 0px;
   }
 
-  fieldset {
-    margin: 0px;
-    border-radius: 0px;
-  }
   .noBorder {
     border-top: 0px !important;
   }
 
   input {
-    padding: 11px 15px 11px 0;
+    padding: 11px 15px 11px 0 !important;
     color: #fff;
     background-color: transparent;
     -webkit-animation: 1ms void-animation-out;
+  }
+
+  #cardElements {
+    margin: 3px;
+    margin-top: 8px;
   }
 }
 </style>
