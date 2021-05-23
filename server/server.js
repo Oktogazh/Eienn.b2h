@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 // parse env variables
 require('dotenv').config();
@@ -18,7 +19,7 @@ const server = express();
 
 // Configure middlewares
 server.use('*', cors());
-server.use(express.json());
+server.use(bodyParser.raw({ type: 'application/json' }));
 server.use(morgan('tiny'));
 
 server.set('view engine', 'ejs');
@@ -28,6 +29,8 @@ server.use(express.static(__dirname + '/views/'));
 
 // Defining route middleware
 server.use('/api', require('./routes/api'));
+
+server.use('/stal', require('./routes/stal'));
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
