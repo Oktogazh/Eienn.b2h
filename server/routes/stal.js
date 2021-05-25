@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const auth = require('../middlewares/auth');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const bodyParser = require('body-parser');
 
 const router = express.Router();
+
+router.use(bodyParser.raw({ type: 'application/json' }));
 
 router.post('/webhooks',
   // src: https://stripe.com/docs/billing/subscriptions/fixed-price

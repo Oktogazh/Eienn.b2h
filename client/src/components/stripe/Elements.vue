@@ -1,5 +1,6 @@
 <template>
-  <div class="container"><h2>Komz a ran brezhoneg</h2>
+  <div class="container"><h2>Komz a ran brezhoneg bremañ!
+  </h2>
     <form>
           <fieldset>
             <div class="row">
@@ -28,7 +29,7 @@
               </div>
             </div>
           </fieldset>
-          <button type="submit">BREMAÑ!</button>
+          <button type="submit">10€/mois</button>
           <div class="error" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
               <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>

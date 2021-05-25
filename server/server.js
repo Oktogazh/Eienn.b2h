@@ -5,7 +5,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 // parse env variables
 require('dotenv').config();
@@ -19,7 +18,6 @@ const server = express();
 
 // Configure middlewares
 server.use('*', cors());
-server.use(bodyParser.raw({ type: 'application/json' }));
 server.use(morgan('tiny'));
 
 server.set('view engine', 'ejs');

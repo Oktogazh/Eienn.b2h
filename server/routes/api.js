@@ -5,8 +5,11 @@ const User = mongoose.model('User');
 const auth = require('../middlewares/auth');
 const verifyEmail = require('../middlewares/verifyEmail');
 const { body } = require('express-validator');
+const bodyParser = require('body-parser');
 
 const router = express.Router();
+
+router.use(bodyParser.json());
 
 router.get('/', (req, res) => {
   res.json('hello api');
@@ -22,7 +25,7 @@ router.post('/enrolla%C3%B1',
 router.post('/ezel',
   body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).trim(),
   (req, res) => {
-  console.log(req.body.email)
+  console.log(req.body)
   const email = req.body.email
   User.findOne({'email': email}, (err, user) => {
     res.json({'email': email, 'ezel': !!user})
@@ -49,7 +52,5 @@ router.post('/kevrea%C3%B1',
   // json handler
   auth.signJWTForUser
 );
-
-router.use('/stal', require('./stal'));
 
 module.exports = router;
