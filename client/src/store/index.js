@@ -17,7 +17,7 @@ export default createStore({
       stripePK: 'pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'
     },
     user: {
-      customerId: JSON.parse(localStorage.getItem('userData') || "{}").customerId,
+      customerId: JSON.parse(localStorage.getItem('userData') || "{}").customerId || null,
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
@@ -28,6 +28,7 @@ export default createStore({
   mutations: {
     CUSTOMER_ID(state, data) {
       state.user.customerId = data.id
+      localStorage.setItem('userData', JSON.stringify(data.id))
     },
     DIGERIÑ_PRENESTR(state, prenestr) {
       state.prenestrier[prenestr].digoret = true

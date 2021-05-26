@@ -42,7 +42,8 @@
 </template>
 
 <script>
-let stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'),
+import axios from 'axios';
+var stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'),
     elements = stripe.elements(),
     card = undefined;
 
@@ -93,7 +94,7 @@ export default {
           color: '#ffcfc7',
         },
       },
-    }
+    };
 
     function registerElements(elements, container) {
       var formClass = '.' + container;
@@ -102,6 +103,101 @@ export default {
       var form = formContainer.querySelector('form');
       var error = form.querySelector('.error');
       var errorMessage = error.querySelector('.message');
+
+      function handlePaymentThatRequiresCustomerAction({
+        paymentMethodId,
+        invoice,
+        priceId,
+        subscription,
+        isRetry,
+      }) {
+          if (subscription && subscription.status === 'active') {
+            // Subscription is active, no customer actions required.
+            return { subscription, priceId, paymentMethodId };
+          }
+          console.log('require Action');
+
+          // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
+          // If it's a retry, the payment intent will be on the invoice itself.
+          let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
+
+          if (
+            paymentIntent.status === 'requires_action' ||
+            (isRetry === true && paymentIntent.status === 'requires_payment_method')
+          ) {
+            return stripe
+              .confirmCardPayment(paymentIntent.client_secret, {
+                payment_method: paymentMethodId,
+              })
+              .then((result) => {
+                if (result.error) {
+                  // Start code flow to handle updating the payment details.
+                  // Display error message in your UI.
+                  // The card was declined (i.e. insufficient funds, card has expired, etc).
+                  throw result;
+                } else {
+                  if (result.paymentIntent.status === 'succeeded') {
+                    // Show a success message to your customer.
+                    return {
+                      priceId: priceId,
+                      subscription: subscription,
+                      invoice: invoice,
+                      paymentMethodId: paymentMethodId,
+                    };
+                  }
+                }
+              })
+              .catch((error) => {
+                alert(error);
+              });
+          } else {
+            // No customer action needed.
+            return { subscription, priceId, paymentMethodId };
+          }
+        }
+
+
+      function createSubscription({ customerId, paymentMethodId, priceId }) {
+        return (
+          axios.post(`//localhost:9000/api/subscribe`, {
+            customerId,
+            paymentMethodId,
+            priceId
+          })
+            .then((result) => {
+              if (result.error) {
+                // The card had an error when trying to attach it to a customer.
+                throw result;
+              }
+              return result;
+            })
+            // Normalize the result to contain the object returned by Stripe.
+            // Add the additional details we need.
+            .then((result) => {
+              return {
+                paymentMethodId: paymentMethodId,
+                priceId: priceId,
+                subscription: result.data,
+              };
+            })
+            // Some payment methods require a customer to be on session
+            // to complete the payment process. Check the status of the
+            // payment intent to handle these actions.
+            .then(handlePaymentThatRequiresCustomerAction)/*
+            // If attaching this card to a Customer object succeeds,
+            // but attempts to charge the customer fail, you
+            // get a requires_payment_method error.
+            .then(handleRequiresPaymentMethod)
+            // No more actions required. Provision your service for the user.
+            .then(onSubscriptionComplete)
+            .catch((error) => {
+              // An error has happened. Display the failure to the user here.
+              // We utilize the HTML element we created.
+              showCardError(error);
+            })*/
+        );
+      }
+
 
       function enableInputs() {
         Array.prototype.forEach.call(
@@ -155,28 +251,47 @@ export default {
         var zip = form.querySelector('#zip');
         var additionalData = {
           name: name ? name.value : undefined,
-          address_line1: address1 ? address1.value : undefined,
-          address_city: city ? city.value : undefined,
-          address_state: state ? state.value : undefined,
-          address_zip: zip ? zip.value : undefined,
+          address: {
+            line1: address1 ? address1.value : undefined,
+            city: city ? city.value : undefined,
+            state: state ? state.value : undefined,
+            postal_code: zip ? zip.value : undefined
+          }
         };
 
-        // Use Stripe.js to create a token. We only need to pass in one Element
-        // from the Element group in order to create a token. We can also pass
+        // Create a payment method. We only need to pass in one Element
+        // from the Element group in order to create a payment method. We can also pass
         // in the additional customer data we collected in our form.
-        stripe.createToken(elements[0], additionalData).then(function(result) {
+
+        stripe.createPaymentMethod({
+          type: 'card',
+          card: elements[0],
+          billing_details: additionalData
+        })
+        .then(result => {
+          if (result.error) {
+            alert(result); // TODO: displayError()
+          } else {
+            createSubscription({
+              customerId: JSON.parse(localStorage.getItem('userData') || "{}").customerId || null,
+              paymentMethodId: result.paymentMethod.id,
+              priceId: 'price_1IuzLuLl0gLr1Vo6IIfbmXqI'
+            })
+          }
+        })
+        .then(function(result) {
           // Stop loading!
           formContainer.classList.remove('submitting');
 
-          if (result.token) {
+          if (result.subscription) {
             // If we received a token, show the token ID.
             /*formContainer.querySelector('.token').innerText = result.token.id;*/
             formContainer.classList.add('submitted');
-            alert(`${result.token.id}`)
+            alert(`${result.subscription.id}`)
           } else {
             // Otherwise, un-disable inputs.
             enableInputs();
-            console.log('did not get any token');
+            console.log('did not get a subscription');
           }
         });
       });
