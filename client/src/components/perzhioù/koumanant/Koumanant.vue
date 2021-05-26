@@ -10,6 +10,9 @@ export default {
   name: 'Kont',
   methods: {
     darStal() {
+      this.$store.dispatch({
+        type: 'setCustomer'
+      })
       this.$router.push({
         path: '/stal'
       })

@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(bodyParser.raw({ type: 'application/json' }));
 
-router.post('/webhooks',
+router.post('/',
   // src: https://stripe.com/docs/billing/subscriptions/fixed-price
   async (req, res) => {
     // Retrieve the event by verifying the signature using the raw body and secret.

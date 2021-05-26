@@ -25,10 +25,11 @@ server.set('view engine', 'ejs');
 // Static folder
 server.use(express.static(__dirname + '/views/'));
 
-// Defining route middleware
+// Main API routes
 server.use('/api', require('./routes/api'));
 
-server.use('/stal', require('./routes/stal'));
+// Stripe webhooks routes
+server.use('/webhooks', require('./routes/stal'));
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {

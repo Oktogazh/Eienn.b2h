@@ -26,6 +26,9 @@ export default createStore({
     }
   },
   mutations: {
+    CUSTOMER_ID(state, data) {
+      state.user.customerId = data.id
+    },
     DIGERIÑ_PRENESTR(state, prenestr) {
       state.prenestrier[prenestr].digoret = true
     },
@@ -86,16 +89,28 @@ export default createStore({
     sendEmailVerificationCode() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
       axios.post(`${this.state.API}/api/kas_kod_postel`)
-      .then( () => {
+      .then(() => {
           return router.push({path: '/gwiriekaat'})
       })
       .catch(function(err) { return alert(`resevet ar gemennadenn: ${err}`)})
     },
     kevreañ(context, {email, password}) {
-      axios.post(`${this.state.API}/api/kevreañ`, {email, password}).then(response => {
+      axios.post(`${this.state.API}/api/kevreañ`, {email, password})
+      .then(response => {
         context.commit('KEVREAÑ', response.data)
       })
     },
+    setCustomer(context) {
+      if (!this.state.user.customerId) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
+        axios.post(`${this.state.API}/api/customer`)
+        .then(response => {
+          // result.customer.id is used to map back to the customer object
+          console.log(response.data.email, response.data.id);
+          context.commit('CUSTOMER_ID', response.data)
+        });
+      }
+    }
   },
   modules: {
   },
