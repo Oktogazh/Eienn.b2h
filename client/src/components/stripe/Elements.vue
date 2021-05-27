@@ -120,6 +120,7 @@ export default {
             }
           })
           .catch((error) => {
+            enableInputs();
             alert(error); //TODO: sweetAlert
           });
         } else {
@@ -148,6 +149,7 @@ export default {
             'latestInvoicePaymentIntentStatus',
             subscription.latest_invoice.payment_intent.status
           );
+          enableInputs();
           throw { error: { message: 'Your card was declined.' } };
         } else {
           return { subscription, priceId, paymentMethodId };
@@ -190,6 +192,7 @@ export default {
           .catch((error) => {
             // An error has happened. Display the failure to the user here.
             // We utilize the HTML element we created.
+            enableInputs()
             alert(error); //TODO: show card error
             })
         );
@@ -277,23 +280,6 @@ export default {
             })
           }
         })
-
-        /*
-        .then(({subscription}) => {
-          // Stop loading!
-          formContainer.classList.remove('submitting');
-
-          if (subscription) {
-            // If we received a token, show the token ID.
-            /*formContainer.querySelector('.token').innerText = result.token.id;
-            formContainer.classList.add('submitted');
-            alert(`${subscription.id}`)
-          } else {
-            // Otherwise, un-disable inputs.
-            enableInputs();
-            console.log('did not get a subscription');
-          }
-        });*/
       });
 
       // Reset error state as well.
@@ -302,9 +288,6 @@ export default {
       // Resetting the form does not un-disable inputs, so we need to do it separately:
       enableInputs();
       formContainer.classList.remove('submitted');
-    },
-    paeañ() {
-      console.log('o paeañ!')
     }
   },
   mounted() {
