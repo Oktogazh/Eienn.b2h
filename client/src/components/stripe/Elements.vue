@@ -1,42 +1,42 @@
 <template>
   <div class="container"><h2>Komz a ran brezhoneg bremañ!
-  </h2>
+    </h2>
     <form>
-          <fieldset>
-            <div class="row">
-              <label for="email">Email</label>
-              <input id="email" type="email" required="" :value="$store.state.user.email" autocomplete="email">
-            </div>
-            <div class="row">
-              <label for="anv">Nom</label>
-              <input id="anv" type="text" placeholder="ANNA VREIZH" required="" autocomplete="name">
-            </div>
-            <div class="row">
-              <label for="address">Adresse</label>
-              <input id="address" v-model="chomleX" placeholder="4 Pl. Marc Elder">
-            </div>
-            <div class="row noBorder">
-              <label for="zip">Ville</label>
-              <input id="zip" v-model="annez" maxlength="5" placeholder="44000">
-              <input id="city" v-model="city" placeholder="Naoned" type="text">
-              <label for="state">Pays</label>
-              <input id="state" v-model="bro" placeholder="BZH" type="text">
-            </div>
-          </fieldset>
-          <fieldset>
-            <div class="row">
-              <div id="cardElements" class="StripeElement StripeElement--complete">
-              </div>
-            </div>
-          </fieldset>
-          <button type="submit">10€/mois</button>
-          <div class="error" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
-              <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
-              <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
-            </svg>
-            <span class="message">Cette carte n'est pas valide</span>
+      <fieldset>
+        <div class="row">
+          <label for="email">Email</label>
+          <input id="email" type="email" required="" :value="$store.state.user.email" autocomplete="email">
+        </div>
+        <div class="row">
+          <label for="anv">Nom</label>
+          <input id="anv" type="text" placeholder="ANNA VREIZH" required="" autocomplete="name">
+        </div>
+        <div class="row">
+          <label for="address">Adresse</label>
+          <input id="address" v-model="chomleX" placeholder="4 Pl. Marc Elder">
+        </div>
+        <div class="row noBorder">
+          <label for="zip">Ville</label>
+          <input id="zip" v-model="annez" maxlength="5" placeholder="44000">
+          <input id="city" v-model="city" placeholder="Naoned" type="text">
+          <label for="state">Pays</label>
+          <input id="state" v-model="bro" placeholder="BZH" type="text">
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="row">
+          <div id="cardElements" class="StripeElement StripeElement--complete">
           </div>
+        </div>
+      </fieldset>
+      <button type="submit">10€/mois</button>
+      <div class="error" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+          <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+          <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+        </svg>
+        <span class="message">Cette carte n'est pas valide</span>
+      </div>
     </form>
   </div>
 </template>
@@ -53,56 +53,29 @@ export default {
     return {
       annez: '',
       bro: '',
-      chomleX: '',
-
+      chomleX: ''
     }
   },
   methods: {
-    paeañ() {
-      console.log('o paeañ!')
-    }
-  },
-  mounted: function() {
-    // Vue integration to Elements from https://www.digitalocean.com/community/tutorials/vuejs-stripe-elements-vue-integration
-    if (card) {
-      // if a card were created before
-      // this destroy the previous one
-      card.destroy('#cardElements');
-    }
-
-    // style comming from https://github.com/stripe/elements-examples/tree/888b4bdca59a450314c172534290fdb04861d34b
-    const style = {
-      iconStyle: 'solid',
-      style: {
-        base: {
-          iconColor: '#c4f0ff',
-          color: '#fff',
-          fontWeight: 500,
-          fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-          fontSize: '16px',
-          fontSmoothing: 'antialiased',
-
-          ':-webkit-autofill': {
-            color: '#fce883',
-          },
-          '::placeholder': {
-            color: '#87BBFD',
-          },
-        },
-        invalid: {
-          iconColor: '#ffcfc7',
-          color: '#ffcfc7',
-        },
-      },
-    };
-
-    function registerElements(elements, container) {
+    registerElements(elements, container) {
       var formClass = '.' + container;
       var formContainer = document.querySelector(formClass);
+      const self = this;
 
       var form = formContainer.querySelector('form');
       var error = form.querySelector('.error');
       var errorMessage = error.querySelector('.message');
+
+      function onSubscriptionComplete({ subscription }) {
+        // Payment was successful.
+        console.log(subscription);
+        if (subscription.status === 'active' || subscription.latest_invoice.status === 'open') {
+          console.log(subscription);
+          console.log(self.$store.state);
+          self.$store.state.user.sub = true;
+          self.$router.push({name: 'Home'})
+        }
+      }
 
       function handlePaymentThatRequiresCustomerAction({
         paymentMethodId,
@@ -111,95 +84,119 @@ export default {
         subscription,
         isRetry,
       }) {
-          if (subscription && subscription.status === 'active') {
-            // Subscription is active, no customer actions required.
-            return { subscription, priceId, paymentMethodId };
-          }
-          console.log('require Action');
-
-          // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
-          // If it's a retry, the payment intent will be on the invoice itself.
-          let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
-
-          if (
-            paymentIntent.status === 'requires_action' ||
-            (isRetry === true && paymentIntent.status === 'requires_payment_method')
-          ) {
-            return stripe
-              .confirmCardPayment(paymentIntent.client_secret, {
-                payment_method: paymentMethodId,
-              })
-              .then((result) => {
-                if (result.error) {
-                  // Start code flow to handle updating the payment details.
-                  // Display error message in your UI.
-                  // The card was declined (i.e. insufficient funds, card has expired, etc).
-                  throw result;
-                } else {
-                  if (result.paymentIntent.status === 'succeeded') {
-                    // Show a success message to your customer.
-                    return {
-                      priceId: priceId,
-                      subscription: subscription,
-                      invoice: invoice,
-                      paymentMethodId: paymentMethodId,
-                    };
-                  }
-                }
-              })
-              .catch((error) => {
-                alert(error);
-              });
-          } else {
-            // No customer action needed.
-            return { subscription, priceId, paymentMethodId };
-          }
+        if (subscription && subscription.status === 'active') {
+          // Subscription is active, no customer actions required.
+          return { subscription, priceId, paymentMethodId };
         }
 
+        // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
+        // If it's a retry, the payment intent will be on the invoice itself.
+        let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
+
+        if (
+          paymentIntent.status === 'requires_action' ||
+          (isRetry === true && paymentIntent.status === 'requires_payment_method')
+        ) {
+          return stripe
+          .confirmCardPayment(paymentIntent.client_secret, {
+            payment_method: paymentMethodId,
+          })
+          .then((result) => {
+            if (result.error) {
+              // Start code flow to handle updating the payment details.
+              // Display error message in your UI.
+              // The card was declined (i.e. insufficient funds, card has expired, etc).
+              throw result;
+            } else {
+              if (result.paymentIntent.status === 'succeeded') {
+                // Show a success message to your customer.
+                return {
+                  priceId: priceId,
+                  subscription: subscription,
+                  invoice: invoice,
+                  paymentMethodId: paymentMethodId,
+                };
+              }
+            }
+          })
+          .catch((error) => {
+            alert(error); //TODO: sweetAlert
+          });
+        } else {
+          // No customer action needed.
+          return { subscription, priceId, paymentMethodId };
+        }
+      }
+
+      function handleRequiresPaymentMethod({
+        subscription,
+        paymentMethodId,
+        priceId,
+      }) {
+        if (subscription.status === 'active') {
+          // subscription is active, no customer actions required.
+          return { subscription, priceId, paymentMethodId };
+        } else if (
+          subscription.latest_invoice.payment_intent.status ===
+          'requires_payment_method'
+        ) {
+          // Using localStorage to manage the state of the retry here,
+          // feel free to replace with what you prefer.
+          // Store the latest invoice ID and status.
+          localStorage.setItem('latestInvoiceId', subscription.latest_invoice.id);
+          localStorage.setItem(
+            'latestInvoicePaymentIntentStatus',
+            subscription.latest_invoice.payment_intent.status
+          );
+          throw { error: { message: 'Your card was declined.' } };
+        } else {
+          return { subscription, priceId, paymentMethodId };
+        }
+      }
 
       function createSubscription({ customerId, paymentMethodId, priceId }) {
         return (
-          axios.post(`//localhost:9000/api/subscribe`, {
+          axios.post(`${self.$store.state.API}/api/subscribe`, {
             customerId,
             paymentMethodId,
             priceId
           })
-            .then((result) => {
-              if (result.error) {
-                // The card had an error when trying to attach it to a customer.
-                throw result;
-              }
-              return result;
+          .then((result) => {
+            if (result.data.error) {
+              // The card had an error when trying to attach it to a customer.
+              throw result.data;
+            }
+            return result.data;
+          })
+          // Normalize the result to contain the object returned by Stripe.
+          // Add the additional details we need.
+          .then((result) => {
+            return {
+              paymentMethodId: paymentMethodId,
+              priceId: priceId,
+              subscription: result,
+            };
+          })
+          // Some payment methods require a customer to be on session
+          // to complete the payment process. Check the status of the
+          // payment intent to handle these actions.
+          .then(handlePaymentThatRequiresCustomerAction)
+          // If attaching this card to a Customer object succeeds,
+          // but attempts to charge the customer fail, you
+          // get a requires_payment_method error.
+          .then(handleRequiresPaymentMethod)
+          // No more actions required. Provision your service for the user.
+          .then(onSubscriptionComplete)
+          .catch((error) => {
+            // An error has happened. Display the failure to the user here.
+            // We utilize the HTML element we created.
+            alert(error); //TODO: show card error
             })
-            // Normalize the result to contain the object returned by Stripe.
-            // Add the additional details we need.
-            .then((result) => {
-              return {
-                paymentMethodId: paymentMethodId,
-                priceId: priceId,
-                subscription: result.data,
-              };
-            })
-            // Some payment methods require a customer to be on session
-            // to complete the payment process. Check the status of the
-            // payment intent to handle these actions.
-            .then(handlePaymentThatRequiresCustomerAction)/*
-            // If attaching this card to a Customer object succeeds,
-            // but attempts to charge the customer fail, you
-            // get a requires_payment_method error.
-            .then(handleRequiresPaymentMethod)
-            // No more actions required. Provision your service for the user.
-            .then(onSubscriptionComplete)
-            .catch((error) => {
-              // An error has happened. Display the failure to the user here.
-              // We utilize the HTML element we created.
-              showCardError(error);
-            })*/
         );
       }
 
-
       function enableInputs() {
+        card.update({ disabled: false })
         Array.prototype.forEach.call(
           form.querySelectorAll(
             "input[type='text'], input[type='email'], input[type='tel']"
@@ -211,9 +208,10 @@ export default {
       }
 
       function disableInputs() {
+        card.update({ disabled: true })
         Array.prototype.forEach.call(
           form.querySelectorAll(
-            "input[type='text'], input[type='email'], input[type='tel']"
+            "input[type='text'], input[type='email'], input[type='tel'], button[type='submit']"
           ),
           function(input) {
             input.setAttribute('disabled', 'true');
@@ -268,7 +266,7 @@ export default {
           card: elements[0],
           billing_details: additionalData
         })
-        .then(result => {
+        .then((result) => {
           if (result.error) {
             alert(result); // TODO: displayError()
           } else {
@@ -279,35 +277,76 @@ export default {
             })
           }
         })
-        .then(function(result) {
+
+        /*
+        .then(({subscription}) => {
           // Stop loading!
           formContainer.classList.remove('submitting');
 
-          if (result.subscription) {
+          if (subscription) {
             // If we received a token, show the token ID.
-            /*formContainer.querySelector('.token').innerText = result.token.id;*/
+            /*formContainer.querySelector('.token').innerText = result.token.id;
             formContainer.classList.add('submitted');
-            alert(`${result.subscription.id}`)
+            alert(`${subscription.id}`)
           } else {
             // Otherwise, un-disable inputs.
             enableInputs();
             console.log('did not get a subscription');
           }
-        });
+        });*/
       });
 
-        // Reset error state as well.
-        error.classList.remove('visible');
+      // Reset error state as well.
+      error.classList.remove('visible');
 
-        // Resetting the form does not un-disable inputs, so we need to do it separately:
-        enableInputs();
-        formContainer.classList.remove('submitted');
+      // Resetting the form does not un-disable inputs, so we need to do it separately:
+      enableInputs();
+      formContainer.classList.remove('submitted');
+    },
+    paeañ() {
+      console.log('o paeañ!')
     }
+  },
+  mounted() {
+    // Vue integration to Elements from https://www.digitalocean.com/community/tutorials/vuejs-stripe-elements-vue-integration
+    if (card) {
+      // if a card were created before
+      // this destroy the previous one
+      card.destroy('#cardElements');
+    }
+
+    // style comming from https://github.com/stripe/elements-examples/tree/888b4bdca59a450314c172534290fdb04861d34b
+    const style = {
+      iconStyle: 'solid',
+      style: {
+        base: {
+          iconColor: '#c4f0ff',
+          color: '#fff',
+          fontWeight: 500,
+          fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+          fontSize: '16px',
+          fontSmoothing: 'antialiased',
+
+          ':-webkit-autofill': {
+            color: '#fce883',
+          },
+          '::placeholder': {
+            color: '#87BBFD',
+          },
+        },
+        invalid: {
+          iconColor: '#ffcfc7',
+          color: '#ffcfc7',
+        },
+      },
+    };
+
+
 
     card = elements.create('card', style);
     card.mount('#cardElements');
 
-    registerElements([card], 'container')
+    this.registerElements([card], 'container')
   },
   watch: {
     annez: function(annez) {
