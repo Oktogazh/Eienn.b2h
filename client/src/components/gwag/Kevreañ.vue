@@ -1,8 +1,8 @@
 <template>
-  <div class="furmenn-flex">
-    <Furmenn @klozañ="klozañModal" />
+  <div class="kreiz">
+    <Furmenn />
   </div>
-  <Teñval @click="klozañModal"/>
+  <Teñval v-if="true" @click="klozañModal"/>
 </template>
 
 <script>
@@ -27,10 +27,15 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-.furmenn-flex {
+<style lang="css">
+.kreiz {
+  position: absolute;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  left: 0px;
 }
 
 </style>

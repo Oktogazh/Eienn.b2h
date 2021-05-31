@@ -71,11 +71,11 @@ export default {
 
 <style scoped>
 .furmenn {
-  position: absolute;
-  z-index: 2;
   background: rgb(255, 255, 255);
   padding: 30px;
   width: 250px;
+  align-self: auto;
+  z-index: 2;
 }
 .signin-up {
   display: block;
