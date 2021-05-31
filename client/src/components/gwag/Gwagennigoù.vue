@@ -1,11 +1,6 @@
 <template>
-  <div class="teuz">
-  </div>
   <img src="/gwag.svg" id="gwag" @click="gwintañ">
   <Kevreañ v-if="$store.state.prenestrier.kevreañ.digoret"/>
-<!--    <pre>{{ pajenn }}
-    </pre>
--->
 </template>
 
 <script>
@@ -60,30 +55,17 @@ pre {
   text-align: left;
 }
 
-.teuz {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100vh;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.1) 100%),
-    repeating-linear-gradient(148deg, rgba(139, 255, 217, 1) -10%, rgba(103, 123, 255, 1) 110%);
-  display: flex;
-}
-
 #gwag {
   background-image: url(/gwag.svg);
   position: absolute;
   display: block;
   width: 45px;
   height: 45px;
-  right: 1.5rem;
-  top: 1.5rem;
+  right: 3vmax;
+  top: 3vmax;
   transform: scale(1.5);
 }
 #gwag:hover {
   cursor: pointer;
 }
-
 </style>

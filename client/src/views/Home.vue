@@ -12,10 +12,3 @@ export default {
   },
 }
 </script>
-
-<style media="screen">
-.Spletennoù {
-  display: flex;
-  justify-content: center;
-}
-</style>

@@ -61,6 +61,7 @@ export default {
   text-align: left;
   width: 700px;
   margin: auto;
+  margin-top: 7vmax;
 }
 
 .spletennoù > input {
@@ -72,24 +73,21 @@ export default {
   float: left;
   margin-left: 5px;
   margin-right: 5px;
-  margin-bottom: -2px;
+  margin-bottom: -1px;
   padding: 12px 20px;
   cursor: pointer;
   transition: background-color .3s;
 }
 
 .spletennoù > label:hover {
-  background: #fff;
-  border: 2px solid #99abff;
-  margin: -2px 3px;
+  background: rgba(255, 255, 255, 0.8);
+  margin: -0px 5px 0px;
 }
 
 
 .spletennoù > input:checked + label {
-  background: #fff;
-  border: 2px solid #99abff;
-  border-bottom: solid 2px #fff;
-  margin: -2px 3px;
+  background: rgba(255, 255, 255, 0.8);
+  margin: -0px 5px 0px;
   transition: border-bottom .3s;
   -webkit-text-stroke-width: .25px;
 }
@@ -103,12 +101,12 @@ export default {
 }
 
 .spletenn > div {
-  background: #fff;
-  border: 2px solid #99abff;
+  background: rgba(255, 255, 255, 0.8);
   padding: 10px 30px 40px;
   line-height: 1.4em;
   font-size: 1.1em;
   display: none;
+  border-radius: 0.7% 3% 40% 7%;
 }
 
 #spletenn-1:checked ~ .spletenn > div:nth-of-type(1),
