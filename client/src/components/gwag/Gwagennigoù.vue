@@ -1,6 +1,8 @@
 <template>
-    <h1 @click="gwintañ">Ξ</h1>
-    <Kevreañ v-if="$store.state.prenestrier.kevreañ.digoret"/>
+  <div class="teuz">
+  </div>
+  <img src="/gwag.svg" id="gwag" @click="gwintañ">
+  <Kevreañ v-if="$store.state.prenestrier.kevreañ.digoret"/>
 <!--    <pre>{{ pajenn }}
     </pre>
 -->
@@ -46,11 +48,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1 {
-  text-align: right;
-  margin: 5vmin;
-  margin-bottom: 1vmin;
-}
 h1:hover {
   cursor: pointer;
   color: rgb(38, 130, 191);
@@ -62,4 +59,31 @@ pre {
   position: absolute;
   text-align: left;
 }
+
+.teuz {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.1) 100%),
+    repeating-linear-gradient(148deg, rgba(139, 255, 217, 1) -10%, rgba(103, 123, 255, 1) 110%);
+  display: flex;
+}
+
+#gwag {
+  background-image: url(/gwag.svg);
+  position: absolute;
+  display: block;
+  width: 45px;
+  height: 45px;
+  right: 1.5rem;
+  top: 1.5rem;
+  transform: scale(1.5);
+}
+#gwag:hover {
+  cursor: pointer;
+}
+
 </style>
