@@ -1,25 +1,20 @@
 <template>
   <div class="kreiz">
-    <Furmenn />
+    <Stripe />
   </div>
   <Teñval @click="klozañModal"/>
 </template>
 
 <script>
 import Teñval from '../talvoudus/Teñval'
-import Furmenn from './Furmenn'
 
 export default {
-  name: 'Kevreañ',
-  components: {
-    Teñval,
-    Furmenn
-  },
+  name: 'Modal',
   methods: {
     klozañModal() {
       this.$store.dispatch({
         type: 'gwintañPrenestr',
-        prenestr: 'kevreañ',
+        prenestr: 'stripe',
         boolean: false
       })
     }
@@ -37,5 +32,4 @@ export default {
   height: 100%;
   left: 0px;
 }
-
 </style>

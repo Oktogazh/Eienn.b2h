@@ -6,6 +6,8 @@
 </template>
 
 <script>
+//TODO: import & set stripe/modal
+
 export default {
   name: 'Kont',
   methods: {
@@ -13,8 +15,10 @@ export default {
       this.$store.dispatch({
         type: 'setCustomer'
       })
-      this.$router.push({
-        path: '/stal'
+      this.$store.dispatch({
+        type: 'gwintañPrenestr',
+        prenestr: 'stripe',
+        boolean: true
       })
     }
   }

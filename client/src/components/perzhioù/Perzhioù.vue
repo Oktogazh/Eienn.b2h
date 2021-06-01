@@ -27,15 +27,18 @@ export default {
   },
   methods: {
     digeriñKoumanant() {
-      //const self = this
-      (this.$store.state.user.sub || this.$store.state.user.verified)?
-        this.koumanantDigor = true
+      const self = this;
+      (self.$store.state.user.sub || self.$store.state.user.verified)?
+        self.koumanantDigor = true
       :
         this.$store.dispatch({
           type: 'sendEmailVerificationCode'
         })
         .then(() => {
-          alert('Allez votre boîte de réception ou dans vos spams pour vérifier votre adresse email.\n\n Pour des raisons de sécurité, seul les comptes vérifiés peuvent accéder à cette section.')
+          self.$swal.fire({
+            title: 'Vérification requise',
+            text: 'Allez votre boite de réception ou dans vos spams pour vérifier votre adresse email avant de pouvoir vous abonner.'
+          })
         })
     },
     digevreañ(){

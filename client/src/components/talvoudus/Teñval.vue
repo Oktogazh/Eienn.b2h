@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" @click="$emit('klozañ')">
+  <div class="modal">
   </div>
 </template>
 

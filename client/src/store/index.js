@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '../router'
+import swal from 'sweetalert2'
 
 export default createStore({
   state: {
@@ -10,6 +11,9 @@ export default createStore({
         digoret: false,
       },
       perzhioù: {
+        digoret: false,
+      },
+      stripe: {
         digoret: false,
       }
     },
@@ -78,13 +82,18 @@ export default createStore({
     gwiriekaat(context, {kod}) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
       axios.post(`${this.state.API}/api/gwiriekaat`, {kod})
-      .then( (response) => {
+      .then((response) => {
         context.commit('SET_VERIFIED', response.data)
+        router.push({name: 'Home'})
       })
-      .catch( () => {
-        axios.post(`${this.state.API}/api/kas_kod_postel`)
-        alert(`Le code que vous venez de rentrer est incorrecte ou bien a expiré.\n` +
-       `Veuillez réessayer avec le code qui vient de vous être renvoyer.`)
+      .catch(() => {
+        swal.fire({
+          icon: 'error',
+          text: 'Le code que vous venez de rentrer est incorrecte ou bien a expiré. ' +
+          'Veuillez réessayer avec le code qui vient de vous être renvoyer.',
+          confirmButtonText: 'Réessayer'
+        })
+        axios.post(`${this.state.API}/api/kas_kod_postel`);
      })
     },
     sendEmailVerificationCode() {
