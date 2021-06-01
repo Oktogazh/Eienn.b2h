@@ -23,7 +23,7 @@ export default {
       })
     }
   }
-
+  //TODO: mounted $.store;state.digor.perzhioù = true;
 }
 </script>
 

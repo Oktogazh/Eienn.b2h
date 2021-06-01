@@ -28,8 +28,8 @@ export default {
   methods: {
     digeriñKoumanant() {
       const self = this;
-      (self.$store.state.user.sub || self.$store.state.user.verified)?
-        self.koumanantDigor = true
+      (this.$store.state.user.sub || this.$store.state.user.verified)?
+        this.koumanantDigor = true
       :
         this.$store.dispatch({
           type: 'sendEmailVerificationCode'
