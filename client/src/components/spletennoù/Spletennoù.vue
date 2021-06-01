@@ -77,6 +77,7 @@ export default {
   padding: 12px 20px;
   cursor: pointer;
   transition: background-color .3s;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .spletennoù > label:hover {
@@ -115,10 +116,9 @@ export default {
   display: block;
 }
 
-@media only screen and (max-width: calc(700px + 8vmin))
-{
+@media only screen and (max-width: calc(700px + 8vmin)) {
   .spletennoù {
-    width: 100%;
+    width: 90vw;
   }
   .spletennoù > label {
     font-size: 2.33vmax;
@@ -129,6 +129,5 @@ export default {
     line-height: 2.8vmax;
     padding: 1.32vmax 3.97vmax 5.3vmax;
   }
-
 }
 </style>
