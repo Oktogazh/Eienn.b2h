@@ -7,11 +7,13 @@
 
 <script>
 import Teñval from '../talvoudus/Teñval'
+import Stripe from '../stripe/Stripe'
 
 export default {
   name: 'Modal',
   components: {
-    Teñval
+    Teñval,
+    Stripe
   },
   methods: {
     klozañModal() {

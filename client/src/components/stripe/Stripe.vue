@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    
+    Hello
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Stripe',
 }
@@ -19,5 +20,8 @@ export default {
   border-radius: 1vmax;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
+
+
 </style>
