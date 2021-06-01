@@ -44,7 +44,7 @@ export default {
     digevreañ(){
       localStorage.clear();
       this.$store.state.user = {ezel:true};
-      this.$store.state.prenestrier.perzhioù.digoret = false;
+      this.$store.state.digor.perzhioù = false;
     }
   }
 }

@@ -6,16 +6,10 @@ import swal from 'sweetalert2'
 export default createStore({
   state: {
     API: '//localhost:9000',
-    prenestrier: {
-      kevreañ: {
-        digoret: false,
-      },
-      perzhioù: {
-        digoret: false,
-      },
-      stripe: {
-        digoret: false,
-      }
+    digor: {
+      kevreañ: false,
+      perzhioù: false,
+      stripe: false,
     },
     stripe: {
       stripePK: 'pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'
@@ -35,7 +29,7 @@ export default createStore({
       localStorage.setItem('userData', JSON.stringify(data.id))
     },
     DIGERIÑ_PRENESTR(state, prenestr) {
-      state.prenestrier[prenestr].digoret = true
+      state.digor[prenestr] = true
     },
     ENROLLAÑ(state, data) {
       state.user = data
@@ -48,7 +42,7 @@ export default createStore({
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
     KLOZAÑ_PRENESTR(state, prenestr) {
-      state.prenestrier[prenestr].digoret = false
+      state.digor[prenestr] = false
     },
     SET_EMAIL(state, data) {
         state.user.email = data.email

@@ -1,16 +1,16 @@
 <template>
   <div class="spletennoù">
     <input type="radio" name="spletenn" id="spletenn-1" checked>
-    <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-1" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ notennoù.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù" for="spletenn-1" @click="$store.state.digor.perzhioù = false">{{ notennoù.titl }}</label>
 
     <input type="radio" name="spletenn" id="spletenn-2">
-    <label v-if="!$store.state.prenestrier.perzhioù.digoret" for="spletenn-2" @click="$store.state.prenestrier.perzhioù.digoret = false">{{ geriaoueg.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù" for="spletenn-2" @click="$store.state.digor.perzhioù = false">{{ geriaoueg.titl }}</label>
 
     <div class="spletenn">
-      <div v-if="$store.state.prenestrier.perzhioù.digoret" >
+      <div v-if="$store.state.digor.perzhioù" >
           <Perzhioù />
       </div>
-      <div v-if="$store.state.prenestrier.perzhioù.digoret" >
+      <div v-if="$store.state.digor.perzhioù" >
           <Perzhioù />
       </div>
       <div>

@@ -10,6 +10,9 @@ import Teñval from '../talvoudus/Teñval'
 
 export default {
   name: 'Modal',
+  components: {
+    Teñval
+  },
   methods: {
     klozañModal() {
       this.$store.dispatch({

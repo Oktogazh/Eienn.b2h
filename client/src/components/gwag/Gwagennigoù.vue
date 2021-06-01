@@ -1,6 +1,6 @@
 <template>
   <img src="/gwag.svg" id="gwag" @click="gwintañ">
-  <Kevreañ v-if="$store.state.prenestrier.kevreañ.digoret"/>
+  <Kevreañ v-if="$store.state.digor.kevreañ"/>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     gwintañ() {
-      if (this.$store.state.prenestrier.perzhioù.digoret) {
+      if (this.$store.state.digor.perzhioù) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',
           prenestr: 'perzhioù',
