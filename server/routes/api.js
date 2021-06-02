@@ -98,19 +98,26 @@ router.post('/subscribe', async (req, res) => {
     }
   );
 
-  // Create the subscription
-  const subscription = await stripe.subscriptions.create({
-    customer: req.body.customerId,
-    items: [
-      {
-        price: req.body.priceId
-      }
-    ],
-    expand: ['latest_invoice.payment_intent'],
-    // TODO : set billing anchor to the end of the month
-  });
+  try {
+    // Create the subscription
+    const subscription = await stripe.subscriptions.create({
+      customer: req.body.customerId,
+      items: [
+        {
+          price: req.body.priceId
+        }
+      ],
+      expand: ['latest_invoice.payment_intent'],
+      // TODO : set billing anchor to the end of the month
+    });
 
-  res.json(subscription);
+    res.json(subscription);
+  } catch (e) {
+    res.status(402).json({
+      error: {
+      message: `Ur gudenn zo c'hoarvezet er sever en ur gaskl krouiñ ar c'houmanant!`
+    }})
+  }
 });
 
 module.exports = router;
