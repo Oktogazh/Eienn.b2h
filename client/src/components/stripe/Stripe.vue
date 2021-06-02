@@ -6,7 +6,6 @@
         <div class="keleierProdu">
           <div class="danvez">
             <h3>Komz a ran brezhoneg<br>bremañ!</h3>
-            <h1>{{ anv }}</h1>
             <h2>10€/mois</h2>
           </div>
         </div>
@@ -74,6 +73,16 @@ export default {
     createSubscription({ customerId, paymentMethodId, priceId }, form) {
       const self = this;
       this.disableInputs();
+      function handlePaymentThatRequiresCustomerAction() {
+        return null;
+      }
+      function handleRequiresPaymentMethod() {
+        return null;
+      }
+      function onSubscriptionComplete() {
+        return null;
+      }
+
       return (
         axios.post(`${this.$store.state.API}/api/subscribe`, {
           customerId,
@@ -95,7 +104,7 @@ export default {
             priceId: priceId,
             subscription: result.data,
           };
-        })/*
+        })
         // Some payment methods require a customer to be on session
         // to complete the payment process. Check the status of the
         // payment intent to handle these actions.
@@ -105,7 +114,7 @@ export default {
         // get a requires_payment_method error.
         .then(handleRequiresPaymentMethod)
         // No more actions required. Provision your service for the user.
-        .then(onSubscriptionComplete)*/
+        .then(onSubscriptionComplete)
         .catch((error) => {
           // An error has happened. Display the failure to the user here.
           // We utilize the HTML element we created.
@@ -192,7 +201,6 @@ export default {
 .container {
   padding: 1vmax;
   margin: auto;
-  margin-top: 5vmax;
   background: #fff;
   border-radius: 1vmax;
   display: flex;
