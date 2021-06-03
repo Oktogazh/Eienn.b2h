@@ -49,6 +49,10 @@ export default createStore({
         state.user.email = data.email
         state.user.ezel = data.ezel
     },
+    SET_SUB(state, boolean) {
+      state.user.sub = boolean
+      localStorage.setItem('userData', JSON.stringify(state.user))
+    },
     SET_VERIFIED(state, verified) {
         state.user.verified = verified
     },

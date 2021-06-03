@@ -113,7 +113,7 @@ router.post('/subscribe', async (req, res) => {
 
     res.json(subscription);
   } catch (e) {
-    res.status(402).json({
+    res.status('402').json({
       error: {
       message: `Ur gudenn zo c'hoarvezet er sever en ur gaskl krouiñ ar c'houmanant!`
     }})

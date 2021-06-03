@@ -40,47 +40,132 @@ export default {
       return boolean; // TODO: create a loading state for the form
     },
     createPaymentMethod(card, stripe, form) {
-    const customerId = this.$store.state.user.customerId,
-    self = this;
-    // Set up payment method for recurring usage
-    let anv = this.anv;
+      const customerId = this.$store.state.user.customerId,
+      self = this;
+      // Set up payment method for recurring usage
+      let anv = this.anv;
 
-    let priceId = this.priz;
+      let priceId = this.priz;
 
-    stripe
-      .createPaymentMethod({
-        type: 'card',
-        card: card,
-        billing_details: {
-          name: anv,
-        },
-      })
-      .then((result) => {
-        if (result.error) {
-          self.$swal.fire({
-            icon: 'error',
-            text: result.error.message
-          });
-        } else {
-          self.createSubscription({
-            customerId: customerId,
-            paymentMethodId: result.paymentMethod.id,
-            priceId: priceId,
-          }, form);
-        }
-      });
+      stripe
+        .createPaymentMethod({
+          type: 'card',
+          card: card,
+          billing_details: {
+            name: anv,
+          },
+        })
+        .then((result) => {
+          if (result.error) {
+            self.$swal.fire({
+              icon: 'error',
+              text: result.error.message
+            });
+          } else {
+            self.createSubscription({
+              customerId: customerId,
+              paymentMethodId: result.paymentMethod.id,
+              priceId: priceId,
+            }, stripe, form);
+          }
+        });
     },
-    createSubscription({ customerId, paymentMethodId, priceId }, form) {
+    createSubscription({ customerId, paymentMethodId, priceId }, stripe, form) {
       const self = this;
-      this.disableInputs();
-      function handlePaymentThatRequiresCustomerAction() {
-        return null;
+      this.disableInputs(form);
+
+      function handlePaymentThatRequiresCustomerAction({
+        subscription,
+        invoice,
+        priceId,
+        paymentMethodId,
+        isRetry
+      }) {
+        if (subscription && subscription.status === 'active') {
+          // Subscription is active, no customer actions required.
+          return { subscription, priceId, paymentMethodId };
+        }
+
+        // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
+        // If it's a retry, the payment intent will be on the invoice itself.
+        let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
+
+        if (
+          paymentIntent.status === 'requires_action' ||
+          (isRetry === true && paymentIntent.status === 'requires_payment_method')
+        ) {
+          return stripe
+            .confirmCardPayment(paymentIntent.client_secret, {
+              payment_method: paymentMethodId,
+            })
+            .then((result) => {
+              if (result.error) {
+                // Start code flow to handle updating the payment details.
+                // Display error message in your UI.
+                // The card was declined (i.e. insufficient funds, card has expired, etc).
+                throw result;
+              } else {
+                if (result.paymentIntent.status === 'succeeded') {
+                  // Show a success message to your customer.
+                  return {
+                    priceId: priceId,
+                    subscription: subscription,
+                    invoice: invoice,
+                    paymentMethodId: paymentMethodId,
+                  };
+                }
+              }
+            })
+            .catch(({error}) => {
+              throw error;
+            });
+        } else {
+          // No customer action needed.
+          return { subscription, priceId, paymentMethodId };
+        }
       }
-      function handleRequiresPaymentMethod() {
-        return null;
+
+      function handleRequiresPaymentMethod({
+        subscription,
+        paymentMethodId,
+        priceId,
+      }) {
+        if (subscription.status === 'active') {
+          // subscription is active, no customer actions required.
+          return { subscription, priceId, paymentMethodId };
+        } else if (
+          subscription.latest_invoice.payment_intent.status ===
+          'requires_payment_method'
+        ) {
+          // Using localStorage to manage the state of the retry here,
+          // feel free to replace with what you prefer.
+          // Store the latest invoice ID and status.
+          localStorage.setItem('latestInvoiceId', subscription.latest_invoice.id);
+          localStorage.setItem(
+            'latestInvoicePaymentIntentStatus',
+            subscription.latest_invoice.payment_intent.status
+          );
+          throw { error: { message: 'Your card was declined.' } };
+        } else {
+          return { subscription, priceId, paymentMethodId };
+        }
       }
-      function onSubscriptionComplete() {
-        return null;
+
+      function onSubscriptionComplete(result) {
+        // Payment was successful.
+        if (result.subscription.status === 'active') {
+          // Change your UI to show a success message to your customer.
+          self.$store.commit('SET_SUB', true)
+          self.$store.state.digor.stripe = false;
+          self.$store.state.digor.perzhioù = false;
+          self.$swal.fire({
+            icon: 'success',
+            title: 'Inscription Réussie !',
+            text: `Félicitations, vous venez de vous inscrire avec succès.`+
+            ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+          })
+          // `result.subscription.items.data[0].price.product` the customer subscribed to.
+        }
       }
 
       return (
@@ -92,14 +177,11 @@ export default {
         .then((result) => {
           if (result.data.error) {
             // The card had an error when trying to attach it to a customer.
-            throw result.data;
+            throw result.data.error.message;
           }
-          return result;
-        })
-        // Normalize the result to contain the object returned by Stripe.
-        // Add the additional details we need.
-        .then((result) => {
-          return {
+          return  {
+            // Normalize the result to contain the object returned by Stripe.
+            // Add the additional details we need.
             paymentMethodId: paymentMethodId,
             priceId: priceId,
             subscription: result.data,
@@ -118,16 +200,18 @@ export default {
         .catch((error) => {
           // An error has happened. Display the failure to the user here.
           // We utilize the HTML element we created.
+          const err = (error.response)? error.response.data.error.message : null || error.message;
+
           self.enableInputs(form)
           self.$swal.fire({
             icon: 'error',
-            text: error.response.data.error.message
+            text: err
           });
         })
       );
     },
     disableInputs() {
-
+      // TODO: make both enableInputs & disableInputs
     },
     displayError(event) {
       this.changeLoadingStatePrices(false);
