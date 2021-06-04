@@ -135,7 +135,6 @@ router.post('/subscribe', async (req, res) => {
       expand: ['latest_invoice.payment_intent'],
       // TODO : set billing anchor to the end of the month
     });
-    console.log(subscription);
 
     res.json(subscription);
   } catch (e) {

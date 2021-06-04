@@ -38,9 +38,9 @@ router.post('/',
     // Remove comment to see the various objects sent for this sample
     switch (event.type) {
       case 'invoice.paid':
-        // Used to provision services after the trial has ended.
-        // The status of the invoice will show up as paid. Store the status in your
-        // database to reference when a user accesses your service to avoid hitting rate limits.
+        // Set subscritionAtive = true
+        // Set subscritionId = subscription
+        // Set PriceId
         console.log('invoice.paid!');
         break;
       case 'invoice.payment_failed':
