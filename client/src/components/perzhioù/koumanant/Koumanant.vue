@@ -16,14 +16,17 @@ export default {
   },
   methods: {
     darStal() {
+      const self = this
       this.$store.dispatch({
         type: 'setCustomer'
       })
-      this.$store.dispatch({
-        type: 'gwintañPrenestr',
-        prenestr: 'stripe',
-        boolean: true
-      })
+        .then(() => {
+          self.$store.dispatch({
+            type: 'gwintañPrenestr',
+            prenestr: 'stripe',
+            boolean: true
+          })
+        })
     },
     digevreañ() {
       return this.$store.state.user.sub = false; // TODO: Digevreañ evit gwir!!

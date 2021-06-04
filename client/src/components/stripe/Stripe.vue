@@ -27,6 +27,8 @@
 
 <script>
 import axios from 'axios'
+const stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl');
+
 export default {
   name: 'Stripe',
   data() {
@@ -74,100 +76,6 @@ export default {
       const self = this;
       this.disableInputs(form);
 
-      function handlePaymentThatRequiresCustomerAction({
-        subscription,
-        invoice,
-        priceId,
-        paymentMethodId,
-        isRetry
-      }) {
-        if (subscription && subscription.status === 'active') {
-          // Subscription is active, no customer actions required.
-          return { subscription, priceId, paymentMethodId };
-        }
-
-        // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
-        // If it's a retry, the payment intent will be on the invoice itself.
-        let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
-
-        if (
-          paymentIntent.status === 'requires_action' ||
-          (isRetry === true && paymentIntent.status === 'requires_payment_method')
-        ) {
-          return stripe
-            .confirmCardPayment(paymentIntent.client_secret, {
-              payment_method: paymentMethodId,
-            })
-            .then((result) => {
-              if (result.error) {
-                // Start code flow to handle updating the payment details.
-                // Display error message in your UI.
-                // The card was declined (i.e. insufficient funds, card has expired, etc).
-                throw result;
-              } else {
-                if (result.paymentIntent.status === 'succeeded') {
-                  // Show a success message to your customer.
-                  return {
-                    priceId: priceId,
-                    subscription: subscription,
-                    invoice: invoice,
-                    paymentMethodId: paymentMethodId,
-                  };
-                }
-              }
-            })
-            .catch(({error}) => {
-              throw error;
-            });
-        } else {
-          // No customer action needed.
-          return { subscription, priceId, paymentMethodId };
-        }
-      }
-
-      function handleRequiresPaymentMethod({
-        subscription,
-        paymentMethodId,
-        priceId,
-      }) {
-        if (subscription.status === 'active') {
-          // subscription is active, no customer actions required.
-          return { subscription, priceId, paymentMethodId };
-        } else if (
-          subscription.latest_invoice.payment_intent.status ===
-          'requires_payment_method'
-        ) {
-          // Using localStorage to manage the state of the retry here,
-          // feel free to replace with what you prefer.
-          // Store the latest invoice ID and status.
-          localStorage.setItem('latestInvoiceId', subscription.latest_invoice.id);
-          localStorage.setItem(
-            'latestInvoicePaymentIntentStatus',
-            subscription.latest_invoice.payment_intent.status
-          );
-          throw { error: { message: 'Your card was declined.' } };
-        } else {
-          return { subscription, priceId, paymentMethodId };
-        }
-      }
-
-      function onSubscriptionComplete(result) {
-        // Payment was successful.
-        if (result.subscription.status === 'active') {
-          // Change your UI to show a success message to your customer.
-          self.$store.commit('SET_SUB', true)
-          self.$store.state.digor.stripe = false;
-          self.$store.state.digor.perzhioù = false;
-          self.$swal.fire({
-            icon: 'success',
-            title: 'Inscription Réussie !',
-            text: `Félicitations, vous venez de vous inscrire avec succès.`+
-            ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
-          })
-          // `result.subscription.items.data[0].price.product` the customer subscribed to.
-        }
-      }
-
       return (
         axios.post(`${this.$store.state.API}/api/subscribe`, {
           customerId,
@@ -190,13 +98,13 @@ export default {
         // Some payment methods require a customer to be on session
         // to complete the payment process. Check the status of the
         // payment intent to handle these actions.
-        .then(handlePaymentThatRequiresCustomerAction)
+        .then(self.handlePaymentThatRequiresCustomerAction)
         // If attaching this card to a Customer object succeeds,
         // but attempts to charge the customer fail, you
         // get a requires_payment_method error.
-        .then(handleRequiresPaymentMethod)
+        .then(self.handleRequiresPaymentMethod)
         // No more actions required. Provision your service for the user.
-        .then(onSubscriptionComplete)
+        .then(self.onSubscriptionComplete)
         .catch((error) => {
           // An error has happened. Display the failure to the user here.
           // We utilize the HTML element we created.
@@ -207,6 +115,7 @@ export default {
             icon: 'error',
             text: err
           });
+          // connect to retryInvoiceWithNewPaymentMethod({}, form)
         })
       );
     },
@@ -224,11 +133,163 @@ export default {
     },
     enableInputs(form) {
       return form; // TODO: make both enableInputs & disableInputs
+    },
+    handlePaymentThatRequiresCustomerAction({
+      subscription,
+      invoice,
+      priceId,
+      paymentMethodId,
+      isRetry
+    }) {
+      if (subscription && subscription.status === 'active') {
+        // Subscription is active, no customer actions required.
+        return { subscription, priceId, paymentMethodId };
+      }
+
+      // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
+      // If it's a retry, the payment intent will be on the invoice itself.
+      let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
+
+      if (
+        paymentIntent.status === 'requires_action' ||
+        (isRetry === true && paymentIntent.status === 'requires_payment_method')
+      ) {
+        return stripe
+          .confirmCardPayment(paymentIntent.client_secret, {
+            payment_method: paymentMethodId,
+          })
+          .then((result) => {
+            if (result.error) {
+              // Start code flow to handle updating the payment details.
+              // Display error message in your UI.
+              // The card was declined (i.e. insufficient funds, card has expired, etc).
+              throw result;
+            } else {
+              if (result.paymentIntent.status === 'succeeded') {
+                // Show a success message to your customer.
+                this.$store.commit('SET_SUB', true)
+                this.$store.state.digor.stripe = false;
+                this.$store.state.digor.perzhioù = false;
+                this.$swal.fire({
+                  icon: 'success',
+                  title: 'Inscription Réussie !',
+                  text: `Félicitations, vous venez de vous inscrire avec succès.`+
+                  ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+                })
+                return {
+                  priceId: priceId,
+                  subscription: subscription,
+                  invoice: invoice,
+                  paymentMethodId: paymentMethodId,
+                };
+              }
+            }
+          })
+          .catch(({error}) => {
+            throw error;
+          });
+      } else {
+        // No customer action needed.
+        return { subscription, priceId, paymentMethodId };
+      }
+    },
+    handleRequiresPaymentMethod({
+      subscription,
+      paymentMethodId,
+      priceId,
+    }) {
+      if (subscription.status === 'active') {
+        // subscription is active, no customer actions required.
+        return { subscription, priceId, paymentMethodId };
+      } else if (
+        subscription.latest_invoice.payment_intent.status ===
+        'requires_payment_method'
+      ) {
+        // Using localStorage to manage the state of the retry here,
+        // feel free to replace with what you prefer.
+        // Store the latest invoice ID and status.
+        localStorage.setItem('latestInvoiceId', subscription.latest_invoice.id);
+        localStorage.setItem(
+          'latestInvoicePaymentIntentStatus',
+          subscription.latest_invoice.payment_intent.status
+        );
+        throw { error: { message: 'Votre carte a été déclinée' } };
+      } else {
+        return { subscription, priceId, paymentMethodId };
+      }
+    },
+    onSubscriptionComplete(result) {
+      // Payment was successful.
+      if (result.subscription.status === 'active') {
+        // Change your UI to show a success message to your customer.
+        this.$store.commit('SET_SUB', true)
+        this.$store.state.digor.stripe = false;
+        this.$store.state.digor.perzhioù = false;
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Inscription Réussie !',
+          text: `Félicitations, vous venez de vous inscrire avec succès.`+
+          ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+        })
+        // `result.subscription.items.data[0].price.product` the customer subscribed to.
+      }
+    },
+    retryInvoiceWithNewPaymentMethod({
+      customerId,
+      paymentMethodId,
+      invoiceId,
+      priceId
+    }, form) {
+      const self = this;
+
+      return (
+        axios.post(`${this.$store.state.API}/api/klask-endro`, {
+          customerId: customerId,
+          paymentMethodId: paymentMethodId,
+          invoiceId: invoiceId
+        })
+          // If the card is declined, display an error to the user.
+          .then((result) => {
+            if (result.data.error) {
+              // The card had an error when trying to attach it to a customer.
+              throw result.data;
+            }
+            return result.data;
+          })
+          // Normalize the result to contain the object returned by Stripe.
+          // Add the additional details we need.
+          .then((invoice) => {
+            return {
+              // Use the Stripe 'object' property on the
+              // returned result to understand what object is returned.
+              invoice: invoice,
+              paymentMethodId: paymentMethodId,
+              priceId: priceId,
+              isRetry: true,
+            };
+          })
+          // Some payment methods require a customer to be on session
+          // to complete the payment process. Check the status of the
+          // payment intent to handle these actions.
+          .then(self.handlePaymentThatRequiresCustomerAction)
+          // No more actions required. Provision your service for the user.
+          .then(self.onSubscriptionComplete)
+          .catch((error) => {
+            // An error has happened. Display the failure to the user here.
+            // We utilize the HTML element we created.
+            const err = (error.response)? error.response.data.error.message : null || error.message;
+
+            self.enableInputs(form)
+            self.$swal.fire({
+              icon: 'error',
+              text: err
+            });
+          })
+      );
     }
   },
   mounted() {
     const self = this,
-    stripe = window.Stripe(this.$store.state.stripe.pk),
     elements = stripe.elements(),
     style = {
       iconStyle: 'solid',

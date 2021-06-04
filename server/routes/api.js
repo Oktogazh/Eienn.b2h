@@ -78,6 +78,31 @@ router.post('/kevrea%C3%B1',
   auth.signJWTForUser
 );
 
+router.post('/klask-endro', async (req, res) => {
+  // Set the default payment method on the customer
+
+  try {
+    await stripe.paymentMethods.attach(req.body.paymentMethodId, {
+      customer: req.body.customerId,
+    });
+    await stripe.customers.update(req.body.customerId, {
+      invoice_settings: {
+        default_payment_method: req.body.paymentMethodId,
+      },
+    });
+  } catch (error) {
+    // in case card_decline error
+    return res
+      .status('402')
+      .send({ error: { message: error.message } });
+  }
+
+  const invoice = await stripe.invoices.retrieve(req.body.invoiceId, {
+    expand: ['payment_intent'],
+  });
+  res.send(invoice);
+});
+
 router.post('/subscribe', async (req, res) => {
   // Attach the payment method to the customer
   try {
@@ -110,6 +135,7 @@ router.post('/subscribe', async (req, res) => {
       expand: ['latest_invoice.payment_intent'],
       // TODO : set billing anchor to the end of the month
     });
+    console.log(subscription);
 
     res.json(subscription);
   } catch (e) {

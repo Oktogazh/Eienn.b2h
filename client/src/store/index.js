@@ -38,7 +38,8 @@ export default createStore({
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
     KEVREAÑ(state, data) {
-      state.user = data
+      const user = {...state.user, ...data}
+      state.user = user
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
