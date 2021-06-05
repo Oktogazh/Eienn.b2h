@@ -167,12 +167,12 @@ export default {
             } else {
               if (result.paymentIntent.status === 'succeeded') {
                 // Show a success message to your customer.
-                this.$store.commit('SET_SUB', true)
+                this.$store.commit('SET_SUB',  {boolean: true, id: subscription.id})
                 this.$store.state.digor.stripe = false;
                 this.$store.state.digor.perzhioù = false;
                 this.$swal.fire({
                   icon: 'success',
-                  title: 'Inscription Réussie !',
+                  title: 'Abonnement Réussi !',
                   text: `Félicitations, vous venez de vous inscrire avec succès.`+
                   ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
                 })
@@ -222,12 +222,13 @@ export default {
       // Payment was successful.
       if (result.subscription.status === 'active') {
         // Change your UI to show a success message to your customer.
-        this.$store.commit('SET_SUB', true)
+        console.log(result.subscription.id);
+        this.$store.commit('SET_SUB', {boolean: true, id: result.subscription.id})
         this.$store.state.digor.stripe = false;
         this.$store.state.digor.perzhioù = false;
         this.$swal.fire({
           icon: 'success',
-          title: 'Inscription Réussie !',
+          title: 'Abonnement Réussi !',
           text: `Félicitations, vous venez de vous inscrire avec succès.`+
           ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
         })

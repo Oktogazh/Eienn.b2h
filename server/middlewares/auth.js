@@ -90,6 +90,7 @@ function signJWTForUser(req, res) {
     'hentenn': user.learning.folder || null,
     'live': user.learning.file || null,
     'sub': user.subscriptionActive,
+    'subscriptionId': user.subscriptionId || null,
     'verified': user.verified || false
   })
 }

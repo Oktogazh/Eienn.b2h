@@ -68,7 +68,7 @@ router.post('/',
         // failed and to retrieve new card details.
         break;
       case 'customer.subscription.deleted':
-        if (event.request != null) {
+        if (event.request != null) { // todo now
           // handle a subscription cancelled by your request
           // from above.
         } else {

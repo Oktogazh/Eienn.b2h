@@ -41,6 +41,23 @@ router.post('/customer',
 
 );
 
+router.delete('/digoumananti%C3%B1/:subscriptionId',
+  // populate the req.user object
+  auth.requireJWT,
+  // RESTfully delete the subscription
+  async (req, res) => {
+    try {
+      const deletedSubscription = await stripe.subscriptions.del(
+        req.params.subscriptionId
+      );
+      res.json(deletedSubscription);
+
+    } catch (e) {
+      console.error(e);
+      res.status('402').json({ error: {message: e} })
+    }
+});
+
 router.post('/enrolla%C3%B1',
   // middleware that creates a new user doc
   auth.register,

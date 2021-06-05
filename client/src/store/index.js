@@ -19,6 +19,9 @@ export default createStore({
       customerId: JSON.parse(localStorage.getItem('userData') || "{}").customerId || null,
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
+      hentenn: null,
+      live: '0',
+      subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
       verified: JSON.parse(localStorage.getItem('userData') || "{}").verified || false,
@@ -50,9 +53,10 @@ export default createStore({
         state.user.email = data.email
         state.user.ezel = data.ezel
     },
-    SET_SUB(state, boolean) {
-      state.user.sub = boolean
-      localStorage.setItem('userData', JSON.stringify(state.user))
+    SET_SUB(state, {boolean, id}) {
+      state.user.sub = boolean;
+      state.user.subscriptionId = id;
+      localStorage.setItem('userData', JSON.stringify(state.user));
     },
     SET_VERIFIED(state, verified) {
         state.user.verified = verified
