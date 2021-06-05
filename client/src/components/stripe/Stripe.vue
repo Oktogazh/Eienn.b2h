@@ -222,7 +222,6 @@ export default {
       // Payment was successful.
       if (result.subscription.status === 'active') {
         // Change your UI to show a success message to your customer.
-        console.log(result.subscription.id);
         this.$store.commit('SET_SUB', {boolean: true, id: result.subscription.id})
         this.$store.state.digor.stripe = false;
         this.$store.state.digor.perzhioù = false;

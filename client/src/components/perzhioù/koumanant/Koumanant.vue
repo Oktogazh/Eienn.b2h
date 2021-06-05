@@ -34,10 +34,11 @@ export default {
       axios.delete(`${this.$store.state.API}/api/digoumanantiñ/${this.$store.state.user.subscriptionId}`)
         .then(() => {
           return  self.$store.commit('SET_SUB',  {boolean: false, id: null}),
+                  self.$emit('klozañ'),
                   self.$swal.fire({
                     icon: 'success',
                     text: 'Vous vous êtes désabonné avec succès !'
-                  });
+                  })
         })
         .catch(error => {
           self.$swal.fire({
