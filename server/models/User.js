@@ -5,25 +5,28 @@ const Schema = mongoose.Schema
 
 
 var user = new Schema({
+    badges: [String],
+    customerId: String,
     email: String,
+    learning: {
+      folder: {
+        type: String,
+        default: null
+      },
+      file: {
+        type: {},
+        default: null
+      }
+    },
     passwordHash: String,
+    priceId: String,
     ResetPassword: String,
     ResetPasswordExpire: Date,
     subscriptionActive: {
       type: Boolean,
       default: false
     },
-    customerId: String,
     subscriptionId: String,
-    learning: {
-      folder: {
-        type: String,
-        default: null},
-      file: {
-        type: {},
-        default: null}
-    },
-    badges: [String],
     verified: {
       type: Boolean,
       default: false,

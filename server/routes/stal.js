@@ -41,7 +41,25 @@ router.post('/',
         // Set subscritionAtive = true
         // Set subscritionId = subscription
         // Set PriceId
-        console.log('invoice.paid!');
+        try {
+          const cus = dataObject.customer;
+          var user = await User.findOne({customerId: cus});
+          const sub = dataObject.subscription,
+          type = dataObject.lines.data[0].price.id;
+          subActive = (dataObject.status === 'paid'),
+          live = user.learning.file? user.learning.file : '0';
+          console.log(type);
+          user.subscriptionActive = subActive;
+          user.subscriptionId = sub;
+          user.priceId = type;
+          user.learning.file = live;
+          user.save()
+            .then((saved) => {
+              return console.log(`User saved: ${saved == user}`)
+            })
+        } catch (e) {
+          console.error(e);
+        }
         break;
       case 'invoice.payment_failed':
         // If the payment fails or the customer does not have a valid payment method,

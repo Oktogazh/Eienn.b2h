@@ -87,6 +87,8 @@ function signJWTForUser(req, res) {
     token,
     'customerId': user.customerId || null,
     'email': user.email,
+    'hentenn': user.learning.folder || null,
+    'live': user.learning.file || null,
     'sub': user.subscriptionActive,
     'verified': user.verified || false
   })
