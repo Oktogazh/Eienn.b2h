@@ -48,7 +48,7 @@ router.post('/',
           type = dataObject.lines.data[0].price.id;
           subActive = (dataObject.status === 'paid'),
           live = user.learning.file? user.learning.file : '0';
-          console.log(type);
+
           user.subscriptionActive = subActive;
           user.subscriptionId = sub;
           user.priceId = type;
