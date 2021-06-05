@@ -1,4 +1,5 @@
 <template>
+  <div class="margin-top"></div>
   <div class="spletennoù">
     <input type="radio" name="spletenn" id="spletenn-1" checked>
     <label v-if="!$store.state.digor.perzhioù" for="spletenn-1" @click="$store.state.digor.perzhioù = false">{{ notennoù.titl }}</label>
@@ -57,11 +58,14 @@ export default {
   color: #000;
 }
 
+.margin-top {
+  height: 13vh;
+  max-height: 150px;
+}
+
 .spletennoù {
   text-align: left;
   width: 700px;
-  margin: auto;
-  margin-top: 7vmax;
 }
 
 .spletennoù > input {
@@ -103,11 +107,18 @@ export default {
 
 .spletenn > div {
   background: rgba(255, 255, 255, 0.8);
-  padding: 10px 30px 40px;
+  padding: 1em 3em 4em;
   line-height: 1.4em;
   font-size: 1.1em;
   display: none;
-  border-radius: 0.7% 3% 40% 7%;
+  border-radius: 0.7% 3% 20% 7%;
+  max-height: 50vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.spletenn > div::-webkit-scrollbar {
+  display: none;
 }
 
 #spletenn-1:checked ~ .spletenn > div:nth-of-type(1),

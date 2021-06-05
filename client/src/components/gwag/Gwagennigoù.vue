@@ -59,11 +59,12 @@ pre {
   background-image: url(/gwag.svg);
   position: absolute;
   display: block;
-  width: 45px;
-  height: 45px;
-  right: 3vmax;
-  top: 3vmax;
-  transform: scale(1.5);
+  width: 10vmax;
+  max-width: 75px;
+  height: 10vmax;
+  max-height: 75px;
+  right: 3.5vmax;
+  top: 3.5vmax;
 }
 #gwag:hover {
   cursor: pointer;

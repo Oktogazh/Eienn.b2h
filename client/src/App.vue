@@ -57,6 +57,10 @@ body {
   color: #42b983;
 }
 pre {
+  position: absolute;
+  z-index: -1;
+  top: 30px;
+  left: 30px;
   text-align: left;
 }
 </style>
