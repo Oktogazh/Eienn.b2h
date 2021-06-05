@@ -38,8 +38,8 @@ router.post('/',
     // Remove comment to see the various objects sent for this sample
     switch (event.type) {
       case 'invoice.paid':
-        // Set subscritionAtive = true
-        // Set subscritionId = subscription
+        // Set subscriptionAtive = true
+        // Set subscriptionId = subscription
         // Set PriceId
         try {
           const cus = dataObject.customer;
@@ -55,7 +55,7 @@ router.post('/',
           user.learning.file = live;
           user.save()
             .then((saved) => {
-              return console.log(`User saved: ${saved == user}`)
+              return console.log(`User updated: ${saved == user}`)
             })
         } catch (e) {
           console.error(e);
@@ -68,12 +68,34 @@ router.post('/',
         // failed and to retrieve new card details.
         break;
       case 'customer.subscription.deleted':
-        if (event.request != null) { // todo now
-          // handle a subscription cancelled by your request
-          // from above.
+        const subscription = dataObject,
+        id = subscription.id;
+        if (event.request != null) {
+          try {
+            const user = await User.findOne({subscriptionId: id});
+
+            user.subscriptionActive = false;
+            user.subscriptionId = null;
+            user.save()
+              .then((saved) => {
+              return console.log(`User updated: ${saved == user}`)
+            }) // add an email saying thank you for learning with us
+          } catch (e) {
+            console.error(e);
+          }
         } else {
-          // handle subscription cancelled automatically based
-          // upon your subscription settings.
+          try {
+            const user = await User.findOne({subscriptionId: id})
+            user.subscriptionActive = false;
+            user.subscriptionActive = false;
+            user.subscriptionId = null;
+            user.save()
+              .then((saved) => {
+              return console.log(`User updated: ${saved == user}`)
+            })
+          } catch (e) {
+            console.error(e);
+          }
         }
         break;
       default:
