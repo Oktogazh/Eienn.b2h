@@ -18,6 +18,7 @@ var user = new Schema({
         default: null
       }
     },
+    live: String,
     passwordHash: String,
     priceId: String,
     ResetPassword: String,

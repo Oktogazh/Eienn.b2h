@@ -43,7 +43,10 @@ export default {
     },
     digevreañ(){
       localStorage.clear();
-      this.$store.state.user = {ezel:true};
+      this.$store.state.user = {
+        ezel:true,
+        live: '0@br-42.fr'
+      };
       this.$store.state.digor.perzhioù = false;
     }
   }

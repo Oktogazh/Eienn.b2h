@@ -20,7 +20,7 @@ export default createStore({
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
       hentenn: null,
-      live: '0',
+      live: '0@br-42.fr',
       subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,

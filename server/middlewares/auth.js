@@ -81,14 +81,20 @@ function signJWTForUser(req, res) {
     }
   )
 
+  // While all the former user.learning API hasn't been replaced
+  // Builds the new '@' API
+  // TODO: learn how to make this change in the DB directly
+  const live = user.live?
+    user.live : user.learning.file/*folder*/?
+      `${user.learning.file}@br-42.fr` : '0';
+
 
   // Send the token
   res.status(200).json({
     token,
     'customerId': user.customerId || null,
     'email': user.email,
-    'hentenn': user.learning.folder || null,
-    'live': user.learning.file || null,
+    'live': live,
     'sub': user.subscriptionActive,
     'subscriptionId': user.subscriptionId || null,
     'verified': user.verified || false
