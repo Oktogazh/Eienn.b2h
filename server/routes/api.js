@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const auth = require('../middlewares/auth');
 const verifyEmail = require('../middlewares/verifyEmail');
+const serve = require('../middlewares/serve');
 const { body } = require('express-validator');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -87,6 +88,10 @@ router.post('/kas_kod_postel',
   res.status(200).send('Emeur o paouez kas ar c\'hod da ' + req.user.email + '.');
  }
 );
+
+router.get('/kentel/:id',
+  serve.kentel,
+  serve.digor)
 
 router.post('/kevrea%C3%B1',
   // middleware that handles the sign in process
