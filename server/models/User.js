@@ -1,4 +1,4 @@
-const mongoose = require('./init');
+const { db, mongoose } = require('./init');
 const passportLocalMongoose = require('passport-local-mongoose');
 const Schema = mongoose.Schema
 

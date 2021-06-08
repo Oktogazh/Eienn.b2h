@@ -15,7 +15,10 @@ function kentel(req, res, next) {
   const doc = Number(req.doc);
 
   if (doc > 7) {
+    // if req.header Authorization
     auth.requireJWT(req, res, next);
+    // if user.sub
+    // else access refused
   } else if (doc > 0) {
     digor(req, res, next);
   } else {

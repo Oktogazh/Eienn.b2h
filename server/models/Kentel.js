@@ -1,4 +1,4 @@
-const mongoose = require('./init');
+const { kentelioù, mongoose} = require('./init');
 const Schema = mongoose.Schema
 
 var kentel = new Schema({
@@ -18,5 +18,5 @@ var kentel = new Schema({
   {timestamps: true}
 );
 
-var Kentel = mongoose.model('Kentel', kentel)
+var Kentel = kentelioù.model('Kentel', kentel)
 module.exports = Kentel;

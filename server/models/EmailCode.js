@@ -1,4 +1,4 @@
-const mongoose = require('./init');
+const { mongoose } = require('./init');
 const Schema = mongoose.Schema
 
 const emailCode = new Schema({
