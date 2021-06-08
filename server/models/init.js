@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
 // Connect to our local database
-const db = mongoose
+mongoose
   .connect(`${process.env.MONGODB_URI}mydb`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -17,22 +17,6 @@ const db = mongoose
     if (error) console.error('Error connecting to MongoDB database', error)
   })
 
-// Connect to our local database
-const kentelioù = mongoose
-  .createConnection(`${process.env.MONGODB_URI}kentelioù`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true })
-  .then(() => {
-    console.log('Successfully connected to kentelioù')
-  })
-  .catch(error => {
-    //   If there was an error connecting to the database
-    if (error) console.error('Error connecting to kentelioù MongoDB database', error)
-  })
-
 module.exports = {
-  db,
-  kentelioù,
   mongoose
 }

@@ -1,5 +1,6 @@
 const auth = require('./auth');
 const User = require('../models/User');
+const { MongoClient } = require('mongodb');
 
 function kentel(req, res, next) {
   // Extract the information about the lessons requested
@@ -26,11 +27,24 @@ function kentel(req, res, next) {
   }
 }
 
-// This is not Python, it bette to declare your functions
+// This is not Python, it's better to declare your functions
 // down the calling function
-function digor(req, res, next) {
+async function digor(req, res, next) {
   // TODO: record progress if (req.user)
-  return res.end('lesson content')
+
+  try {
+    const client = await MongoClient.connect(`${process.env.MONGODB_URI}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+    const db = client.db('kenteliaoueg');
+    const kentel = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});
+    client.close();
+
+    return res.json(kentel)
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 function deroù(req, res, next) {
