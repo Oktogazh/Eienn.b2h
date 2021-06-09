@@ -16,21 +16,33 @@ function kentel(req, res, next) {
   const doc = Number(req.doc);
 
   if (doc > 7) {
-    // if req.header Authorization
+    // Needed to populate the req.uer
     auth.requireJWT(req, res, next);
-    // if user.sub
-    // else access refused
   } else if (doc > 0) {
-    digor(req, res, next);
+    // in order to register the advencement of registered people
+    // (including new subscriber)
+    // while letting everybody else access the data
+    if (req.get('Authorization')) {
+      auth.requireJWT(req, res, next);
+    } else {
+      return next();
+    }
   } else {
     deroù(req, res, next);
   }
 }
 
 // This is not Python, it's better to declare your functions
-// down the calling function
+// under the calling function
 async function digor(req, res, next) {
-  // TODO: record progress if (req.user)
+  // if
+  if (req.user) {
+    // TODO: detect whether or not the user has jumped back in the lessons
+    const user = await User.findOne({_id: `${req.user.id}`});
+    user.live = req.params.id;
+
+    await user.save()
+  }
 
   try {
     const client = await MongoClient.connect(`${process.env.MONGODB_URI}`, {
@@ -40,10 +52,17 @@ async function digor(req, res, next) {
     const db = client.db('kenteliaoueg');
     const kentel = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});
     client.close();
-
-    return res.json(kentel)
+    return res.status('200').json(kentel);
   } catch (e) {
     console.error(e)
+  }
+}
+
+async function sub(req, res, next) {
+  if (7 < Number(req.doc)) {
+    (req.user.subscriptionActive)? next(): res.status('401').end('Unauthorized');
+  } else {
+    return next();
   }
 }
 
@@ -53,5 +72,6 @@ function deroù(req, res, next) {
 
 module.exports = {
   kentel,
-  digor
+  digor,
+  sub
 }
