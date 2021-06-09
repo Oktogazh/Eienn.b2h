@@ -47,7 +47,7 @@ async function digor(req, res, next) {
   try {
     const client = await MongoClient.connect(`${process.env.MONGODB_URI}`, {
         useNewUrlParser: true,
-        useUnifiedTopology: true,
+        useUnifiedTopology: true
     });
     const db = client.db('kenteliaoueg');
     const kentel = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});

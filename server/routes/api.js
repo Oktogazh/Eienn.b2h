@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
   res.json('hello api');
 });
 
+// Create a new stripe customer
 router.post('/customer',
   // populate the req.user object
   auth.requireJWT,
