@@ -59,8 +59,7 @@ export default {
 }
 
 .margin-top {
-  height: 13vh;
-  max-height: 150px;
+  height: 15vh;
 }
 
 .spletennoù {
@@ -112,7 +111,7 @@ export default {
   font-size: 1.1em;
   display: none;
   border-radius: 0.7% 3% 20% 7%;
-  max-height: 50vh;
+  max-height: 55vh;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
