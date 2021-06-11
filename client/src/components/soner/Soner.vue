@@ -1,7 +1,11 @@
 <template>
   <div class="soner">
-    <button data-playing="false" role="switch" aria-checked="false">
-        <span>Mezell</span>
+    <audio src="myCoolTrack.mp3">
+      <source src="" type="audio/wav">
+      <h1>Utilisez Firefox pour accéder aux enregistrements</h1>
+    </audio>
+    <button id="mezell" data-playing="false" role="switch" aria-checked="false">
+      <span>Mezell</span>
     </button>
   </div>
 </template>
@@ -10,6 +14,8 @@
 export default {
   name: 'Soner',
 }
+
+
 </script>
 
 <style scoped>
@@ -21,6 +27,14 @@ export default {
   bottom: 0px;
   height: 15vh;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+#mezell {
+
 }
 
 </style>

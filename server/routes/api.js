@@ -93,7 +93,7 @@ router.post('/kas_kod_postel',
 router.get('/kentel/:id',
   serve.kentel,
   serve.sub,
-  serve.digor)
+  serve.digor);
 
 router.post('/kevrea%C3%B1',
   // middleware that handles the sign in process
@@ -126,6 +126,11 @@ router.post('/klask-endro', async (req, res) => {
   });
   res.send(invoice);
 });
+
+router.get('/selaou/:id',
+  serve.kentel,
+  serve.sub,
+  serve.selaou);
 
 router.post('/subscribe', async (req, res) => {
   // Attach the payment method to the customer
