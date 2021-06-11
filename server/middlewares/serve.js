@@ -2,12 +2,12 @@ const auth = require('./auth');
 const User = require('../models/User');
 const path = require('path');
 const { MongoClient } = require('mongodb');
-const reg = /(^\d+)(@\S+$)/g;
 
 function kentel(req, res, next) {
   // Extract the information about the lessons requested
   // from param kentel/:id above
   const id = req.params.id;
+  const reg = /(^\d+)(@\S+$)/g;
   const klot = reg.exec(id);
   // Populate req.doc with a string reprsenting the number of the fetched lesson
   req.doc = klot[1];
@@ -41,10 +41,11 @@ async function digor(req, res, next) {
   // register the advencement of user
   if (req.user) {
     const user = await User.findOne({_id: `${req.user.id}`});
-    const niv = reg.exec(user.live)[1];
+    const live = user.live? /(^\d+)(@\S+$)/g.exec(user.live)[1] : user.learning.file;
+    const niv = Number(live);
     // Do not record advencement if user jumped more than one lesson backwards
     // (eg. following a link to revisions)
-    if !(Number(niv)-1 > Number(req.doc)) {
+    if (!(Number(niv)-1 > Number(req.doc))) {
       user.live = req.params.id;
       await user.save()
     }
