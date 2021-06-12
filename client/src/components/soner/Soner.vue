@@ -1,7 +1,7 @@
 <template>
   <div class="soner">
-    <audio src="myCoolTrack.mp3">
-      <source src="" type="audio/wav">
+    <audio>
+      <source :src="$store.getters.audioSrc" type="audio/wav">
       <h1>Utilisez Firefox pour accéder aux enregistrements</h1>
     </audio>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false">

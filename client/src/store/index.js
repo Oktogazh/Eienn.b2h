@@ -20,7 +20,7 @@ export default createStore({
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
       hentenn: null,
-      live: '0@br-42.fr',
+      live: '1@br-42.fr',
       subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
@@ -129,5 +129,8 @@ export default createStore({
   modules: {
   },
   getters: {
+    audioSrc: state => {
+      return `${state.API}/api/selaou/${state.user.live}`
+    }
   }
 })
