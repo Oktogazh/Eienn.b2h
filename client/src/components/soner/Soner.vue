@@ -1,18 +1,45 @@
 <template>
   <div class="soner">
-    <audio>
+    <audio crossorigin="anonymous">
       <source :src="$store.getters.audioSrc" type="audio/wav">
-      <h1>Utilisez Firefox pour accéder aux enregistrements</h1>
     </audio>
-    <button id="mezell" data-playing="false" role="switch" aria-checked="false">
-      <span>Mezell</span>
-    </button>
+    <div id="mezell" data-playing="false" role="switch" aria-checked="false">
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Soner',
+  methods: {
+    context() {
+      const audioContext = new window.AudioContext();
+      const audioElement = document.querySelector('audio');
+      const channel = audioContext.createMediaElementSource(audioElement);
+      channel.connect(audioContext.destination);
+
+      const mezell = document.getElementById('mezell');
+
+      mezell.addEventListener('click', function() {
+
+        // play or pause track depending on state
+        if (this.dataset.playing === 'false') {
+            audioElement.play();
+            this.dataset.playing = 'true';
+        } else if (this.dataset.playing === 'true') {
+            audioElement.pause();
+            this.dataset.playing = 'false';
+        }
+
+      });
+      audioElement.addEventListener('ended', () => {
+        mezell.dataset.playing = 'false';
+      }, false);
+    }
+  },
+  mounted() {
+    this.context();
+  }
 }
 
 
@@ -34,7 +61,9 @@ export default {
 }
 
 #mezell {
-
+  background: url('/gwag.svg');
+  width: 10vh;
+  height: 10vh;
+  cursor: pointer;
 }
-
 </style>
