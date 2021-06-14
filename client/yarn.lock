@@ -936,7 +936,7 @@
 
 "@stripe/stripe-js@^1.14.0":
   version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.15.0.tgz#86178cfbe66151910b09b03595e60048ab4c698e"
+  resolved "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.15.0.tgz"
   integrity sha512-KQsNPc+uVQkc8dewwz1A6uHOWeU2cWoZyNIbsx5mtmperr5TPxw4u8M20WOa22n6zmIOh/zLdzEe8DYK/0IjBw==
 
 "@types/anymatch@*":
@@ -1227,7 +1227,7 @@
 
 "@vue/cli-overlay@^4.5.13":
   version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-4.5.13.tgz#4f1fd2161be8f69d6cba8079f3f0d7dc4dee47a7"
+  resolved "https://registry.npmjs.org/@vue/cli-overlay/-/cli-overlay-4.5.13.tgz"
   integrity sha512-jhUIg3klgi5Cxhs8dnat5hi/W2tQJvsqCxR0u6hgfSob0ORODgUBlN+F/uwq7cKIe/pzedVUk1y07F13GQvPqg==
 
 "@vue/cli-plugin-babel@~4.5.0":
@@ -1255,33 +1255,21 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.5.13":
+"@vue/cli-plugin-router@^4.5.13", "@vue/cli-plugin-router@~4.5.0":
   version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-4.5.13.tgz#0b67c8898a2bf132941919a2a2e5f3aacbd9ffbe"
+  resolved "https://registry.npmjs.org/@vue/cli-plugin-router/-/cli-plugin-router-4.5.13.tgz"
   integrity sha512-tgtMDjchB/M1z8BcfV4jSOY9fZSMDTPgF9lsJIiqBWMxvBIsk9uIZHxp62DibYME4CCKb/nNK61XHaikFp+83w==
   dependencies:
     "@vue/cli-shared-utils" "^4.5.13"
 
-"@vue/cli-plugin-router@~4.5.0":
-  version "4.5.12"
-  resolved "https://registry.npmjs.org/@vue/cli-plugin-router/-/cli-plugin-router-4.5.12.tgz"
-  integrity sha512-DYNz5AA3W7Ewt3aaiOLGdYFt4MX4w/HTEtep+kPzP9S9tAknzyoIJXkaYzhwu8ArpEYwhWgtuCcDZ8hR6++DbA==
-  dependencies:
-    "@vue/cli-shared-utils" "^4.5.12"
-
-"@vue/cli-plugin-vuex@^4.5.13":
+"@vue/cli-plugin-vuex@^4.5.13", "@vue/cli-plugin-vuex@~4.5.0":
   version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.13.tgz#98646d8bc1e69cf6c6a6cba2fed3eace0356c360"
+  resolved "https://registry.npmjs.org/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.13.tgz"
   integrity sha512-I1S9wZC7iI0Wn8kw8Zh+A2Qkf6s1M6vTGBkx8boXjuzfwEEyEHRxadsVCecZc8Mkpydo0nykj+MyYF96TKFuVA==
-
-"@vue/cli-plugin-vuex@~4.5.0":
-  version "4.5.12"
-  resolved "https://registry.npmjs.org/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.12.tgz"
-  integrity sha512-STgbvNv/3iHAKArc18b/qjN7RX1FTrfxPeHH26GOr/A8lJes7+CSluZZ8E5R7Zr/vL0zOqOkUVDAjFXVf4zWQA==
 
 "@vue/cli-service@~4.5.13":
   version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-4.5.13.tgz#a09e684a801684b6e24e5414ad30650970eec9ed"
+  resolved "https://registry.npmjs.org/@vue/cli-service/-/cli-service-4.5.13.tgz"
   integrity sha512-CKAZN4iokMMsaUyJRU22oUAz3oS/X9sVBSKAF2/shFBV5xh3jqAlKl8OXZYz4cXGFLA6djNuYrniuLAo7Ku97A==
   dependencies:
     "@intervolga/optimize-cssnano-plugin" "^1.0.5"
@@ -1342,27 +1330,9 @@
   optionalDependencies:
     vue-loader-v16 "npm:vue-loader@^16.1.0"
 
-"@vue/cli-shared-utils@^4.5.12":
-  version "4.5.12"
-  resolved "https://registry.npmjs.org/@vue/cli-shared-utils/-/cli-shared-utils-4.5.12.tgz"
-  integrity sha512-qnIQPJ4XckMoqYh9fJ0Y91QKMIb4Hiibrm9+k4E15QHpk5RaokuOpf10SsOr2NLPCXSWsHOLo3hduZSwHPGY/Q==
-  dependencies:
-    "@hapi/joi" "^15.0.1"
-    chalk "^2.4.2"
-    execa "^1.0.0"
-    launch-editor "^2.2.1"
-    lru-cache "^5.1.1"
-    node-ipc "^9.1.1"
-    open "^6.3.0"
-    ora "^3.4.0"
-    read-pkg "^5.1.1"
-    request "^2.88.2"
-    semver "^6.1.0"
-    strip-ansi "^6.0.0"
-
-"@vue/cli-shared-utils@^4.5.13":
+"@vue/cli-shared-utils@^4.5.12", "@vue/cli-shared-utils@^4.5.13":
   version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.5.13.tgz#acd40f31b4790f1634292bdaa5fca95dc1e0ff50"
+  resolved "https://registry.npmjs.org/@vue/cli-shared-utils/-/cli-shared-utils-4.5.13.tgz"
   integrity sha512-HpnOrkLg42RFUsQGMJv26oTG3J3FmKtO2WSRhKIIL+1ok3w9OjGCtA3nMMXN27f9eX14TqO64M36DaiSZ1fSiw==
   dependencies:
     "@hapi/joi" "^15.0.1"
@@ -5303,6 +5273,11 @@ loglevel@^1.6.8:
   resolved "https://registry.npmjs.org/loglevel/-/loglevel-1.7.1.tgz"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
 
+lottie-web@^5.7.11:
+  version "5.7.11"
+  resolved "https://registry.npmjs.org/lottie-web/-/lottie-web-5.7.11.tgz"
+  integrity sha512-Jvz3PQqwrDj1rXGqfeQtipH/WNtM/Y4l8t8NIQXe1xUI0nVooH2bTYJGef0UkdBcWUx1s3miKsRhyP196g9tvQ==
+
 lower-case@^1.1.1:
   version "1.1.4"
   resolved "https://registry.npmjs.org/lower-case/-/lower-case-1.1.4.tgz"
@@ -7555,7 +7530,7 @@ ssri@^6.0.1:
 
 ssri@^8.0.1:
   version "8.0.1"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-8.0.1.tgz#638e4e439e2ffbd2cd289776d5ca457c4f51a2af"
+  resolved "https://registry.npmjs.org/ssri/-/ssri-8.0.1.tgz"
   integrity sha512-97qShzy1AiyxvPNIkLWoGua7xoQzzPjQ0HAH4B0rWKo7SZ6USuPcrUiAFrws0UH8RrbWmgq3LMTObhPIHbbBeQ==
   dependencies:
     minipass "^3.1.1"
@@ -7785,13 +7760,13 @@ svgo@^1.0.0:
 
 sweetalert2@10.x:
   version "10.16.9"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-10.16.9.tgz#8ed86f2fa811a136667a48357e204348705be8c9"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-10.16.9.tgz"
   integrity sha512-oNe+md5tmmS3fGfVHa7gVPlun7Td2oANSacnZCeghnrr3OHBi6UPVPU+GFrymwaDqwQspACilLRmRnM7aTjNPA==
 
 sweetalert2@^11.0.16:
-  version "11.0.16"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.0.16.tgz#48b3b0420cb2431b906f627d54884f5c7a88d434"
-  integrity sha512-9XStCZJMQpLQBAT/jr/4qZuA5Xwoupi/x5FagZYM1qGnyRqYecaJTPD1Cb5gc7G+9B5muH/JaDaBQGrvLpCmvQ==
+  version "11.0.17"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.0.17.tgz"
+  integrity sha512-oaCGCNjMU648bDg5+/mdStfFNG9sYEejeEZQY8JpAakUM0pLflB3neNyArAZGcWNUQX1y/jOeRdzcNE05Una4A==
 
 table@^5.2.3:
   version "5.4.6"
@@ -8281,7 +8256,6 @@ vue-hot-reload-api@^2.3.0:
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
 "vue-loader-v16@npm:vue-loader@^16.1.0", vue-loader@^16.2.0:
-  name vue-loader-v16
   version "16.2.0"
   resolved "https://registry.npmjs.org/vue-loader/-/vue-loader-16.2.0.tgz"
   integrity sha512-TitGhqSQ61RJljMmhIGvfWzJ2zk9m1Qug049Ugml6QP3t0e95o0XJjk29roNEiPKJQBEi8Ord5hFuSuELzSp8Q==
@@ -8301,10 +8275,23 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-property-decorator@^9.0.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-9.1.2.tgz#266a2eac61ba6527e2e68a6933cfb98fddab5457"
+  integrity sha512-xYA8MkZynPBGd/w5QFJ2d/NM0z/YeegMqYTphy7NJQXbZcuU6FC6AOdUAcy4SXP+YnkerC6AfH+ldg7PDk9ESQ==
+
 vue-router@^4.0.0-0:
   version "4.0.6"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.0.6.tgz"
   integrity sha512-Y04llmK2PyaESj+N33VxLjGCUDuv9t4q2OpItEGU7POZiuQZaugV6cJpE6Qm1sVFtxufodLKN2y2dQl9nk0Reg==
+
+vue-slider-component@^4.0.0-beta.4:
+  version "4.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-4.0.0-beta.4.tgz#b72d7964f3c1e6368c3f1eece726a73066e0f567"
+  integrity sha512-ooKDv/FKLPR4N2O8BL3QvMoAvrSwSjj2+tx38dgvGRQaYYr0lpfH8vd175Hb1ayr6JRlnea7PYAeVtlg/jvTbQ==
+  dependencies:
+    core-js "^3.6.5"
+    vue-property-decorator "^9.0.2"
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.3"
@@ -8316,7 +8303,7 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
 
 vue-sweetalert2@4.3.1:
   version "4.3.1"
-  resolved "https://registry.yarnpkg.com/vue-sweetalert2/-/vue-sweetalert2-4.3.1.tgz#b8111344fa48c011a9b2fb9acfb797ddf65ccda4"
+  resolved "https://registry.npmjs.org/vue-sweetalert2/-/vue-sweetalert2-4.3.1.tgz"
   integrity sha512-4ZsCpBupG9Q6RJsJ4z/+VkXp0+u5nWz9Z+TcsBU7sS7T47E/ZN3kZSwpCV1F+GdVzurYDcXNcKiwjQ3g7uXzqw==
   dependencies:
     sweetalert2 "10.x"
