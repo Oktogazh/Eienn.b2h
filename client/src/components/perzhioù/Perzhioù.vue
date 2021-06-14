@@ -45,8 +45,9 @@ export default {
       localStorage.clear();
       this.$store.state.user = {
         ezel:true,
-        live: '0@br-42.fr'
+        live: '1@br-42.fr'
       };
+      this.$store.state.kentel.live = '1@br-42.fr'
       this.$store.state.digor.perzhioù = false;
     }
   }

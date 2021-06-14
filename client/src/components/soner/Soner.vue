@@ -1,13 +1,13 @@
 <template>
   <div class="soner">
-    <audio ref="audio" crossorigin="anonymous">
-      <source :src="$store.getters.audioSrc" type="audio/wav">
+    <audio  crossorigin="anonymous" :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live}`" ref="audio">
+      <source  crossorigin="anonymous" ref="source" type="audio/wav">
     </audio>
-    <div class="">
-      <span id="neuze" class="time">0:00</span>
-      <span id="enHoll" class="time">0:00</span>
-    </div>
+    <span id="neuze" class="time">0:00</span>
+    <span id="enHoll" class="time">0:00</span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
+    <div @click="tremen" id="lerX"></div>
+    <div class=""></div>
   </div>
 </template>
 
@@ -52,6 +52,15 @@ export default {
       audioElement.addEventListener('ended', () => {
         mezell.dataset.playing = 'false';
       }, false);
+    },
+    tremen() {
+      const live = this.$store.state.user.live;
+      const rgx = /(^\d+)(@\S+$)/g;
+      const klot = rgx.exec(live);
+      const muiUnan = Number(klot[1]) + 1;
+      const liveNevez = `${muiUnan}${klot[2]}`;
+      this.$store.commit('KARGAÑ', liveNevez);
+      this.$store.commit('KOUNAAT', liveNevez);
     }
   },
   mounted() {
@@ -96,5 +105,14 @@ span {
 }
 #enHoll {
   right: 10px;
+}
+
+#lerX {
+  position: absolute;
+  right: 5%;
+  width: calc(20px + 1.5*2vh);
+  height: calc(20px + 1.5*2vh);
+  background: url('/lerX.svg');
+  cursor: pointer;
 }
 </style>

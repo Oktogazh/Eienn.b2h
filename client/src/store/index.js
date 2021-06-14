@@ -11,6 +11,9 @@ export default createStore({
       perzhioù: false,
       stripe: false,
     },
+    kentel: {
+      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr'
+    },
     stripe: {
       pk: 'pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl',
       prices: ['price_1IuzLuLl0gLr1Vo6IIfbmXqI']
@@ -20,7 +23,7 @@ export default createStore({
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
       hentenn: null,
-      live: '1@br-42.fr',
+      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr',
       subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
@@ -36,13 +39,23 @@ export default createStore({
       state.digor[prenestr] = true
     },
     ENROLLAÑ(state, data) {
-      state.user = data
+      const user = {...state.user, ...data}
+      state.user = user
+      state.kentel.live = user.live
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+    },
+    KARGAÑ(state, live) {
+      state.kentel.live = live;
+    },
+    KOUNAAT(state, live) {
+      state.user.live = live;
+      localStorage.setItem('userData', JSON.stringify(state.user))
     },
     KEVREAÑ(state, data) {
       const user = {...state.user, ...data}
       state.user = user
+      state.kentel.live = user.live
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
@@ -108,6 +121,9 @@ export default createStore({
       })
       .catch(function(err) { return alert(`resevet ar gemennadenn: ${err}`)})
     },
+    kargañ(context, {live}) {
+      console.log(live);
+    },
     kevreañ(context, {email, password}) {
       axios.post(`${this.state.API}/api/kevreañ`, {email, password})
       .then(response => {
@@ -129,8 +145,5 @@ export default createStore({
   modules: {
   },
   getters: {
-    audioSrc: state => {
-      return `${state.API}/api/selaou/${state.user.live}`
-    }
   }
 })
