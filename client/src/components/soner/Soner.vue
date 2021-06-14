@@ -6,7 +6,8 @@
     <span id="neuze" class="time">0:00</span>
     <span id="enHoll" class="time">0:00</span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
-    <div @click="tremen" id="lerX"></div>
+    <div @click="tremen" id="raok"></div>
+    <div @click="distreiñ" id="kent"></div>
     <div class=""></div>
   </div>
 </template>
@@ -53,6 +54,15 @@ export default {
         mezell.dataset.playing = 'false';
       }, false);
     },
+    distreiñ() {
+      const live = this.$store.state.user.live;
+      const rgx = /(^\d+)(@\S+$)/g;
+      const klot = rgx.exec(live);
+      const muiUnan = Number(klot[1]) - 1;
+      const liveNevez = `${muiUnan}${klot[2]}`;
+      this.$store.commit('KARGAÑ', liveNevez);
+      this.$store.commit('KOUNAAT', liveNevez);
+    },
     tremen() {
       const live = this.$store.state.user.live;
       const rgx = /(^\d+)(@\S+$)/g;
@@ -71,7 +81,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 .soner {
   position: absolute;
   background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.65) 100%);
@@ -107,12 +117,20 @@ span {
   right: 10px;
 }
 
-#lerX {
+#raok {
   position: absolute;
   right: 5%;
   width: calc(20px + 1.5*2vh);
   height: calc(20px + 1.5*2vh);
-  background: url('/lerX.svg');
+  background: url('/raok.svg');
+  cursor: pointer;
+}
+#kent {
+  position: absolute;
+  left: 5%;
+  width: calc(20px + 1.5*2vh);
+  height: calc(20px + 1.5*2vh);
+  background: url('/kent.svg');
   cursor: pointer;
 }
 </style>
