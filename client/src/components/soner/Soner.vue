@@ -8,8 +8,8 @@
     <span id="neuze" class="time">0:00</span>
     <span id="enHoll" class="time"></span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
+    <div @click="kargañ(-1)" id="kent" v-if="$store.getters.niverenn > 1"></div>
     <div @click="kargañ(1)" id="raok"></div>
-    <div @click="kargañ(-1)" id="kent"></div>
     <div class=""></div>
   </div>
 </template>
@@ -31,8 +31,14 @@ export default {
       const klot = rgx.exec(live);
       const nivNevez = Number(klot[1]) + ouzhpenn;
       const liveNevez = `${nivNevez}${klot[2]}`;
-      this.$store.commit('KARGAÑ', liveNevez);
-      this.$store.commit('KOUNAAT', liveNevez);
+      this.$store.dispatch({
+        type: 'kargañ',
+        live: liveNevez
+      });
+      this.$store.dispatch({
+        type: 'kounaat',
+        live: liveNevez
+      });
     },
     sevelMezell(mezell) {
       const audio = this.$refs.audio;

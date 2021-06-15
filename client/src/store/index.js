@@ -12,7 +12,17 @@ export default createStore({
       stripe: false,
     },
     kentel: {
-      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr'
+      _id: '1',
+      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr',
+      titl: null,
+      geriaoueg: {
+        titl: 'voc',
+        danvez: []
+      },
+      notennoù: {
+        titl: 'notes',
+        danvez: []
+      }
     },
     stripe: {
       pk: 'pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl',
@@ -45,7 +55,8 @@ export default createStore({
       localStorage.setItem('userData', JSON.stringify(data))
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
-    KARGAÑ(state, live) {
+    KARGAÑ(state, {live, kentel}) {
+      state.kentel = kentel;
       state.kentel.live = live;
     },
     KOUNAAT(state, live) {
@@ -122,7 +133,13 @@ export default createStore({
       .catch(function(err) { return alert(`resevet ar gemennadenn: ${err}`)})
     },
     kargañ(context, {live}) {
-      console.log(live);
+      axios.get(`${this.state.API}/api/kentel/${live}`)
+      .then(resp => {
+        context.commit('KARGAÑ', {live, kentel: resp.data});
+      })
+    },
+    kounaat(context, {live}) {
+      context.commit('KOUNAAT', live);
     },
     kevreañ(context, {email, password}) {
       axios.post(`${this.state.API}/api/kevreañ`, {email, password})
@@ -145,5 +162,8 @@ export default createStore({
   modules: {
   },
   getters: {
+    niverenn: state => {
+      return Number(state.kentel._id);
+    }
   }
 })

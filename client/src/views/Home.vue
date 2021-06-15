@@ -13,5 +13,11 @@ export default {
     Spletennoù,
     Soner
   },
+  mounted() {
+    this.$store.dispatch({
+      type: 'kargañ',
+      live: this.$store.state.user.live
+    });
+  }
 }
 </script>
