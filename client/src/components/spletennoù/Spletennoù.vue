@@ -2,10 +2,10 @@
   <div class="margin-top"></div>
   <div class="spletennoù">
     <input type="radio" name="spletenn" id="spletenn-1" checked>
-    <label v-if="!$store.state.digor.perzhioù" for="spletenn-1" @click="$store.state.digor.perzhioù = false">{{ notennoù.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù" for="spletenn-1">{{ $store.state.kentel.notennoù.titl }}</label>
 
     <input type="radio" name="spletenn" id="spletenn-2">
-    <label v-if="!$store.state.digor.perzhioù" for="spletenn-2" @click="$store.state.digor.perzhioù = false">{{ geriaoueg.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù" for="spletenn-2">{{ $store.state.kentel.geriaoueg.titl }}</label>
 
     <div class="spletenn">
       <div v-if="$store.state.digor.perzhioù" >
@@ -15,10 +15,10 @@
           <Perzhioù />
       </div>
       <div>
-        <p>{{ danvez }}</p>
+        <p>{{ $store.state.kentel.notennoù.danvez }}</p>
       </div>
       <div>
-        <p>{{ danvez }}</p>
+        <p>{{ $store.state.kentel.geriaoueg.danvez }}</p>
       </div>
     </div>
   </div>
@@ -30,19 +30,6 @@ import Perzhioù from '../perzhioù/Perzhioù'
 
 export default {
   name: 'Spletennoù',
-  data() {
-    return {
-      danvez: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
-      notennoù: {
-        titl: 'Notes',
-        danvez: null,
-      },
-      geriaoueg: {
-        titl: 'Vocabulaire',
-        danvez: null,
-      }
-    }
-  },
   components: {
     Perzhioù
   }
