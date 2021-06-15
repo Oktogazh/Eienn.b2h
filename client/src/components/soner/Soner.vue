@@ -1,13 +1,15 @@
 <template>
   <div class="soner">
-    <audio  crossorigin="anonymous" :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live}`" ref="audio">
-      <source  crossorigin="anonymous" ref="source" type="audio/wav">
-    </audio>
+    <audio :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live}`"
+            crossorigin="anonymous"
+            preload=”metadata”
+            ref="audio"
+            ></audio>
     <span id="neuze" class="time">0:00</span>
     <span id="enHoll" class="time">0:00</span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
-    <div @click="tremen" id="raok"></div>
-    <div @click="distreiñ" id="kent"></div>
+    <div @click="kargañ(1)" id="raok"></div>
+    <div @click="kargañ(-1)" id="kent"></div>
     <div class=""></div>
   </div>
 </template>
@@ -20,12 +22,14 @@ export default {
   methods: {
     context() {
       const audioContext = new window.AudioContext();
-      const audioElement = this.$refs.audio;
+      // Add both audioEl & animation to this in order
+      // to access them from this.kargañ
+      const audioElement = this.audioElement = this.$refs.audio;
       const channel = audioContext.createMediaElementSource(audioElement);
       channel.connect(audioContext.destination);
-      const mezell = document.getElementById('mezell');
+      const mezell = this.mezell = document.getElementById('mezell');
 
-      const animation = lottieWeb.loadAnimation({
+      const animation = this.animation = lottieWeb.loadAnimation({
         container: mezell,
         path: '/pause.json',
         renderer: 'svg',
@@ -33,7 +37,6 @@ export default {
         autoplay: false,
         name: "Player Animation",
       });
-
       animation.goToAndStop(14, true);
 
       mezell.addEventListener('click', function() {
@@ -54,21 +57,17 @@ export default {
         mezell.dataset.playing = 'false';
       }, false);
     },
-    distreiñ() {
+    kargañ(ouzhpenn) {
+      if (this.mezell.dataset.playing === 'true') {
+          this.audioElement.pause();
+          this.animation.playSegments([0, 14], true)
+          this.mezell.dataset.playing = 'false';
+      }
       const live = this.$store.state.user.live;
       const rgx = /(^\d+)(@\S+$)/g;
       const klot = rgx.exec(live);
-      const muiUnan = Number(klot[1]) - 1;
-      const liveNevez = `${muiUnan}${klot[2]}`;
-      this.$store.commit('KARGAÑ', liveNevez);
-      this.$store.commit('KOUNAAT', liveNevez);
-    },
-    tremen() {
-      const live = this.$store.state.user.live;
-      const rgx = /(^\d+)(@\S+$)/g;
-      const klot = rgx.exec(live);
-      const muiUnan = Number(klot[1]) + 1;
-      const liveNevez = `${muiUnan}${klot[2]}`;
+      const nivNevez = Number(klot[1]) + ouzhpenn;
+      const liveNevez = `${nivNevez}${klot[2]}`;
       this.$store.commit('KARGAÑ', liveNevez);
       this.$store.commit('KOUNAAT', liveNevez);
     }
@@ -81,7 +80,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .soner {
   position: absolute;
   background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.65) 100%);
