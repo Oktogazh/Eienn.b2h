@@ -6,7 +6,7 @@
             ref="audio"
             ></audio>
     <span id="neuze" class="time">0:00</span>
-    <span id="enHoll" class="time">0:00</span>
+    <span id="enHoll" class="time"></span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
     <div @click="kargañ(1)" id="raok"></div>
     <div @click="kargañ(-1)" id="kent"></div>
@@ -20,15 +20,22 @@ import lottieWeb from 'lottie-web';
 export default {
   name: 'Soner',
   methods: {
-    context() {
-      const audioContext = new window.AudioContext();
-      // Add both audioEl & animation to this in order
-      // to access them from this.kargañ
-      const audioElement = this.audioElement = this.$refs.audio;
-      const channel = audioContext.createMediaElementSource(audioElement);
-      channel.connect(audioContext.destination);
-      const mezell = this.mezell = document.getElementById('mezell');
-
+    kargañ(ouzhpenn) {
+      if (this.mezell.dataset.playing === 'true') {
+          this.audioElement.pause();
+          this.animation.playSegments([0, 14], true)
+          this.mezell.dataset.playing = 'false';
+      }
+      const live = this.$store.state.user.live;
+      const rgx = /(^\d+)(@\S+$)/g;
+      const klot = rgx.exec(live);
+      const nivNevez = Number(klot[1]) + ouzhpenn;
+      const liveNevez = `${nivNevez}${klot[2]}`;
+      this.$store.commit('KARGAÑ', liveNevez);
+      this.$store.commit('KOUNAAT', liveNevez);
+    },
+    sevelMezell(mezell) {
+      const audio = this.$refs.audio;
       const animation = this.animation = lottieWeb.loadAnimation({
         container: mezell,
         path: '/pause.json',
@@ -43,37 +50,54 @@ export default {
 
         // play or pause track depending on state
         if (this.dataset.playing === 'false') {
-            audioElement.play();
+            audio.play();
             animation.playSegments([14, 27], true)
             this.dataset.playing = 'true';
         } else if (this.dataset.playing === 'true') {
-            audioElement.pause();
+            audio.pause();
             animation.playSegments([0, 14], true)
             this.dataset.playing = 'false';
         }
 
-      });
-      audioElement.addEventListener('ended', () => {
-        mezell.dataset.playing = 'false';
-      }, false);
+      })
     },
-    kargañ(ouzhpenn) {
-      if (this.mezell.dataset.playing === 'true') {
-          this.audioElement.pause();
-          this.animation.playSegments([0, 14], true)
-          this.mezell.dataset.playing = 'false';
+    soner() {
+      const calculateTime = (secs) => {
+        const minutes = Math.floor(secs / 60);
+        const seconds = Math.floor(secs % 60);
+        const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+        return `${minutes}:${returnedSeconds}`;
       }
-      const live = this.$store.state.user.live;
-      const rgx = /(^\d+)(@\S+$)/g;
-      const klot = rgx.exec(live);
-      const nivNevez = Number(klot[1]) + ouzhpenn;
-      const liveNevez = `${nivNevez}${klot[2]}`;
-      this.$store.commit('KARGAÑ', liveNevez);
-      this.$store.commit('KOUNAAT', liveNevez);
+
+      const displayDuration = () => {
+        document.getElementById('enHoll').textContent =
+        calculateTime(this.$refs.audio.duration);
+      }
+
+      if (this.$refs.audio.readyState > 0) {
+        displayDuration();
+      } else {
+        this.$refs.audio.addEventListener('loadedmetadata', () => {
+          displayDuration();
+        });
+      }
     }
   },
   mounted() {
-    this.context();
+    const audioContext = new window.AudioContext();
+    // Add both audioElement to this in order
+    // to access them from this.kargañ
+    const audioElement = this.audioElement = this.$refs.audio;
+    const channel = audioContext.createMediaElementSource(audioElement);
+    channel.connect(audioContext.destination);
+    const mezell = this.mezell = document.getElementById('mezell');
+
+    this.soner();
+    this.sevelMezell(mezell);
+
+    audioElement.addEventListener('ended', () => {
+      mezell.dataset.playing = 'false';
+    }, false);
   }
 }
 
