@@ -27,6 +27,8 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
+
 const stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl');
 
 export default {
@@ -42,8 +44,8 @@ export default {
       return boolean; // TODO: create a loading state for the form
     },
     createPaymentMethod(card, stripe, form) {
-      const customerId = this.$store.state.user.customerId,
-      self = this;
+      const customerId = this.$store.state.user.customerId;
+      const self = this;
       // Set up payment method for recurring usage
       let anv = this.anv;
 
@@ -58,12 +60,7 @@ export default {
           },
         })
         .then((result) => {
-          if (result.error) {
-            self.$swal.fire({
-              icon: 'error',
-              text: result.error.message
-            });
-          } else {
+          if (!result.error) {
             self.createSubscription({
               customerId: customerId,
               paymentMethodId: result.paymentMethod.id,
@@ -111,7 +108,7 @@ export default {
           const err = (error.response)? error.response.data.error.message : null || error.message;
 
           self.enableInputs(form)
-          self.$swal.fire({
+          Swal.fire({
             icon: 'error',
             text: err
           });
@@ -170,7 +167,7 @@ export default {
                 this.$store.commit('SET_SUB',  {boolean: true, id: subscription.id})
                 this.$store.state.digor.stripe = false;
                 this.$store.state.digor.perzhioù = false;
-                this.$swal.fire({
+                Swal.fire({
                   icon: 'success',
                   title: 'Abonnement Réussi !',
                   text: `Félicitations, vous venez de vous inscrire avec succès.`+
@@ -225,11 +222,11 @@ export default {
         this.$store.commit('SET_SUB', {boolean: true, id: result.subscription.id})
         this.$store.state.digor.stripe = false;
         this.$store.state.digor.perzhioù = false;
-        this.$swal.fire({
+        Swal.fire({
           icon: 'success',
           title: 'Abonnement Réussi !',
-          text: `Félicitations, vous venez de vous inscrire avec succès.`+
-          ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+          text: `Félicitations, vous venez de vous abonner avec succès. `+
+          `Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
         })
         // `result.subscription.items.data[0].price.product` the customer subscribed to.
       }
@@ -280,7 +277,7 @@ export default {
             const err = (error.response)? error.response.data.error.message : null || error.message;
 
             self.enableInputs(form)
-            self.$swal.fire({
+            Swal.fire({
               icon: 'error',
               text: err
             });

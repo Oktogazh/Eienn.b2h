@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style @media="screen">
+<style >
 body, html {
   height: 100%;
   width: 100%;

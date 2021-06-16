@@ -118,7 +118,8 @@ export default createStore({
         swal.fire({
           icon: 'error',
           text: 'Le code que vous venez de rentrer est incorrecte ou bien a expiré. ' +
-          'Veuillez réessayer avec le code qui vient de vous être renvoyer.',
+          'Veuillez réessayer avec le code qui vient de vous être renvoyer. ' +
+          'Assurez-vous également d\'être bien connecté avant d\'entrer votre code.',
           confirmButtonText: 'Réessayer'
         })
         axios.post(`${this.state.API}/api/kas_kod_postel`);

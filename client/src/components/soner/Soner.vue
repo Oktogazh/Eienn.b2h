@@ -64,7 +64,6 @@ export default {
             animation.playSegments([0, 14], true)
             this.dataset.playing = 'false';
         }
-
       })
     },
     soner() {

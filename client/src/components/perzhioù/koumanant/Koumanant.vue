@@ -9,6 +9,7 @@
 <script>
 import Modal from '@/components/stripe/Modal'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Kont',
@@ -35,13 +36,13 @@ export default {
         .then(() => {
           return  self.$store.commit('SET_SUB',  {boolean: false, id: null}),
                   self.$emit('klozañ'),
-                  self.$swal.fire({
+                  Swal.fire({
                     icon: 'success',
                     text: 'Vous vous êtes désabonné avec succès !'
                   })
         })
         .catch(error => {
-          self.$swal.fire({
+          Swal.fire({
             icon: 'error',
             text: `Une erreur vient de se produire, veuillez réessayer de vous désabonné. ` +
             `Si le problème persiste, n'hésitez pas à nous contacter par email. (${error})`

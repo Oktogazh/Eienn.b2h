@@ -29,7 +29,7 @@ function sendCode(req, res, next) {
     },
     function(email, code, done) {
       const mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_CODE_ADDRESS,
         to: email,
         subject: 'Code de vérification',
         text: 'Voici votre code de validation :\n' +
@@ -41,7 +41,7 @@ function sendCode(req, res, next) {
       const transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-          user: process.env.EMAIL_ADDRESS, // TODO: use EMAIL_CODE_ADDRESS tomorrow onwards
+          user: process.env.EMAIL_CODE_ADDRESS,
           pass: process.env.EMAIL_PASSWORD
         }
       })

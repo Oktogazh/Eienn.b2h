@@ -12,6 +12,7 @@
 <script>
 import Kont from './kont/Kont.vue'
 import Koumanant from './koumanant/Koumanant.vue'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Perzhioù',
@@ -27,7 +28,6 @@ export default {
   },
   methods: {
     digeriñKoumanant() {
-      const self = this;
       (this.$store.state.user.sub || this.$store.state.user.verified)?
         this.koumanantDigor = true
       :
@@ -35,7 +35,7 @@ export default {
           type: 'sendEmailVerificationCode'
         })
         .then(() => {
-          self.$swal.fire({
+          Swal.fire({
             title: 'Vérification requise',
             text: 'Allez votre boite de réception ou dans vos spams pour vérifier votre adresse email avant de pouvoir vous abonner.'
           })
