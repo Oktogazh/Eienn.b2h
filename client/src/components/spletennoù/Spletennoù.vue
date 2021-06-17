@@ -15,7 +15,7 @@
           <Perzhioù />
       </div>
       <div>
-        <p>{{ $store.state.kentel.notennoù.danvez }}</p>
+        <p v-html="$store.getters.danvezN"></p>
       </div>
       <div>
         <p>{{ $store.state.kentel.geriaoueg.danvez }}</p>
@@ -41,8 +41,13 @@ export default {
   box-sizing: border-box;
 }
 
-::selection {
+* >>> ::selection {
   color: #000;
+}
+
+* >>> a {
+  font-weight: bold;
+  color: #42c114;
 }
 
 .margin-top {

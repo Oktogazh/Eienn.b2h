@@ -163,6 +163,9 @@ export default createStore({
   modules: {
   },
   getters: {
+    danvezN: state => {
+      return state.kentel.notennoù.danvez.join('  ');
+    },
     niverenn: state => {
       return Number(state.kentel._id);
     }
