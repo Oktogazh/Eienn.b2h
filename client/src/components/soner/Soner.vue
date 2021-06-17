@@ -19,6 +19,13 @@ import lottieWeb from 'lottie-web';
 
 export default {
   name: 'Soner',
+  data() {
+    return {
+      seniñ: (pred) => {
+        this.$refs.audio.play(pred);
+      }
+    }
+  },
   methods: {
     kargañ(ouzhpenn) {
       if (this.mezell.dataset.playing === 'true') {
@@ -39,6 +46,11 @@ export default {
         type: 'kounaat',
         live: liveNevez
       });
+    },
+    selaou(komz) {
+      const pred = komz[1];
+      this.$refs.audio.currentTime = pred;
+      this.seniñ(komz[1]);
     },
     sevelMezell(mezell) {
       const audio = this.$refs.audio;

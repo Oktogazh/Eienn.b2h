@@ -18,7 +18,14 @@
         <p v-html="$store.getters.danvezN"></p>
       </div>
       <div>
-        <p>{{ $store.state.kentel.geriaoueg.danvez }}</p>
+        <div class="geriaoueg">
+          <div v-for="komz in $store.state.kentel.geriaoueg.danvez"
+            :key="komz"
+            v-html="komz[0]"
+            @click="$parent.$refs.soner.selaou(komz)"
+          >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -116,6 +123,14 @@ export default {
 #spletenn-2:checked ~ .spletenn > div:nth-of-type(2)
 {
   display: block;
+}
+
+.geriaoueg {
+  margin: 1em;
+  text-align: center;
+}
+.geriaoueg div {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: calc(700px + 8vmin)) {

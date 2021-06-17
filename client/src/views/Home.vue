@@ -1,6 +1,6 @@
 <template>
   <Spletennoù />
-  <Soner />
+  <Soner ref="soner" />
 </template>
 
 <script>
@@ -12,12 +12,6 @@ export default {
   components: {
     Spletennoù,
     Soner
-  },
-  mounted() {
-    this.$store.dispatch({
-      type: 'kargañ',
-      live: this.$store.state.user.live
-    });
   }
 }
 </script>

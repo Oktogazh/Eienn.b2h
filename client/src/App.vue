@@ -14,6 +14,12 @@ import Gwagennigoù from '@/components/gwag/Gwagennigoù'
 export default {
   components: {
     Gwagennigoù
+  },
+  mounted() {
+    this.$store.dispatch({
+      type: 'kargañ',
+      live: this.$store.state.user.live
+    });
   }
 }
 </script>
