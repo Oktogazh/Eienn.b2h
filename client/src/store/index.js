@@ -13,7 +13,7 @@ export default createStore({
     },
     kentel: {
       _id: '1',
-      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr',
+      live: null,
       titl: null,
       geriaoueg: {
         titl: 'voc',
@@ -56,8 +56,7 @@ export default createStore({
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     },
     KARGAÑ(state, {live, kentel}) {
-      state.kentel = kentel;
-      state.kentel.live = live;
+      state.kentel = {live, ...kentel};
     },
     KOUNAAT(state, live) {
       state.user.live = live;
@@ -125,6 +124,28 @@ export default createStore({
         axios.post(`${this.state.API}/api/kas_kod_postel`);
      })
     },
+    kargañ(context, {live}) {
+      axios.get(`${this.state.API}/api/kentel/${live}`)
+      .then(resp => {
+        context.commit('KARGAÑ', {live, kentel: resp.data});
+      })
+    },
+    kevreañ(context, {email, password}) {
+      axios.post(`${this.state.API}/api/kevreañ`, {email, password})
+      .then(response => {
+        context.commit('KEVREAÑ', response.data)
+        return response.data.live;
+      })
+      .then((live) => {
+        context.dispatch({
+          type: 'kargañ',
+          live: live
+        })
+      });
+    },
+    kounaat(context, {live}) {
+      context.commit('KOUNAAT', live);
+    },
     sendEmailVerificationCode() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
       axios.post(`${this.state.API}/api/kas_kod_postel`)
@@ -133,28 +154,12 @@ export default createStore({
       })
       .catch(function(err) { return alert(`resevet ar gemennadenn: ${err}`)})
     },
-    kargañ(context, {live}) {
-      axios.get(`${this.state.API}/api/kentel/${live}`)
-      .then(resp => {
-        context.commit('KARGAÑ', {live, kentel: resp.data});
-      })
-    },
-    kounaat(context, {live}) {
-      context.commit('KOUNAAT', live);
-    },
-    kevreañ(context, {email, password}) {
-      axios.post(`${this.state.API}/api/kevreañ`, {email, password})
-      .then(response => {
-        context.commit('KEVREAÑ', response.data)
-      })
-    },
     setCustomer(context) {
       if (!this.state.user.customerId) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.state.user.token}`
         axios.post(`${this.state.API}/api/customer`)
         .then(response => {
-          // result.customer.id is used to map back to the customer object
-          console.log(response.data.email, response.data.id);
+          // response.data.customer.id is used to map back to the customer object
           context.commit('CUSTOMER_ID', response.data)
         });
       }

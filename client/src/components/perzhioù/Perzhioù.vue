@@ -47,8 +47,11 @@ export default {
         ezel:true,
         live: '1@br-42.fr'
       };
-      this.$store.state.kentel.live = '1@br-42.fr'
-      this.$store.state.digor.perzhioù = false;
+      this.$store.dispatch({
+        type: 'kargañ',
+        live: this.$store.state.user.live
+      })
+      .then(this.$store.state.digor.perzhioù = false);
     }
   }
 }

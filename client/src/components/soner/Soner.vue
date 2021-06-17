@@ -1,6 +1,6 @@
 <template>
   <div class="soner">
-    <audio :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live}`"
+    <audio :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live || $store.state.user.live}`"
             crossorigin="anonymous"
             preload=”metadata”
             ref="audio"
