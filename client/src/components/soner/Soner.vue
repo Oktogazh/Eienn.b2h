@@ -5,7 +5,7 @@
             preload=”metadata”
             ref="audio"
             ></audio>
-    <span id="neuze" class="time">0:00</span>
+    <span id="bremañ" class="time"></span>
     <span id="enHoll" class="time"></span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
     <button @click="kargañ(-1)" id="kent" v-if="$store.getters.niverenn > 1"></button>
@@ -30,7 +30,15 @@ import lottieWeb from 'lottie-web';
 
 export default {
   name: 'Soner',
+  data() {
+  },
   methods: {
+    calculateTime(secs) {
+      const minutes = Math.floor(secs / 60);
+      const seconds = Math.floor(secs % 60);
+      const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${minutes}:${returnedSeconds}`;
+    },
     kargañ(ouzhpenn) {
       if (this.mezell.dataset.playing === 'true') {
           this.audioElement.pause();
@@ -86,18 +94,15 @@ export default {
             this.dataset.playing = 'false';
         }
       })
+      audio.addEventListener('timeupdate', () => {
+        document.getElementById('bremañ').innerText =
+        this.calculateTime(audio.currentTime);
+      })
     },
     soner() {
-      const calculateTime = (secs) => {
-        const minutes = Math.floor(secs / 60);
-        const seconds = Math.floor(secs % 60);
-        const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-        return `${minutes}:${returnedSeconds}`;
-      }
-
       const displayDuration = () => {
         document.getElementById('enHoll').textContent =
-        calculateTime(this.$refs.audio.duration);
+        this.calculateTime(this.$refs.audio.duration);
       }
 
       if (this.$refs.audio.readyState > 0) {
@@ -107,15 +112,17 @@ export default {
           displayDuration();
         });
       }
+      document.getElementById('bremañ').textContent =
+      this.calculateTime(this.$refs.audio.currentTime);
     }
   },
   mounted() {
-    const audioContext = new window.AudioContext();
+    /*const audioContext = new window.AudioContext();
     // Add both audioElement to this in order
-    // to access them from this.kargañ
-    const audioElement = this.audioElement = this.$refs.audio;
+    // to access them from this.kargañ*/
+    const audioElement = this.audioElement = this.$refs.audio;/*
     const channel = audioContext.createMediaElementSource(audioElement);
-    channel.connect(audioContext.destination);
+    channel.connect(audioContext.destination);*/
     const mezell = this.mezell = document.getElementById('mezell');
 
     this.soner();
@@ -190,7 +197,7 @@ export default {
   z-index: 2;
 }
 
-#neuze {
+#bremañ {
   left: 10px;
 }
 #enHoll {
