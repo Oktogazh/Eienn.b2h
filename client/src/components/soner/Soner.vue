@@ -8,9 +8,20 @@
     <span id="neuze" class="time">0:00</span>
     <span id="enHoll" class="time"></span>
     <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
-    <div @click="kargañ(-1)" id="kent" v-if="$store.getters.niverenn > 1"></div>
-    <div @click="kargañ(1)" id="raok"></div>
-    <div class=""></div>
+    <button @click="kargañ(-1)" id="kent" v-if="$store.getters.niverenn > 1"></button>
+    <button @click="kargañ(1)" id="raok"></button>
+    <div id="lammat">
+      <div class="hanter" @click="lammat(-10)">
+        <div id="nemet">
+
+        </div>
+      </div>
+      <div class="hanter" @click="lammat(10)">
+        <div id="mui">
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,6 +50,9 @@ export default {
         type: 'kounaat',
         live: liveNevez
       });
+    },
+    lammat(prantad) {
+      this.$refs.audio.currentTime += prantad;
     },
     selaou(komz) {
       const pred = komz[1];
@@ -130,7 +144,35 @@ export default {
   justify-content: center;
 }
 
-button {
+#lammat {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+#lammat .hanter {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#nemet {
+  width: calc(20px + 1.5*2vh);
+  height: calc(20px + 1.5*2vh);
+  background: url('/nemet.svg');
+}
+
+#mui {
+  width: calc(20px + 1.5*2vh);
+  height: calc(20px + 1.5*2vh);
+  background: url('/mui.svg');
+}
+
+.soner > button {
   padding: 0;
   border: 0;
   background: none;
@@ -138,13 +180,16 @@ button {
   outline: none;
   width: calc(20px + 1.5*2vh);
   height: calc(20px + 1.5*2vh);
+  z-index: 2;
 }
 
-span {
+.soner > span {
   position: absolute;
   color: rgba(255,255,255,0.65);
   bottom: calc(15vh - 2em);
+  z-index: 2;
 }
+
 #neuze {
   left: 10px;
 }
@@ -155,17 +200,11 @@ span {
 #raok {
   position: absolute;
   right: 5%;
-  width: calc(20px + 1.5*2vh);
-  height: calc(20px + 1.5*2vh);
   background: url('/raok.svg');
-  cursor: pointer;
 }
 #kent {
   position: absolute;
   left: 5%;
-  width: calc(20px + 1.5*2vh);
-  height: calc(20px + 1.5*2vh);
   background: url('/kent.svg');
-  cursor: pointer;
 }
 </style>
