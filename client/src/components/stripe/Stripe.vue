@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1>Komz a ran Brezhoneg bremañ!</h1>
     <form id="subscription-form">
+      <h1>Komz a ran Brezhoneg bremañ!</h1>
       <div class="dibab">
         <input type="radio" id="hiniennel" :value="$store.state.stripe.prices[0]" checked v-model="priz">
         <label for="hiniennel">
@@ -392,12 +392,17 @@ export default {
   background-color: #6772e5;
   z-index: 3;
   text-align: center;
+  max-height: 90%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 h1 {
   color: #fff;
   margin-top: -1vmax;
   margin-bottom: 2vmax;
   text-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+  line-height: 1em;
 }
 fieldset {
   margin: 0 15px 20px;
