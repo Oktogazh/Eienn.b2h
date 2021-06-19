@@ -7,9 +7,13 @@
             ></audio>
     <span id="bremañ" class="time"></span>
     <span id="enHoll" class="time"></span>
-    <button id="mezell" data-playing="false" role="switch" aria-checked="false"></button>
-    <button @click="kargañ(-1)" id="kent" v-if="$store.getters.niverenn > 1"></button>
-    <button @click="kargañ(1)" id="raok"></button>
+    <button id="mezell"
+            data-playing="false"
+            role="switch"
+            aria-checked="false"
+            ></button>
+    <button @click="kargañ(-1, 'kent')" id="kent" v-show="$store.getters.niverenn > 1"></button>
+    <button @click="kargañ(1, 'raok')" id="raok"></button>
     <div id="lammat">
       <div class="hanter" @click="lammat(-10)">
         <div id="nemet">
@@ -30,19 +34,41 @@ import lottieWeb from 'lottie-web';
 
 export default {
   name: 'Soner',
+  data() {
+    return {
+      animation: {}
+    }
+  },
   methods: {
+    buildAnim() {
+      const animz = ['mezell', 'raok', 'kent'];
+      for (let anim of animz) {
+        this.animation[anim] = lottieWeb.loadAnimation({
+          container: document.getElementById(anim),
+          path: `/${anim}.json`,
+          renderer: 'svg',
+          loop: false,
+          autoplay: false,
+          name: anim + 'Animation',
+        });
+      }
+      this.animation.mezell.goToAndStop(14, true);
+      this.animation.raok.goToAndStop(119, true);
+      this.animation.kent.goToAndStop(119, true);
+    },
     calculateTime(secs) {
       const minutes = Math.floor(secs / 60);
       const seconds = Math.floor(secs % 60);
       const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
       return `${minutes}:${returnedSeconds}`;
     },
-    kargañ(ouzhpenn) {
+    kargañ(ouzhpenn, id) {
       if (this.mezell.dataset.playing === 'true') {
           this.audioElement.pause();
-          this.animation.playSegments([0, 14], true)
+          this.animation.mezell.playSegments([0, 14], true)
           this.mezell.dataset.playing = 'false';
       }
+      this.animation[id].playSegments([0, 120], true);
       const live = this.$store.state.user.live;
       const rgx = /(^\d+)(@\S+$)/g;
       const klot = rgx.exec(live);
@@ -67,28 +93,21 @@ export default {
         this.mezell.click();
       }
     },
-    sevelMezell(mezell) {
+    sevelMezell() {
+      const self = this;
       const audio = this.$refs.audio;
-      const animation = this.animation = lottieWeb.loadAnimation({
-        container: mezell,
-        path: '/pause.json',
-        renderer: 'svg',
-        loop: false,
-        autoplay: false,
-        name: "Player Animation",
-      });
-      animation.goToAndStop(14, true);
+      this.buildAnim()
 
-      mezell.addEventListener('click', function() {
+      this.mezell.addEventListener('click', function() {
 
         // play or pause track depending on state
         if (this.dataset.playing === 'false') {
             audio.play();
-            animation.playSegments([14, 27], true)
+            self.animation.mezell.playSegments([14, 27], true)
             this.dataset.playing = 'true';
         } else if (this.dataset.playing === 'true') {
             audio.pause();
-            animation.playSegments([0, 14], true)
+            self.animation.mezell.playSegments([0, 14], true)
             this.dataset.playing = 'false';
         }
       })
@@ -124,7 +143,7 @@ export default {
     const mezell = this.mezell = document.getElementById('mezell');
 
     this.soner();
-    this.sevelMezell(mezell);
+    this.sevelMezell();
 
     audioElement.addEventListener('ended', () => {
       mezell.dataset.playing = 'false';
@@ -205,11 +224,9 @@ export default {
 #raok {
   position: absolute;
   right: 5%;
-  background: url('/raok.svg');
 }
 #kent {
   position: absolute;
   left: 5%;
-  background: url('/kent.svg');
 }
 </style>
