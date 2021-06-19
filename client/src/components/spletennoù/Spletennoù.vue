@@ -62,8 +62,12 @@ export default {
 }
 
 .spletennoù {
-  text-align: left;
+  text-align: left !important;
   width: 700px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .spletennoù > input {
@@ -75,16 +79,19 @@ export default {
   float: left;
   margin-left: 5px;
   margin-right: 5px;
-  margin-bottom: -1px;
   padding: 12px 20px;
   cursor: pointer;
   transition: background-color .3s;
   border-radius: 5px 5px 0px 0px;
+  max-width: 45%;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .spletennoù > label:hover {
   background: rgba(255, 255, 255, 0.8);
-  margin: -0px 5px 0px;
 }
 
 
@@ -114,6 +121,8 @@ export default {
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  width: 700px;
+  max-width: 100vw;
 }
 .spletenn > div::-webkit-scrollbar {
   display: none;
