@@ -30,8 +30,6 @@ import lottieWeb from 'lottie-web';
 
 export default {
   name: 'Soner',
-  data() {
-  },
   methods: {
     calculateTime(secs) {
       const minutes = Math.floor(secs / 60);
