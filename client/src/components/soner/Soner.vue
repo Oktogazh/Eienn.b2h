@@ -15,13 +15,13 @@
     <button @click="kargañ(-1, 'kent')" id="kent" v-show="$store.getters.niverenn > 1"></button>
     <button @click="kargañ(1, 'raok')" id="raok"></button>
     <div id="lammat">
-      <div class="hanter" @click="lammat(-10)">
-        <div id="nemet">
+      <div class="hanter" @click="lammat('nemet', -10)">
+        <div class="lammer" id="nemet">
 
         </div>
       </div>
-      <div class="hanter" @click="lammat(10)">
-        <div id="mui">
+      <div class="hanter" @click="lammat('mui', 10)">
+        <div class="lammer" id="mui">
 
         </div>
       </div>
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     buildAnim() {
-      const animz = ['mezell', 'raok', 'kent'];
+      const animz = ['mezell', 'raok', 'kent', 'nemet', 'mui'];
       for (let anim of animz) {
         this.animation[anim] = lottieWeb.loadAnimation({
           container: document.getElementById(anim),
@@ -83,7 +83,8 @@ export default {
         live: liveNevez
       });
     },
-    lammat(prantad) {
+    lammat(anv, prantad) {
+      this.animation[anv].playSegments([0, 149], true)
       this.$refs.audio.currentTime += prantad;
     },
     selaou(komz) {
@@ -184,16 +185,10 @@ export default {
   justify-content: center;
 }
 
-#nemet {
-  width: calc(20px + 1.5*2vh);
-  height: calc(20px + 1.5*2vh);
-  background: url('/nemet.svg');
-}
-
-#mui {
-  width: calc(20px + 1.5*2vh);
-  height: calc(20px + 1.5*2vh);
-  background: url('/mui.svg');
+.lammer {
+  max-width: 100%;
+  height: 75%;
+  cursor: pointer;
 }
 
 .soner > button {
