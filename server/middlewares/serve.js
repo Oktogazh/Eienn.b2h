@@ -2,8 +2,9 @@ const auth = require('./auth');
 const User = require('../models/User');
 const path = require('path');
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
 
-function kentel(req, res, next) {
+function lenn(req, res, next) {
   // Extract the information about the lessons requested
   // from param kentel/:id above
   const id = req.params.id;
@@ -16,20 +17,12 @@ function kentel(req, res, next) {
 
   const doc = Number(req.doc);
 
-  if (doc > 7) {
-    // Needed to populate the req.uer
-    auth.requireJWT(req, res, next);
-  } else if (doc > 0) {
+  if (req.get('Authorization')) {
     // in order to register the advencement of registered people
     // (including new subscriber)
-    if (req.get('Authorization')) {
-      auth.requireJWT(req, res, next);
-      // while letting everybody else access the data
-    } else {
-      return next();
-    }
+    auth.requireJWT(req, res, next);
   } else {
-    deroù(req, res, next);
+    return next();
   }
 }
 
@@ -66,13 +59,17 @@ async function digor(req, res, next) {
 }
 
 async function selaou(req, res, next) {
-  const hent = `/../staliad/${req.coll}/${req.doc}.wav`;
+  const hent = path.join(__dirname, `/../staliad/${req.coll}/${req.doc}.wav`);
 
-  res.sendFile(path.join(__dirname, hent), err => {
-    if (err) {
-      console.error(err);
-    }
-  })
+  if (fs.existsSync(hent)) {
+    res.sendFile(hent, err => {
+      if (err) {
+        console.error(err);
+      }
+    })
+  } else {
+    res.status(404).end();
+  }
 }
 
 async function sub(req, res, next) {
@@ -83,12 +80,8 @@ async function sub(req, res, next) {
   }
 }
 
-function deroù(req, res, next) {
-  res.end('to do')
-}
-
 module.exports = {
-  kentel,
+  lenn,
   digor,
   selaou,
   sub

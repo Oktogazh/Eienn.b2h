@@ -90,10 +90,6 @@ router.post('/kas_kod_postel',
  }
 );
 
-router.get('/kentel/:id',
-  serve.kentel,
-  serve.sub,
-  serve.digor);
 
 router.post('/kevrea%C3%B1',
   // middleware that handles the sign in process
@@ -127,8 +123,13 @@ router.post('/klask-endro', async (req, res) => {
   res.send(invoice);
 });
 
+router.get('/lenn/:id',
+  serve.lenn,
+  serve.sub,
+  serve.digor);
+
 router.get('/selaou/:id',
-  serve.kentel,
+  serve.lenn,
   serve.sub,
   serve.selaou);
 

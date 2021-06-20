@@ -1,5 +1,5 @@
 <template>
-  <div class="soner">
+  <div class="soner" v-show="true">
     <audio :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live || $store.state.user.live}`"
             crossorigin="anonymous"
             preload=”metadata”
@@ -12,7 +12,7 @@
             role="switch"
             aria-checked="false"
             ></button>
-    <button @click="kargañ(-1, 'kent')" id="kent" v-show="$store.getters.niverenn > 1"></button>
+    <button @click="kargañ(-1, 'kent')" id="kent" v-show="$store.getters.niverenn > 0"></button>
     <button @click="kargañ(1, 'raok')" id="raok"></button>
     <div id="lammat">
       <div class="hanter" @click="lammat('nemet', -10)">

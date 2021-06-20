@@ -126,7 +126,7 @@ export default createStore({
      })
     },
     kargañ(context, {live}) {
-      axios.get(`${this.state.API}/api/kentel/${live}`)
+      axios.get(`${this.state.API}/api/lenn/${live}`)
       .then(resp => {
         context.commit('KARGAÑ', {live, kentel: resp.data});
       })
