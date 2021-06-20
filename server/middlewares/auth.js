@@ -86,8 +86,7 @@ function signJWTForUser(req, res) {
   // TODO: learn how to make this change in the DB directly
   const live = user.live?
     user.live : user.learning.file/*folder*/?
-      `${user.learning.file}@br-42.fr` : '0';
-
+      `${user.learning.file}@br42_fr.1` : '0@br42_fr.1';
 
   // Send the token
   res.status(200).json({

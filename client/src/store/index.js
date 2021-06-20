@@ -34,7 +34,7 @@ export default createStore({
       email: JSON.parse(localStorage.getItem('userData') || "{}").email,
       ezel: true,
       hentenn: null,
-      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '1@br-42.fr',
+      live: JSON.parse(localStorage.getItem('userData') || "{}").live || '0@br42_fr.1',
       subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,

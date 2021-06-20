@@ -45,7 +45,7 @@ export default {
       localStorage.clear();
       this.$store.state.user = {
         ezel:true,
-        live: '1@br-42.fr'
+        live: '0@br42_fr.1'
       };
       this.$store.dispatch({
         type: 'kargañ',
