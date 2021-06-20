@@ -25,6 +25,7 @@ export default createStore({
       }
     },
     stripe: {
+      dibabet: null,
       pk: 'pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl',
       prices: ['price_1IuzLuLl0gLr1Vo6IIfbmXqI']
     },

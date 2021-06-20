@@ -17,6 +17,7 @@ export default {
   },
   methods: {
     klozañModal() {
+      this.$store.state.stripe.dibabet = this.$store.state.stripe.prices[0];
       this.$store.dispatch({
         type: 'gwintañPrenestr',
         prenestr: 'stripe',

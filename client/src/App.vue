@@ -16,6 +16,7 @@ export default {
     Gwagennigoù
   },
   mounted() {
+    this.$store.state.stripe.dibabet = this.$store.state.stripe.prices[0];
     this.$store.dispatch({
       type: 'kargañ',
       live: this.$store.state.user.live

@@ -2,17 +2,7 @@
   <div class="container">
     <form id="subscription-form">
       <h1>Komz a ran Brezhoneg bremañ!</h1>
-      <div class="dibab">
-        <input type="radio" id="hiniennel" :value="$store.state.stripe.prices[0]" checked v-model="priz">
-        <label for="hiniennel">
-          <div class="keleierProdu">
-            <div class="danvez">
-              <h3>S'abonner pour :</h3>
-              <h2>10€/mois</h2>
-            </div>
-          </div>
-        </label>
-      </div>
+      <Dibab />
       <fieldset>
         <div class="row">
           <label for="anv">Nom</label>
@@ -43,6 +33,7 @@
 </template>
 
 <script>
+import Dibab from './Dibab'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -52,9 +43,12 @@ card = undefined;
 
 export default {
   name: 'Stripe',
+  components: {
+    Dibab
+  },
   data() {
     return {
-      priz: this.$store.state.stripe.prices[0], // Default price
+      priz: this.$store.state.stripe.dibabet, // Default price
       anvF: '',
       anvBihan: '',
       anv: this.anvBihan + ' ' + this.anvF
@@ -67,7 +61,7 @@ export default {
     createPaymentMethod(elements, stripe, form) {
       const customerId = this.$store.state.user.customerId;
       const self = this;
-      const priceId = this.priz;
+      const priceId = this.$store.state.stripe.dibabet;
       const additionalData = {
         name: this.anv
       };
@@ -405,7 +399,7 @@ h1 {
   line-height: 1em;
 }
 fieldset {
-  margin: 0 15px 20px;
+  margin: 0 0 20px;
   padding: 0;
   border-style: none;
   background-color: rgba(119, 149, 249, 0.85);
@@ -421,21 +415,24 @@ fieldset {
   border-top: 1px solid #819efc;
 }
 .row label {
-  width: 15ch;
+  width: auto;
   min-width: 70px;
-  padding: 11px 0;
   color: #c4f0ff;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 input {
+  margin-left: 3ch;
   padding: 11px 15px 11px 0;
   color: #fff;
   background-color: transparent;
   -webkit-animation: 1ms void-animation-out;
 }
 
+#anvF {
+  width: 20ch;
+}
 #anvBihan {
   width: 10ch;
 }
@@ -457,34 +454,6 @@ input, button {
   appearance: none;
   outline: none;
   border-style: none;
-}
-.dibab {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3em;
-}
-.dibab input[type="radio"] {
-  display: none;
-}
-
-.keleierProdu {
-  background: linear-gradient(320deg, rgba(121,255,114,1) 0%, rgba(145,255,219,1) 100%);
-  border-radius: calc(1vmax + 1px);
-  padding: 1px;
-}
-.keleierProdu .danvez {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 1vmax;
-  padding: 1vmax;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.keleierProdu .danvez h2{
-  color: rgba(255, 179, 0, 0.80);
 }
 
 .StripeElement--webkit-autofill {
@@ -545,9 +514,9 @@ input, button {
 }
 button {
   display: block;
-  width: calc(100% - 30px);
+  width: 100%;
   height: 40px;
-  margin: 40px 15px 0;
+  margin: 40px 0 0;
   background-color: rgba(73, 255, 86, 0.85);
   box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
