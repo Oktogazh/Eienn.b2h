@@ -14,7 +14,7 @@
           <Perzhioù />
       </div>
       <div>
-        <p v-html="$store.getters.danvezN"></p>
+        <VRuntimeTemplate :template="$store.getters.danvezN"></VRuntimeTemplate>
       </div>
       <div>
         <div v-if="$store.state.kentel.geriaoueg" class="geriaoueg">
@@ -33,11 +33,13 @@
 
 <script>
 import Perzhioù from '../perzhioù/Perzhioù'
+import VRuntimeTemplate from "vue3-runtime-template";
 
 export default {
   name: 'Spletennoù',
   components: {
-    Perzhioù
+    Perzhioù,
+    VRuntimeTemplate
   }
 }
 </script>
@@ -60,10 +62,10 @@ export default {
   text-align: left !important;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin-left: 2em;
-  margin-right: 2em;
+  margin: auto;
+  max-width: 700px;
 }
 
 .spletennoù > input {
@@ -72,7 +74,6 @@ export default {
 
 .spletennoù > label {
   display: block;
-  float: left;
   margin-left: 5px;
   margin-right: 5px;
   padding: 12px 20px;
@@ -103,7 +104,8 @@ export default {
 }
 
 .spletenn {
-  clear: both;
+  width: 700px;
+  max-width: 90vw;
 }
 
 .spletenn > div {
@@ -117,8 +119,6 @@ export default {
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  width: 700px;
-  max-width: 90vw;
   align-self: center;
 }
 .spletenn > div::-webkit-scrollbar {
@@ -136,6 +136,9 @@ export default {
   text-align: center;
 }
 .geriaoueg div {
+  cursor: pointer;
+}
+div >>> strong[class=liamm] {
   cursor: pointer;
 }
 

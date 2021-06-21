@@ -3,7 +3,7 @@
     <Gwagennigoù />
   </div>
   <router-view />
-  <pre v-if="false">{{ $store.state }}
+  <pre v-if="true">{{ $store.state }}
   </pre>
 </template>
 
