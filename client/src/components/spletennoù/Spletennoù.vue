@@ -1,11 +1,10 @@
 <template>
-  <div class="margin-top"></div>
   <div class="spletennoù">
     <input type="radio" name="spletenn" id="spletenn-1" checked>
-    <label v-if="!$store.state.digor.perzhioù" for="spletenn-1">{{ $store.state.kentel.notennoù.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù && $store.state.kentel.geriaoueg" for="spletenn-1">{{ $store.state.kentel.notennoù.titl }}</label>
 
     <input type="radio" name="spletenn" id="spletenn-2">
-    <label v-if="!$store.state.digor.perzhioù" for="spletenn-2">{{ $store.state.kentel.geriaoueg.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù && $store.state.kentel.geriaoueg" for="spletenn-2">{{ $store.state.kentel.geriaoueg.titl }}</label>
 
     <div class="spletenn">
       <div v-if="$store.state.digor.perzhioù" >
@@ -18,7 +17,7 @@
         <p v-html="$store.getters.danvezN"></p>
       </div>
       <div>
-        <div class="geriaoueg">
+        <div v-if="$store.state.kentel.geriaoueg" class="geriaoueg">
           <div v-for="komz in $store.state.kentel.geriaoueg.danvez"
             :key="komz"
             v-html="komz[0]"
@@ -57,17 +56,14 @@ export default {
   color: #42c114;
 }
 
-.margin-top {
-  height: 15vh;
-}
-
 .spletennoù {
   text-align: left !important;
-  width: 700px;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-left: 2em;
+  margin-right: 2em;
 }
 
 .spletennoù > input {
@@ -122,7 +118,8 @@ export default {
   scrollbar-width: none;
   -ms-overflow-style: none;
   width: 700px;
-  max-width: 100vw;
+  max-width: 90vw;
+  align-self: center;
 }
 .spletenn > div::-webkit-scrollbar {
   display: none;
@@ -143,9 +140,6 @@ export default {
 }
 
 @media only screen and (max-width: calc(700px + 8vmin)) {
-  .spletennoù {
-    width: 90vw;
-  }
   .spletennoù > label {
     font-size: 2.33vmax;
     padding: 8px 15px;

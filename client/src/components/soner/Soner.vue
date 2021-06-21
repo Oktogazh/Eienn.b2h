@@ -1,5 +1,5 @@
 <template>
-  <div class="soner" v-show="true">
+  <div k="$store.getters.niverenn > 0" class="soner">
     <audio :src="`${$store.state.API}/api/selaou/${$store.state.kentel.live || $store.state.user.live}`"
             crossorigin="anonymous"
             preload=”metadata”

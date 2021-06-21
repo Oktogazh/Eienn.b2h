@@ -12,15 +12,15 @@ export default createStore({
       stripe: false,
     },
     kentel: {
-      _id: '1',
+      _id: '0',
       live: null,
       titl: null,
       geriaoueg: {
-        titl: 'voc',
+        titl: '',
         danvez: []
       },
       notennoù: {
-        titl: 'notes',
+        titl: '',
         danvez: []
       }
     },

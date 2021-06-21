@@ -1,6 +1,6 @@
 <template>
   <Spletennoù />
-  <Soner ref="soner" />
+  <Soner ref="soner" v-if="$store.getters.niverenn > 0" />
 </template>
 
 <script>

@@ -3,12 +3,11 @@
     <Gwagennigoù />
   </div>
   <router-view />
-  <pre>{{ $store.state }}
+  <pre v-if="false">{{ $store.state }}
   </pre>
 </template>
 
 <script>
-// @ is an alias to /src
 import Gwagennigoù from '@/components/gwag/Gwagennigoù'
 
 export default {
