@@ -13,7 +13,7 @@
             aria-checked="false"
             ></button>
     <button @click="kargañ(-1, 'kent')" id="kent" v-show="$store.getters.niverenn > 0"></button>
-    <button @click="kargañ(1, 'raok')" id="raok"></button>
+    <button @click="kargañ(1, 'raok')" id="raok" v-show="$store.state.kentel.ouzhpenn"></button>
     <div id="lammat">
       <div class="hanter" @click="lammat('nemet', -10)">
         <div class="lammer" id="nemet">
@@ -68,20 +68,45 @@ export default {
           this.animation.mezell.playSegments([0, 14], true)
           this.mezell.dataset.playing = 'false';
       }
-      this.animation[id].playSegments([0, 120], true);
       const live = this.$store.state.user.live;
       const rgx = /(^\d+)(@\S+$)/g;
       const klot = rgx.exec(live);
       const nivNevez = Number(klot[1]) + ouzhpenn;
       const liveNevez = `${nivNevez}${klot[2]}`;
-      this.$store.dispatch({
-        type: 'kargañ',
-        live: liveNevez
-      });
-      this.$store.dispatch({
-        type: 'kounaat',
-        live: liveNevez
-      });
+      const self = this;
+
+      if (ouzhpenn === 1) {
+        self.$store.state.kentel.ouzhpenn = false;
+        self.animation.raok.goToAndStop(0, true);
+        self.$store.dispatch({
+          type: 'kargañ',
+          live: liveNevez
+        }).then( ouzhpenn => {
+          if (ouzhpenn) {
+            self.animation[id].playSegments([0, 120], true);
+          }
+        })
+        self.$store.dispatch({
+          type: 'kounaat',
+          live: liveNevez
+        });
+      } else { // ie. ouzhpenn === -1
+        self.animation[id].playSegments([0, 120], true);
+        if (!self.$store.state.kentel.ouzhpenn) {
+          console.log(self.$store.state.kentel.ouzhpenn)
+          self.$store.state.kentel.ouzhpenn = true;
+          self.animation.raok.playSegments([0, 120], true);
+        }
+
+        self.$store.dispatch({
+          type: 'kargañ',
+          live: liveNevez
+        })
+        self.$store.dispatch({
+          type: 'kounaat',
+          live: liveNevez
+        });
+      }
     },
     lammat(anv, prantad) {
       this.animation[anv].playSegments([0, 149], true)

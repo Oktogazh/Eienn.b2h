@@ -124,13 +124,13 @@ router.post('/klask-endro', async (req, res) => {
 });
 
 router.get('/lenn/:id',
-  serve.lenn,
-  serve.sub,
-  serve.digor);
+  serve.digeriñ,
+  serve.klozañ,
+  serve.lenn);
 
 router.get('/selaou/:id',
-  serve.lenn,
-  serve.sub,
+  serve.digeriñ,/*
+  serve.klozañ,*/
   serve.selaou);
 
 router.post('/subscribe', async (req, res) => {

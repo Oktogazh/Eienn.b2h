@@ -13,6 +13,7 @@ export default createStore({
     },
     kentel: {
       _id: '0',
+      ouzhpenn: false,
       live: null,
       titl: null,
       geriaoueg: {
@@ -73,9 +74,13 @@ export default createStore({
     KLOZAÑ_PRENESTR(state, prenestr) {
       state.digor[prenestr] = false
     },
+    OUZHPENN(state, ouzhpenn) {
+      console.log('setting ouzhpenn to: ', ouzhpenn);
+      state.kentel.ouzhpenn = ouzhpenn;
+    },
     SET_EMAIL(state, data) {
-        state.user.email = data.email
-        state.user.ezel = data.ezel
+      state.user.email = data.email
+      state.user.ezel = data.ezel
     },
     SET_SUB(state, {boolean, id}) {
       state.user.sub = boolean;
@@ -83,7 +88,7 @@ export default createStore({
       localStorage.setItem('userData', JSON.stringify(state.user));
     },
     SET_VERIFIED(state, verified) {
-        state.user.verified = verified
+      state.user.verified = verified
     },
   },
   actions: {
@@ -99,7 +104,6 @@ export default createStore({
       })
     },
     ezel(context, {email}) {
-      console.log(email)
       axios.post(`${this.state.API}/api/ezel`, {email}).then(response => {
         context.commit('SET_EMAIL', response.data)
       })
@@ -123,13 +127,31 @@ export default createStore({
           confirmButtonText: 'Réessayer'
         })
         axios.post(`${this.state.API}/api/kas_kod_postel`);
-     })
+      })
     },
-    kargañ(context, {live}) {
+    async kargañ(context, {live,}) {
+      const rgx = /(^\d+)(@\S+$)/g;
+      const klot = rgx.exec(live);
+      const nivNevez = Number(klot[1]) + 1;
+      const ouzhpenn = `${nivNevez}${klot[2]}`;
+
       axios.get(`${this.state.API}/api/lenn/${live}`)
       .then(resp => {
-        context.commit('KARGAÑ', {live, kentel: resp.data});
+        context.commit('KARGAÑ', {kentel: resp.data, live});
+      });
+
+      const neuze = await axios.get(`${this.state.API}/api/lenn/${ouzhpenn}`)
+      .then(resp => {
+        if (resp.data._id) {
+          context.commit('OUZHPENN',  true);
+          return true;
+        }
       })
+      .catch( () => {
+        context.commit('OUZHPENN',  false);
+      })
+
+      return !!neuze;
     },
     kevreañ(context, {email, password}) {
       axios.post(`${this.state.API}/api/kevreañ`, {email, password})

@@ -4,7 +4,7 @@ const path = require('path');
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
 
-function lenn(req, res, next) {
+function digeriñ(req, res, next) {
   // Extract the information about the lessons requested
   // from param kentel/:id above
   const id = req.params.id;
@@ -14,8 +14,6 @@ function lenn(req, res, next) {
   req.doc = klot[1];
   // Populate req.coll with a string reprsenting the method collection
   req.coll = klot[2];
-
-  const doc = Number(req.doc);
 
   if (req.get('Authorization')) {
     // in order to register the advencement of registered people
@@ -28,7 +26,7 @@ function lenn(req, res, next) {
 
 // This is not Python, it's better to declare your functions
 // under the calling function
-async function digor(req, res, next) {
+async function lenn(req, res, next) {
   // if a req.user were populated,
   // whether or not (user.subscriptionActive === true)
   // register the advencement of user
@@ -72,17 +70,21 @@ async function selaou(req, res, next) {
   }
 }
 
-async function sub(req, res, next) {
+function klozañ(req, res, next) {
   if (7 < Number(req.doc)) {
-    (req.user.subscriptionActive)? next(): res.status('403').end('Diaotreet');
+    try {
+      (req.user.subscriptionActive)? next(): res.status('403').end('Diaotreet');
+    } catch (e) {
+      res.status('403').end('Diaotreet');
+    }
   } else {
     return next();
   }
 }
 
 module.exports = {
+  digeriñ,
+  klozañ,
   lenn,
-  digor,
-  selaou,
-  sub
+  selaou
 }
