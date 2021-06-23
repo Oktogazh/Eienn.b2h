@@ -78,7 +78,7 @@ export default {
   background-position-x: 25%;
   padding: 5%;
   align-self: auto;
-  z-index: 2;
+  z-index: 3;
   border-radius: 2rem;
   display: flex;
   flex-direction: column;

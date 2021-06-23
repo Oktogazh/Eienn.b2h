@@ -32,13 +32,15 @@ async function lenn(req, res, next) {
   // register the advencement of user
   if (req.user) {
     const user = await User.findOne({_id: `${req.user.id}`});
-    const live = user.live? /(^\d+)(@\S+$)/g.exec(user.live)[1] : user.learning.file;
-    const niv = Number(live);
+    const nivLive = user.live? /(^\d+)(@\S+$)/g.exec(user.live)[1] : user.learning.file;
+    const niv = Number(nivLive);
+    const nivReq = Number(req.doc);
+
     // Do not record advencement if user jumped more than one lesson backwards
     // (eg. following a link to revisions)
-    if (!(Number(niv)-1 > Number(req.doc))) {
-      user.live = req.params.id;
-      await user.save()
+    if (!(Number(niv-1) > nivReq) && (nivReq > 1)) {
+      user.live = `${nivReq-1}${/(^\d+)(@\S+$)/g.exec(req.params.id)[2]}`;
+      await user.save();
     }
   }
 

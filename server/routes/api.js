@@ -123,6 +123,8 @@ router.post('/klask-endro', async (req, res) => {
   res.send(invoice);
 });
 
+router.delete('/kont', auth.requireJWT, auth.dilemelKont)
+
 router.get('/lenn/:id',
   serve.digeriñ,
   serve.klozañ,

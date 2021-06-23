@@ -3,13 +3,21 @@ const JWT = require('jsonwebtoken')
 const PassportJwt = require('passport-jwt')
 const User = require('../models/User')
 
-const jwtSecret = process.env.JWT_PRIV_KEY
-const jwtAlgorithm = 'HS256'
-const jwtExpiresIn = '7 days'
+function dilemelKont(req, res, next) {
+  try {
+    const log = User.deleteOne({ _id: req.user._id });
+    res.status(200).end();
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 /**
  * Middleware from https://github.com/Gurenax/express-mongoose-passport-jwt
  */
+ const jwtSecret = process.env.JWT_PRIV_KEY
+ const jwtAlgorithm = 'HS256'
+ const jwtExpiresIn = '7 days'
 
 passport.use(User.createStrategy())
 
@@ -102,9 +110,10 @@ function signJWTForUser(req, res) {
 
 
 module.exports = {
+  dilemelKont,
   initialize: passport.initialize(),
   register,
-  signIn: passport.authenticate('local', { session: false }),
   requireJWT: passport.authenticate('jwt', { session: false }),
-  signJWTForUser
+  signJWTForUser,
+  signIn: passport.authenticate('local', { session: false })
 }

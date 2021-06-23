@@ -92,6 +92,10 @@ export default createStore({
     },
   },
   actions: {
+    dilemelKont(context) {
+      axios.delete(`${this.state.API}/api/kont`);
+      context.commit('');
+    },
     enrollañ(context, {email, password}) {
       const self = this
       axios.post(`${this.state.API}/api/enrollañ`, {email, password})

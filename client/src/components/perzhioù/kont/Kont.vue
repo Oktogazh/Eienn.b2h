@@ -13,12 +13,21 @@ export default {
   name: 'Kont',
   methods: {
     dilemelKont() {
-      if (JSON.parse(localStorage.getItem('userData')).sub) {
-        Swal.fire({text: 'Vous devez résilier votre abonnement avant de supprimer votre compte !'})
-        return
+      if (JSON.parse(localStorage.getItem('userData') || "{}").sub) {
+        Swal.fire({text: 'Vous devez résilier votre abonnement avant de supprimer votre compte !'});
       }
       else {
-        return // TODO: ask for the password confirmation
+        localStorage.clear();
+        this.$store.state.user = {
+          ezel:true,
+          live: '0@br42_fr.1'
+        };
+        this.$store.dispatch({
+          type: 'kargañ',
+          live: this.$store.state.user.live
+        })
+        .then(this.$store.state.digor.perzhioù = false);
+
       }
     },
     sendEmailVerificationCode() {
