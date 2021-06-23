@@ -68,21 +68,22 @@ export default {
           this.animation.mezell.playSegments([0, 14], true)
           this.mezell.dataset.playing = 'false';
       }
+
       const live = this.$store.state.user.live;
-      const rgx = /(^\d+)(@\S+$)/g;
-      const klot = rgx.exec(live);
+      const klot = /(^\d+)(@\S+$)/g.exec(live);
       const nivNevez = Number(klot[1]) + ouzhpenn;
       const liveNevez = `${nivNevez}${klot[2]}`;
       const self = this;
 
       if (ouzhpenn === 1) {
         self.$store.state.kentel.ouzhpenn = false;
-        self.animation.raok.goToAndStop(0, true);
         self.$store.dispatch({
           type: 'kargañ',
-          live: liveNevez
-        }).then( ouzhpenn => {
-          if (ouzhpenn) {
+          live: liveNevez,
+          ouzhpenn: self.$store.state.kentel.ouzhpenn
+        }).then( muioX => {
+          if (muioX === true) {
+            self.$store.state.kentel.ouzhpenn = true
             self.animation[id].playSegments([0, 120], true);
           }
         })
@@ -92,16 +93,25 @@ export default {
         });
       } else { // ie. ouzhpenn === -1
         self.animation[id].playSegments([0, 120], true);
-        if (!self.$store.state.kentel.ouzhpenn) {
-          console.log(self.$store.state.kentel.ouzhpenn)
-          self.$store.state.kentel.ouzhpenn = true;
-          self.animation.raok.playSegments([0, 120], true);
-        }
+        /*if (self.$store.state.kentel.ouzhpenn === false) {
+          Promise.resolve()
+            .then(self.$store.state.kentel.ouzhpenn = true)
+            .then(self.animation.raok.playSegments([0, 120], true));
+        }*/
 
         self.$store.dispatch({
           type: 'kargañ',
-          live: liveNevez
+          live: liveNevez,
+          ouzhpenn: self.$store.state.kentel.ouzhpenn
         })
+          .then((cheñchet) => {
+            if (cheñchet === true) {
+            Promise.resolve()
+              .then(self.$store.state.kentel.ouzhpenn = true,
+                self.animation.raok.goToAndStop(120, true))
+              .then(self.animation.raok.playSegments([0, 120], true))
+            }
+          });
         self.$store.dispatch({
           type: 'kounaat',
           live: liveNevez
