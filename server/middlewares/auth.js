@@ -3,9 +3,9 @@ const JWT = require('jsonwebtoken')
 const PassportJwt = require('passport-jwt')
 const User = require('../models/User')
 
-function dilemelKont(req, res, next) {
+async function dilemelKont(req, res, next) {
   try {
-    const log = User.deleteOne({ _id: req.user._id });
+    const log = await User.deleteOne({ _id: req.user._id });
     res.status(200).end();
   } catch (e) {
     console.error(e);

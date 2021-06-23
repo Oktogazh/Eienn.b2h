@@ -17,17 +17,24 @@ export default {
         Swal.fire({text: 'Vous devez résilier votre abonnement avant de supprimer votre compte !'});
       }
       else {
-        localStorage.clear();
-        this.$store.state.user = {
-          ezel:true,
-          live: '0@br42_fr.1'
-        };
+        const self = this;
         this.$store.dispatch({
-          type: 'kargañ',
-          live: this.$store.state.user.live
+          type: 'dilemelKont'
         })
-        .then(this.$store.state.digor.perzhioù = false);
-
+        .then(localStorage.clear())
+        .then(
+          self.$store.state.user = {
+            ezel:true,
+            live: '0@br42_fr.1'
+          }
+        )
+        .then(
+          self.$store.dispatch({
+            type: 'kargañ',
+            live: self.$store.state.user.live
+          })
+        )
+        .then(self.$store.state.digor.perzhioù = false)
       }
     },
     sendEmailVerificationCode() {

@@ -107,8 +107,7 @@ export default {
           .then((cheñchet) => {
             if (cheñchet === true) {
             Promise.resolve()
-              .then(self.$store.state.kentel.ouzhpenn = true,
-                self.animation.raok.goToAndStop(120, true))
+              .then(self.animation.raok.goToAndStop(120, true))
               .then(self.animation.raok.playSegments([0, 120], true))
             }
           });

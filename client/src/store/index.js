@@ -91,9 +91,8 @@ export default createStore({
     },
   },
   actions: {
-    dilemelKont(context) {
-      axios.delete(`${this.state.API}/api/kont`);
-      context.commit('');
+    dilemelKont() {
+      axios.delete(`${this.state.API}/api/kont`).then(console.log('called'))
     },
     enrollañ(context, {email, password}) {
       const self = this
@@ -137,8 +136,13 @@ export default createStore({
       const muiUnan = Number(klot[1]) + 1;
       const pelloX = `${muiUnan}${klot[2]}`;
       const self = this;
+      var headers;
+      if (this.state.user.token) {
+        headers = {'Authorization': `Bearer ${this.state.user.token}`}
+        console.log(headers);
+      }
 
-      axios.get(`${this.state.API}/api/lenn/${live}`)
+      axios.get(`${this.state.API}/api/lenn/${live}`, {headers})
       .then(resp => {
         context.commit('KARGAÑ', { live, kentel: resp.data, ouzhpenn});
       });
