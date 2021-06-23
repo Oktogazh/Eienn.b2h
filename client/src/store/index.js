@@ -136,29 +136,34 @@ export default createStore({
       const muiUnan = Number(klot[1]) + 1;
       const pelloX = `${muiUnan}${klot[2]}`;
       const self = this;
-      var headers;
-      if (this.state.user.token) {
-        headers = {'Authorization': `Bearer ${this.state.user.token}`}
-        console.log(headers);
-      }
 
-      axios.get(`${this.state.API}/api/lenn/${live}`, {headers})
+      const cheñchet = await Promise.resolve()
+      .then(() => {
+        const token = JSON.parse(localStorage.getItem('userData') || "{}").token;
+        if (token) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+      })
+      .then(() => {
+        return axios.get(`${self.state.API}/api/lenn/${live}`);
+      })
       .then(resp => {
         context.commit('KARGAÑ', { live, kentel: resp.data, ouzhpenn});
-      });
-
-      const cheñchet = await axios.get(`${this.state.API}/api/lenn/${pelloX}`)
-        .then(resp => {
-          if (resp.data._id && !self.state.kentel.ouzhpenn) {
-            context.commit('OUZHPENN',  true);
-            return true;
-          } else {
-            return false
-          }
-        })
-        .catch(() => {
-          return false;
-        })
+      })
+      .then(() => {
+        return axios.get(`${self.state.API}/api/lenn/${pelloX}`)
+          .then(resp => {
+            if (!!resp.data._id && !self.state.kentel.ouzhpenn) {
+              context.commit('OUZHPENN', true)
+              return true;
+            } else {
+              return false;
+            }
+          })
+          .catch(() => {
+            return false;
+          })
+      })
       return cheñchet;
     },
     kevreañ(context, {email, password}) {
@@ -200,7 +205,7 @@ export default createStore({
   },
   getters: {
     danvezN: state => {
-      return state.kentel.notennoù.danvez.join('  ');
+      return state.kentel.notennoù? state.kentel.notennoù.danvez.join('  '): null;
     },
     niverenn: state => {
       return Number(state.kentel._id);

@@ -93,11 +93,6 @@ export default {
         });
       } else { // ie. ouzhpenn === -1
         self.animation[id].playSegments([0, 120], true);
-        /*if (self.$store.state.kentel.ouzhpenn === false) {
-          Promise.resolve()
-            .then(self.$store.state.kentel.ouzhpenn = true)
-            .then(self.animation.raok.playSegments([0, 120], true));
-        }*/
 
         self.$store.dispatch({
           type: 'kargañ',
@@ -106,9 +101,8 @@ export default {
         })
           .then((cheñchet) => {
             if (cheñchet === true) {
-            Promise.resolve()
-              .then(self.animation.raok.goToAndStop(120, true))
-              .then(self.animation.raok.playSegments([0, 120], true))
+              self.animation.raok.goToAndStop(120, true)
+              self.animation.raok.playSegments([0, 120], true)
             }
           });
         self.$store.dispatch({

@@ -52,7 +52,7 @@ async function lenn(req, res, next) {
     const db = client.db('kenteliaoueg');
     const kentel = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});
     client.close();
-    return res.status('200').json(kentel);
+    (kentel === null)? res.status(404).end() : res.status('200').json(kentel);
   } catch (e) {
     console.error(e)
   }
