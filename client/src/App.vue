@@ -3,7 +3,7 @@
     <Gwagennigoù />
   </div>
   <router-view />
-  <pre v-if="true">{{ $store.state.user }}
+  <pre v-if="true">{{ $store.state }}
   </pre>
   <pre v-if="true">{{ $store.state.kentel.ouzhpenn }}
   </pre>

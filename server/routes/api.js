@@ -76,8 +76,25 @@ router.post('/ezel',
   })
 });
 
+router.post('/goulenn_ger-kuzh',
+  verifyEmail.exists,
+  verifyEmail.sendCodePW,
+  (req, res) => {
+    res.status(200).end();
+  }
+)
+
+router.post('/ger-kuzh_nevez',
+  verifyEmail.cheñchGerKuzh
+)
+
 router.post('/gwiriekaat',
   auth.requireJWT,
+  verifyEmail.verify
+);
+
+router.post('/gwiriekaat_ar_ger-kuzh',
+  verifyEmail.poblañ,
   verifyEmail.verify
 );
 

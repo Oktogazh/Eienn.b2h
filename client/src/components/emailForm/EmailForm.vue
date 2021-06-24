@@ -1,5 +1,5 @@
 <template>
-    <form  class="emailForm" @submit.prevent="gwiriekaatPostel">
+    <form  class="emailForm" @submit.prevent="$emit('gwiriekaatPostel', kod)">
       <h1>Entrez votre code :</h1>
       <input type="text" v-model="kod" maxlength="6">
       <button type="submit">
@@ -10,20 +10,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      kod: ''
-    }
-  },
-  methods: {
-    gwiriekaatPostel() {
-      return this.$store.dispatch({
-        type: 'gwiriekaat',
-        kod: this.kod
-      })
-    }
-  }
-  //TODO: mounted $.store;state.digor.perzhioù = true;
+  name: 'EmailForm'
 }
 </script>
 
@@ -36,6 +23,7 @@ export default {
   border-radius: 1vmax;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 10px 15px rgba(65, 85, 144, 0.65);
 }
 h1 {
   margin: 3vmax;

@@ -8,6 +8,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/ger-kuzh',
+    name: 'GerKuzh',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GerKuzh.vue')
+  },
+  {
     path: '/gwiriekaat',
     name: 'Gwiriekaat',
     component: () => import(/* webpackChunkName: "about" */ '../views/Gwiriekaat.vue')

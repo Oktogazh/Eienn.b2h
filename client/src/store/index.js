@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '../router'
-import swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 export default createStore({
   state: {
@@ -121,7 +121,7 @@ export default createStore({
         router.push({name: 'Home'})
       })
       .catch(() => {
-        swal.fire({
+        Swal.fire({
           icon: 'error',
           text: 'Le code que vous venez de rentrer est incorrecte ou bien a expiré. ' +
           'Veuillez réessayer avec le code qui vient de vous être renvoyer. ' +

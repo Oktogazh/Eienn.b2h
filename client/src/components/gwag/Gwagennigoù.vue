@@ -1,6 +1,6 @@
 <template>
   <div class="titl">
-    <h1 v-html="$store.state.kentel.titl"></h1>
+    <h1 v-html="$store.state.titl || $store.state.kentel.titl"></h1>
     <div class="kreizDehou">
       <img src="/gwag.svg" id="gwag" @click="gwintañ">
     </div>
@@ -18,13 +18,14 @@ export default {
   },
   methods: {
     gwintañ() {
+      this.$store.state.titl = null;
+      this.$router.push({name:'Home'});
       if (this.$store.state.digor.perzhioù) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',
           prenestr: 'perzhioù',
           boolean: false
         })
-        this.$router.push({name:'Home'})
       } else if (JSON.parse(localStorage.getItem('userData') || "{}").token) {
         this.$store.dispatch({
           type: 'gwintañPrenestr',

@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <EmailForm/>
+    <EmailForm @gwiriekaatPostel="gwiriekaatPostel"/>
   </div>
 </template>
 
@@ -11,6 +11,18 @@ export default {
   name: 'Gwiriekaat',
   components: {
     EmailForm
+  },
+  methods: {
+    gwiriekaatPostel(kod) {
+      return this.$store.dispatch({
+        type: 'gwiriekaat',
+        kod: kod
+      })
+    }
+  },
+  mounted() {
+    this.$store.state.digor.perzhioù = true;
+    this.$store.state.kentel.titl = "Vérification de l'adresse mail";
   }
 }
 </script>

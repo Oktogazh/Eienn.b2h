@@ -10,11 +10,16 @@
       <input v-model="kadarnaat" v-show="!$store.state.user.ezel" type="password"><br>
       <button type="submit">Connexion
       </button>
+      <p class="gkn" v-show="$store.state.user.ezel" @click="gerKuzhNevez">
+        Réinitialiser mon mot de passe</p>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Furmenn',
   data() {
@@ -32,6 +37,23 @@ export default {
           email: this.postel
         })
       }
+    },
+    gerKuzhNevez() {
+      const self = this;
+      this.$store.state.user.email = this.postel;
+
+      axios.post(`${this.$store.state.API}/api/goulenn_ger-kuzh`, {email: this.postel})
+        .then(self.$router.push({name: 'GerKuzh'}))
+        .then(self.$store.state.digor.kevreañ = false)
+        .catch(() => {
+          Swal.fire({
+            icon: 'error',
+            text: "Aucun compte n'a été trouvé associé à cette addresse email.\n"+
+            "Vérifiez cette dernière et créez un nouveau compte si vos informations sont correctes."
+          })
+          self.$store.state.titl = null;
+          self.$router.push({name: 'Home'});
+        })
     },
     kevreañ() {
       const self = this;
@@ -84,6 +106,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 10px 15px rgba(65, 85, 144, 0.65);
 }
 .furmenn input {
   background-color: rgba(247, 247, 202, 0.9);
@@ -149,5 +172,14 @@ input {
 }
 h4 {
   margin: 0px;
+}
+
+.gkn {
+  color: rgb(92, 176, 111, .8);
+  cursor: pointer;
+}
+.gkn:hover {
+  color: rgba(255, 186, 119, .7);
+  border-radius: 3px;
 }
 </style>
