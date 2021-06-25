@@ -1,8 +1,9 @@
 <template>
   <div class="container">
+    <div class="loading">
+    </div>
     <form id="subscription-form">
       <h1>Komz a ran Brezhoneg bremañ!</h1>
-      <Dibab />
       <fieldset>
         <div class="row">
           <label for="anv">Nom</label>
@@ -14,7 +15,7 @@
       <fieldset>
         <div class="row">
           <div id="cardElements">
-            <!--TODO: dispatiañ an elfennoù gant an API amañ
+            <!--TODO: dispatiañ an elfennoù gant an API-mañ
             https://stripe.com/docs/js/elements_object/create_element?type=cardNumber -->
             <!-- Elements will create input elements here -->
           </div>
@@ -33,9 +34,9 @@
 </template>
 
 <script>
-import Dibab from './Dibab'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import lottieWeb from 'lottie-web';
 
 var stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'),
 elements = stripe.elements(),
@@ -43,22 +44,20 @@ card = undefined;
 
 export default {
   name: 'Stripe',
-  components: {
-    Dibab
-  },
   data() {
     return {
-      priz: this.$store.state.stripe.dibabet, // Default price
+      anim: {erminig: null},
       anvF: '',
       anvBihan: '',
-      anv: this.anvBihan + ' ' + this.anvF
+      anv: this.anvBihan + ' ' + this.anvF,
+      priz: this.$store.state.stripe.dibabet // Default price
     }
   },
   methods: {
     changeLoadingStatePrices(boolean) {
       return boolean; // TODO: create a loading state for the form
     },
-    createPaymentMethod(elements, stripe, form) {
+    createPaymentMethod(elements, stripe) {
       const customerId = this.$store.state.user.customerId;
       const self = this;
       const priceId = this.$store.state.stripe.dibabet;
@@ -79,11 +78,11 @@ export default {
             customerId: customerId,
             paymentMethodId: result.paymentMethod.id,
             priceId: priceId,
-          }, stripe, form);
+          });
         }
       });
     },
-    createSubscription({ customerId, paymentMethodId, priceId }, stripe, form) {
+    createSubscription({ customerId, paymentMethodId, priceId }) {
       const self = this;
 
       return (
@@ -120,7 +119,7 @@ export default {
           // We utilize the HTML element we created.
           const err = (error.response)? error.response.data.error.message : null || error.message;
 
-          self.enableInputs(form)
+          self.enableInputs()
           Swal.fire({
             icon: 'error',
             text: err
@@ -129,13 +128,25 @@ export default {
       );
     },
     disableInputs() {
-      // TODO: make both enableInputs & disableInputs
+      const container = document.querySelector('.loading');
+      const children = document.getElementById('subscription-form').children;
+      for (let child of children) {
+        child.style.display = "none";
+      }
+
+      this.anim.loading = lottieWeb.loadAnimation({
+        container: container,
+        path: `/loading.json`,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        name: 'loading',
+      });
     },
     displayError(event) {
       this.changeLoadingStatePrices(false);
       var displayError = document.getElementById('cardElements-errors');
       var message = displayError.querySelector('.message');
-      console.log(displayError, message);
       if (event.error) {
         displayError.classList.add('visible');
         message.textContent = event.error.message;
@@ -143,8 +154,12 @@ export default {
         displayError.classList.remove('visible');
       }
     },
-    enableInputs(form) {
-      return form; // TODO: make both enableInputs & disableInputs
+    enableInputs() {
+      const children = document.getElementById('subscription-form').children;
+      this.anim.loading.destroy();
+      for (let child of children) {
+        child.style.display = "block";
+      }
     },
     handlePaymentThatRequiresCustomerAction({
       subscription,
@@ -270,7 +285,7 @@ export default {
         // from the Element group in order to create a payment method. We can also pass
         // in the additional customer data we collected in our form.
 
-        self.createPaymentMethod(elements, stripe, form);
+        self.createPaymentMethod(elements, stripe);
       });
     },
     retryInvoiceWithNewPaymentMethod({
@@ -278,7 +293,7 @@ export default {
       paymentMethodId,
       invoiceId,
       priceId
-    }, form) {
+    }) {
       const self = this;
 
       return (
@@ -318,7 +333,7 @@ export default {
           // We utilize the HTML element we created.
           const err = (error.response)? error.response.data.error.message : null || error.message;
 
-          self.enableInputs(form)
+          self.enableInputs();
           Swal.fire({
             icon: 'error',
             text: err
@@ -391,6 +406,11 @@ export default {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+.loading {
+  z-index: 3;
+  margin: auto;
+}
+
 h1 {
   color: #fff;
   margin-top: -1vmax;

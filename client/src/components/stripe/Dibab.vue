@@ -7,7 +7,7 @@
             v-model="$store.state.stripe.dibabet">
     <label class="keleierProdu" for="hiniennel">
       <div class="danvez">
-        <h3>S'abonner pour :</h3>
+        <h3>M'abonner pour :</h3>
         <h2>10€/mois</h2>
       </div>
     </label>

@@ -1,7 +1,7 @@
 <template>
   <h1>Abonnement</h1>
   <h2 @click="$emit('klozañ')">←</h2>
-  <h4 v-if="!$store.state.user.sub" @click="darStal">M'abonner!</h4>
+  <Dibab v-if="!$store.state.user.sub" @click="darStal" />
   <h4 v-if="$store.state.user.sub" @click="digoumanantiñ">Me désabonner!</h4>
   <Modal v-if="$store.state.digor.stripe" />
 </template>
@@ -10,10 +10,12 @@
 import Modal from '@/components/stripe/Modal'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import Dibab from '../../stripe/Dibab'
 
 export default {
   name: 'Kont',
   components: {
+    Dibab,
     Modal
   },
   methods: {
