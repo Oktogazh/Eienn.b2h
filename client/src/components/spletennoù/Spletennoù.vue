@@ -133,7 +133,6 @@ export default {
 
 .geriaoueg {
   margin: 1em;
-  text-align: center;
 }
 .geriaoueg div {
   cursor: pointer;

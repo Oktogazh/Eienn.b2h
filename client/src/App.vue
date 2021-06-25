@@ -3,10 +3,6 @@
     <Gwagennigoù />
   </div>
   <router-view />
-  <pre v-if="true">{{ $store.state }}
-  </pre>
-  <pre v-if="true">{{ $store.state.kentel.ouzhpenn }}
-  </pre>
 </template>
 
 <script>

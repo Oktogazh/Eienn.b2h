@@ -12,16 +12,16 @@
         <figcaption>Kazetenn <i>Ya!</i></figcaption>
       </figure>
     </a>
-    <a href="http://meurgorf.brezhoneg.bzh/" target="blank">
-      <figure style="text-align: center; margin: 1.5rem; margin-top: 0; float: left;">
-        <img src="/skeudennoù/OPAB.png" alt="an Ofis">
-        <figcaption>Meurgorf</figcaption>
-      </figure>
-    </a>
     <a href="https://www.dispak.bzh/" target="blank">
       <figure style="text-align: center; margin: 1.5rem; margin-top: 0; float: left;">
         <img src="https://www.dispak.bzh/wp-content/uploads/2018/08/cropped-dispak-logo-09-192x192.png" alt="KB">
         <figcaption>Dispak</figcaption>
+      </figure>
+    </a>
+    <a href="http://meurgorf.brezhoneg.bzh/" target="blank">
+      <figure style="text-align: center; margin: 1.5rem; margin-top: 0; float: left;">
+        <img src="/skeudennoù/OPAB.png" alt="an Ofis">
+        <figcaption>Meurgorf</figcaption>
       </figure>
     </a>
     <a href="https://www.geobreizh.bzh/" target="blank">
@@ -57,11 +57,14 @@ figure {
 
 figure img {
   border-radius: 1.5rem;
-  height: 90px;
+  height: 80px;
 }
 
 a {
   font-weight: bold;
   color: #2c3e50;
+}
+a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
