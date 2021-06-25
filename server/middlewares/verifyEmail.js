@@ -16,7 +16,7 @@ async function cheñchGerKuzh(req, res, next) {
       const user = await User.findOne({_id: userId});
 
       await user.setPassword(req.body.gerKuzh)
-      const log = await user.save();
+      await user.save();
       res.status(200).end();
   } catch (e) {
     return next(e);

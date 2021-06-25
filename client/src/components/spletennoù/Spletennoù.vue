@@ -66,6 +66,7 @@ export default {
   flex-wrap: wrap;
   margin: auto;
   max-width: 700px;
+
 }
 
 .spletennoù > input {
@@ -76,7 +77,7 @@ export default {
   display: block;
   margin-left: 5px;
   margin-right: 5px;
-  padding: 12px 20px;
+  padding: 2vh 2vh;
   cursor: pointer;
   transition: background-color .3s;
   border-radius: 5px 5px 0px 0px;
@@ -85,6 +86,7 @@ export default {
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  font-size: 2vh;
 }
 
 .spletennoù > label:hover {
@@ -104,11 +106,6 @@ export default {
   float: right;
 }
 
-.spletenn {
-  width: 700px;
-  max-width: 90vw;
-}
-
 .spletenn > div {
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 10px 25px 0px rgba(0,0,0,0.4);
@@ -122,6 +119,7 @@ export default {
   scrollbar-width: none;
   -ms-overflow-style: none;
   align-self: center;
+  width: 700px;
 }
 .spletenn > div::-webkit-scrollbar {
   display: none;
@@ -142,17 +140,5 @@ export default {
 }
 div >>> strong[class=liamm] {
   cursor: pointer;
-}
-
-@media only screen and (max-width: calc(700px + 8vmin)) {
-  .spletennoù > label {
-    font-size: 2.33vmax;
-    padding: 8px 15px;
-  }
-  .spletenn > div {
-    font-size: 2.33vmax;
-    line-height: 2.8vmax;
-    padding: 1.32vmax 3.97vmax 5.3vmax;
-  }
 }
 </style>

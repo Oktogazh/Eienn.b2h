@@ -92,7 +92,7 @@ export default {
 
 <style scoped>
 .furmenn {
-  background-image: url(/Beg_ar_Vann.jpg);
+  background-image: url(/skeudennoù/Beg_ar_Vann.jpg);
   background-size: 190%;
   background-origin: border-box;
   background-repeat: no-repeat;
