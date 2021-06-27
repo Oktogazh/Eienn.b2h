@@ -38,7 +38,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import lottieWeb from 'lottie-web';
 
-var stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'),
+var stripe = window.Stripe(process.env.VUE_APP_STRIPE_PUBK),
 elements = stripe.elements(),
 card = undefined;
 
