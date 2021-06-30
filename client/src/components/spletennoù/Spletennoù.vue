@@ -1,7 +1,7 @@
 <template>
   <div class="spletennoù">
     <input type="radio" name="spletenn" id="spletenn-1" checked>
-    <label v-if="!$store.state.digor.perzhioù && $store.state.kentel.geriaoueg" for="spletenn-1">{{ $store.state.kentel.notennoù.titl }}</label>
+    <label v-if="!$store.state.digor.perzhioù && $store.state.kentel.notennoù" for="spletenn-1">{{ $store.state.kentel.notennoù.titl }}</label>
 
     <input type="radio" name="spletenn" id="spletenn-2">
     <label v-if="!$store.state.digor.perzhioù && $store.state.kentel.geriaoueg" for="spletenn-2">{{ $store.state.kentel.geriaoueg.titl }}</label>

@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise
 
 // Connect to our local database
 mongoose
-  .connect(`${process.env.MONGODB_URI}mydb`, {
+  .connect(`${process.env.MONGODB_URI}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true })
