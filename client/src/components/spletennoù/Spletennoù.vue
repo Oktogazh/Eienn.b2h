@@ -65,8 +65,8 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
   margin: auto;
-  max-width: 700px;
-
+  width: 700px;
+  max-width: 100vw;
 }
 
 .spletennoù > input {
@@ -119,7 +119,7 @@ export default {
   scrollbar-width: none;
   -ms-overflow-style: none;
   align-self: center;
-  width: 700px;
+  width: 100%;
 }
 .spletenn > div::-webkit-scrollbar {
   display: none;

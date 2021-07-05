@@ -117,7 +117,7 @@ export default {
     },
     selaou(komz) {
       const pred = komz[1];
-      this.$refs.audio.currentTime = pred;
+      (pred !== undefined)? this.$refs.audio.currentTime = pred : null;
       if (this.mezell.dataset.playing === 'false') {
         this.mezell.click();
       }
