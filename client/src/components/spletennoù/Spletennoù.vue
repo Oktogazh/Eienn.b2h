@@ -74,7 +74,7 @@ export default {
 }
 
 .spletennoù > label {
-  display: block;
+  display: inline-block;;
   margin-left: 5px;
   margin-right: 5px;
   padding: 2vh 2vh;
@@ -83,10 +83,11 @@ export default {
   border-radius: 5px 5px 0px 0px;
   max-width: 45%;
   word-wrap: break-word;
-  overflow-y: scroll;
+  white-space: nowrap;
+  display:flex;
+  overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  font-size: 2vh;
 }
 
 .spletennoù > label:hover {
@@ -104,6 +105,10 @@ export default {
 
 .perzhioù {
   float: right;
+}
+
+.spletenn {
+  width: 100%;
 }
 
 .spletenn > div {
@@ -139,5 +144,11 @@ export default {
 }
 div >>> strong[class=liamm] {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+  .spletennoù {
+    width: 100vw;
+  }
 }
 </style>
