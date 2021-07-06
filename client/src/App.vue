@@ -1,4 +1,5 @@
 <template>
+  <!--<pre>{{$store.state}}</pre>-->
   <div id="nav">
     <Gwagennigoù />
   </div>

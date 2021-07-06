@@ -114,7 +114,7 @@ export default {
 .spletenn > div {
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 10px 25px 0px rgba(0,0,0,0.4);
-  padding: 1em 3em 4em;
+  padding: 1vmin 3vmin 4vmin;
   line-height: 1.4em;
   font-size: 1.1em;
   display: none;
