@@ -102,6 +102,7 @@ function signJWTForUser(req, res) {
     'customerId': user.customerId || null,
     'email': user.email,
     'live': live,
+    'payment_failed': user.payment_failed,
     'sub': user.subscriptionActive,
     'subscriptionId': user.subscriptionId || null,
     'verified': user.verified || false

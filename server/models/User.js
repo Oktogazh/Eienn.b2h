@@ -14,7 +14,7 @@ var user = new Schema({
         default: null
       },
       file: {
-        type: {},
+        type: String,
         default: null
       }
     },

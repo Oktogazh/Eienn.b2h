@@ -24,8 +24,7 @@ function digeriñ(req, res, next) {
   }
 }
 
-// This is not Python, it's better to declare your functions
-// under the calling function
+
 async function lenn(req, res, next) {
   // if a req.user were populated,
   // whether or not (user.subscriptionActive === true)
