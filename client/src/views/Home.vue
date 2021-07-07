@@ -18,6 +18,9 @@ export default {
     Liammoù,
     Spletennoù,
     Soner
+  },
+  mounted() {
+    this.$store.state.titl = null;
   }
 }
 </script>

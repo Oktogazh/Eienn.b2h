@@ -20,6 +20,10 @@ var user = new Schema({
     },
     live: String,
     passwordHash: String,
+    payment_failed: {
+      type: Boolean,
+      default: false
+    },
     priceId: String,
     ResetPassword: String,
     ResetPasswordExpire: Date,

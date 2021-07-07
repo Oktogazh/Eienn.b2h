@@ -53,6 +53,7 @@ router.post('/',
           user.subscriptionId = sub;
           user.priceId = type;
           user.learning.file = live;
+          user.payment_failed = false;
           user.save()
             .then((saved) => {
               return console.log(`User updated: ${saved == user}`)
@@ -66,6 +67,14 @@ router.post('/',
         // an invoice.payment_failed event is sent, the subscription becomes past_due.
         // Use this webhook to notify your user that their payment has
         // failed and to retrieve new card details.
+        const customerId = dataObject.customer;
+
+        try {
+          const user = await User.findOne({customerId});
+          user.payment_failed = true
+        } catch (e) {
+          console.error(e);
+        }
         break;
       case 'customer.subscription.deleted':
         const subscription = dataObject,
