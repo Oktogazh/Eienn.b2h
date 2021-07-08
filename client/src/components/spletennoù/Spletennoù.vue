@@ -82,7 +82,6 @@ export default {
   transition: background-color .3s;
   border-radius: 5px 5px 0px 0px;
   max-width: 45%;
-  word-wrap: break-word;
   white-space: nowrap;
   display:flex;
   overflow: auto;

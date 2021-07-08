@@ -78,7 +78,7 @@ export default createStore({
       state.kentel.ouzhpenn = ouzhpenn;
     },
     PAST_DUE(state, past_due) {
-      past_due? state.user.past_due = true : null;
+      past_due? state.user.past_due = true : state.user.past_due = false;
     },
     SET_EMAIL(state, data) {
       state.user.email = data.email

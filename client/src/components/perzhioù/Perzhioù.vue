@@ -1,7 +1,7 @@
 <template >
   <div v-if="!(kontDigor || koumanantDigor)">
     <h1>Paramètres</h1>
-    <h4 @click="digeriñKoumanant">Abonnement</h4>
+    <h4 @click="digeriñKoumanant" :class="{ 'past-due': $store.state.user.past_due }">Abonnement</h4>
     <h4 @click="kontDigor = true">Mon Compte</h4>
     <h4 @click="digevreañ">Déconnexion</h4>
   </div>
@@ -69,4 +69,8 @@ h4 {
   cursor: pointer;
 }
 
+.past-due {
+  color: rgb(255, 141, 84);
+  text-decoration: underline;
+}
 </style>

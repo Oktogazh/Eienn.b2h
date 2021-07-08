@@ -1,8 +1,14 @@
 <template>
   <div class="titl">
-    <h1 v-html="$store.state.titl || $store.state.kentel.titl"></h1>
+    <div class="kleiz">
+      <h1 v-html="$store.state.titl || $store.state.kentel.titl"></h1>
+    </div>
     <div class="kreizDehou">
-      <img src="/gwag.svg" id="gwag" @click="gwintañ">
+      <div class="gwagig"  @click="gwintañ">
+        <span class="kemmennadennig"
+          v-if="$store.state.user.past_due && !$store.state.digor.perzhioù">
+        </span>
+      </div>
     </div>
   </div>
   <Kevreañ v-if="$store.state.digor.kevreañ"/>
@@ -68,6 +74,18 @@ pre {
   position: absolute;
   text-align: left;
 }
+.kleiz {
+  position: absolute;
+  left: 0px;
+  width: calc(100vw - 15vh);
+  height: 15vh;
+  white-space: nowrap;
+  display:flex;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+}
 .kreizDehou {
   position: absolute;
   top: 0px;
@@ -79,7 +97,7 @@ pre {
   justify-content: center;
 }
 
-#gwag {
+.gwagig {
   position: relative;
   align-self: center;
   background-image: url(/gwag.svg);
@@ -89,7 +107,15 @@ pre {
   max-width: 75px;
   max-height: 75px;
 }
-#gwag:hover {
+.gwagig:hover {
   cursor: pointer;
+}
+.kemmennadennig {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  background-color: rgb(255, 141, 84);
+  padding: .5em;
+  border-radius: 50%;
 }
 </style>

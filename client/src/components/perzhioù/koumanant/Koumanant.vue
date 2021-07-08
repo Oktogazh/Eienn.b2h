@@ -1,8 +1,25 @@
 <template>
   <h1>Abonnement</h1>
   <h2 @click="$emit('klozañ')">←</h2>
-  <Dibab v-if="!$store.state.user.sub" @click="darStal" />
-  <h4 v-if="$store.state.user.sub" @click="digoumanantiñ">Me désabonner!</h4>
+
+  <div  v-if="!$store.state.user.sub">
+    Abonnez-vous en un clique pour accéder à tout le contenu de la méthode.
+    Et désabonnez-vous au même endroit dès que vous le voudrez
+    <Dibab @click="darStal" />
+  </div>
+  <span  v-if="$store.state.user.sub">
+    <div v-if="$store.state.user.past_due">
+      <p>La dernière tentative de paiement a échoué.
+        Cela se produit le plus souvent lorsque la carte utilisée pour vous abonner arrive à expiration.
+        Durant les sept jours suivant, trois nouvelles tentatives seront effectuées.
+        Vous devriez recevoir un mail à chaque nouvelle tentative vous invitant à mettre à jour votre mode de paiement.
+      </p>
+      <p class="past-due">
+        Si vous ne faite rien, votre abonnement prendra fin automatiquement une fois ces sept jours passés.
+      </p>
+    </div>
+    <h4 click="digoumanantiñ">Me désabonner!</h4>
+  </span>
   <Modal v-if="$store.state.digor.stripe" />
 </template>
 
@@ -59,7 +76,6 @@ export default {
 h1 {
   display: block;
   float: left;
-  margin-bottom: 4vmax;
 }
 
 h2 {
@@ -71,10 +87,15 @@ h2:hover,
 h4:hover {
   cursor: pointer;
 }
-
+p {
+  clear: both;
+}
 h4 {
   clear: both;
   text-align: center;
+  margin-top: 4vmax;
 }
-
+.past-due {
+  color: rgb(255, 141, 84);
+}
 </style>
