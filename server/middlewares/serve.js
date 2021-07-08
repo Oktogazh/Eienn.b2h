@@ -26,6 +26,8 @@ function digeriñ(req, res, next) {
 
 
 async function lenn(req, res, next) {
+  const payment_failed = req.user? req.user.payment_failed  : false;
+
   // if a req.user were populated,
   // whether or not (user.subscriptionActive === true)
   // register the advencement of user
@@ -51,9 +53,14 @@ async function lenn(req, res, next) {
     const db = client.db('kenteliaoueg');
     const kentel = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});
     client.close();
-    (kentel === null)? res.status(404).end() : res.status('200').json(kentel);
+    (kentel === null)?
+      res.status(404).end() :
+      res.status('200').json({
+        kentel,
+        payment_failed
+      });
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 

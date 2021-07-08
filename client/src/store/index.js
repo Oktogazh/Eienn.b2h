@@ -35,6 +35,7 @@ export default createStore({
       ezel: true,
       hentenn: null,
       live: JSON.parse(localStorage.getItem('userData') || "{}").live || '0@br42_fr.1',
+      past_due: false,
       subscriptionId: null,
       sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
@@ -75,6 +76,9 @@ export default createStore({
     },
     OUZHPENN(state, ouzhpenn) {
       state.kentel.ouzhpenn = ouzhpenn;
+    },
+    PAST_DUE(state, past_due) {
+      past_due? state.user.past_due = true : null;
     },
     SET_EMAIL(state, data) {
       state.user.email = data.email
@@ -147,12 +151,13 @@ export default createStore({
         return axios.get(`${self.state.API}/api/lenn/${live}`);
       })
       .then(resp => {
-        context.commit('KARGAÑ', { live, kentel: resp.data, ouzhpenn});
+        context.commit('PAST_DUE', resp.data.payment_failed );
+        context.commit('KARGAÑ', { live, kentel: resp.data.kentel, ouzhpenn });
       })
       .then(() => {
         return axios.get(`${self.state.API}/api/lenn/${pelloX}`)
           .then(resp => {
-            if (!!resp.data._id && !self.state.kentel.ouzhpenn) {
+            if (!!resp.data.kentel._id && !self.state.kentel.ouzhpenn) {
               context.commit('OUZHPENN', true)
               return true;
             } else {
