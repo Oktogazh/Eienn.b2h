@@ -27,7 +27,7 @@ export default createStore({
     },
     stripe: {
       dibabet: null,
-      prices: [`${VUE_APP_STRIPE_PRICE_ONE}`]
+      prices: [`${process.env.VUE_APP_STRIPE_PRICE_ONE}`]
     },
     user: {
       customerId: JSON.parse(localStorage.getItem('userData') || "{}").customerId || null,
