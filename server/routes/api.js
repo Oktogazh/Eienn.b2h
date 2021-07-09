@@ -189,7 +189,7 @@ router.post('/subscribe', async (req, res) => {
   } catch (e) {
     res.status('402').json({
       error: {
-      message: `Ur gudenn zo c'hoarvezet er sever en ur gaskl krouiñ ar c'houmanant!`
+      message: `Ur gudenn zo c'hoarvezet er sever en ur gaskl krouiñ ar c'houmanant! ${e}`
     }})
   }
 });
