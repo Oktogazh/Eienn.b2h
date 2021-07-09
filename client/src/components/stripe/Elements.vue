@@ -43,7 +43,7 @@
 
 <script>
 import axios from 'axios';
-var stripe = window.Stripe('pk_test_51HekNwLl0gLr1Vo6MecpLR03h5PXkxKsxs0O8FGnigvcZp2JlNmmrfB9l7WJOI1ZyyF0Z9RVetD626bne5AF7EYR00jVr6oSkl'),
+var stripe = window.Stripe(process.env.VUE_APP_STRIPE_PK),
     elements = stripe.elements(),
     card = undefined;
 
