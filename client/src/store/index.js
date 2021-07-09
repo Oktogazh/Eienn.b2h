@@ -92,6 +92,9 @@ export default createStore({
     SET_VERIFIED(state, verified) {
       state.user.verified = verified
     },
+    SUB(state, sub) {
+      state.user.sub = sub
+    },
   },
   actions: {
     dilemelKont() {
@@ -152,6 +155,7 @@ export default createStore({
       })
       .then(resp => {
         context.commit('PAST_DUE', resp.data.payment_failed );
+        context.commit('SUB', resp.data.subscriptionActive );
         context.commit('KARGAÑ', { live, kentel: resp.data.kentel, ouzhpenn });
       })
       .then(() => {

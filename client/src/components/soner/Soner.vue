@@ -31,6 +31,7 @@
 
 <script>
 import lottieWeb from 'lottie-web';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'Soner',
@@ -63,6 +64,10 @@ export default {
       return `${minutes}:${returnedSeconds}`;
     },
     kargañ(ouzhpenn, id) {
+      if (!this.$store.state.user.sub) {
+        Swal.fire({text: "Vous devez être abonné pour aller plus loin. " +
+        "Allez dans la section 'Abonnement' pour en savoir plus."})
+      }
       if (this.mezell.dataset.playing === 'true') {
           this.audioElement.pause();
           this.animation.mezell.playSegments([0, 14], true)

@@ -27,6 +27,7 @@ function digeriñ(req, res, next) {
 
 async function lenn(req, res, next) {
   const payment_failed = req.user? req.user.payment_failed  : false;
+  const subscriptionActive = req.user? req.user.subscriptionActive: false;
 
   // if a req.user were populated,
   // whether or not (user.subscriptionActive === true)
@@ -57,7 +58,8 @@ async function lenn(req, res, next) {
       res.status(404).end() :
       res.status('200').json({
         kentel,
-        payment_failed
+        payment_failed,
+        subscriptionActive
       });
   } catch (e) {
     console.error(e);
@@ -81,7 +83,8 @@ async function selaou(req, res, next) {
 function klozañ(req, res, next) {
   if (7 < Number(req.doc)) {
     try {
-      (req.user.subscriptionActive)? next(): res.status('403').end('Diaotreet');
+      (req.user.subscriptionActive)? null: req.doc = '7';
+      next();
     } catch (e) {
       res.status('403').end('Diaotreet');
     }
