@@ -84,6 +84,7 @@ export default {
     },
     createSubscription({ customerId, paymentMethodId, priceId }) {
       const self = this;
+      console.log('called ln87!');
 
       return (
         axios.post(`${this.$store.state.API}/api/subscribe`, {
@@ -92,6 +93,7 @@ export default {
           priceId
         })
         .then((result) => {
+          console.log('called ln96!');
           if (result.data.error) {
             // The card had an error when trying to attach it to a customer.
             throw result.data.error.message;
@@ -168,6 +170,8 @@ export default {
       paymentMethodId,
       isRetry
     }) {
+
+      console.log('called ln174!');
       if (subscription && subscription.status === 'active') {
         // Subscription is active, no customer actions required.
         return { subscription, priceId, paymentMethodId };
