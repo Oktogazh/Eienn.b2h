@@ -3,8 +3,10 @@
   <h2 @click="$emit('klozañ')">←</h2>
 
   <div  v-if="!$store.state.user.sub">
-    Abonnez-vous en un clique pour accéder à tout le contenu de la méthode.
-    Et désabonnez-vous au même endroit dès que vous le voudrez
+    <p>
+      Abonnez-vous en un clique pour accéder à tout le contenu de la méthode.
+      Et désabonnez-vous au même endroit dès que vous le souhaiterez.
+    </p>
     <Dibab @click="darStal" />
   </div>
   <span  v-if="$store.state.user.sub">
