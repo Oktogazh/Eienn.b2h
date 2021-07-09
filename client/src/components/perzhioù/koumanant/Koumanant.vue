@@ -20,7 +20,7 @@
         Si vous ne faite rien, votre abonnement prendra fin automatiquement une fois ces sept jours passés.
       </p>
     </div>
-    <h4 click="digoumanantiñ">Me désabonner!</h4>
+    <h4 @click="digoumanantiñ">Me désabonner!</h4>
   </span>
   <Modal v-if="$store.state.digor.stripe" />
 </template>
@@ -52,6 +52,7 @@ export default {
         })
     },
     digoumanantiñ() {
+      console.log('called!');
       const self = this;
       axios.delete(`${this.$store.state.API}/api/digoumanantiñ/${this.$store.state.user.subscriptionId}`)
         .then(() => {
