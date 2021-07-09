@@ -37,7 +37,7 @@ export default createStore({
       live: JSON.parse(localStorage.getItem('userData') || "{}").live || '0@br42_fr.1',
       past_due: false,
       subscriptionId: null,
-      sub: JSON.parse(localStorage.getItem('userData') || "{}").sub,
+      sub: JSON.parse(localStorage.getItem('userData') || "{}").sub || false,
       token: JSON.parse(localStorage.getItem('userData') || "{}").token,
       verified: JSON.parse(localStorage.getItem('userData') || "{}").verified || false,
     }

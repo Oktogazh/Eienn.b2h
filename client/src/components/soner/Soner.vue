@@ -64,21 +64,27 @@ export default {
       return `${minutes}:${returnedSeconds}`;
     },
     kargañ(ouzhpenn, id) {
-      if (!this.$store.state.user.sub) {
-        Swal.fire({text: "Vous devez être abonné pour aller plus loin. " +
-        "Allez dans la section 'Abonnement' pour en savoir plus."})
-      }
       if (this.mezell.dataset.playing === 'true') {
           this.audioElement.pause();
           this.animation.mezell.playSegments([0, 14], true)
           this.mezell.dataset.playing = 'false';
       }
 
+
+      const self = this;
       const live = this.$store.state.user.live;
       const klot = /(^\d+)(@\S+$)/g.exec(live);
       const nivNevez = Number(klot[1]) + ouzhpenn;
-      const liveNevez = `${nivNevez}${klot[2]}`;
-      const self = this;
+      function kavoutLive(sub, niv) {
+        if (!sub && niv === 8) {
+          Swal.fire({text: "Vous devez être abonné pour aller plus loin. " +
+          "Allez dans la section 'Abonnement' pour en savoir plus."})
+          return live;
+        } else {
+          return `${nivNevez}${klot[2]}`;
+        }
+      }
+      const liveNevez = kavoutLive(this.$store.state.user.sub, nivNevez);
 
       if (ouzhpenn === 1) {
         self.$store.state.kentel.ouzhpenn = false;

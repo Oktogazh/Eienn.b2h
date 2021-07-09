@@ -86,7 +86,8 @@ function klozañ(req, res, next) {
       (req.user.subscriptionActive)? null: req.doc = '7';
       next();
     } catch (e) {
-      res.status('403').end('Diaotreet');
+      req.doc = '7';
+      next();
     }
   } else {
     return next();
