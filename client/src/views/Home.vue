@@ -4,7 +4,7 @@
     <Liammoù />
   </div>
   <Spletennoù />
-  <Soner ref="soner" v-if="$store.getters.niverenn > 0" />
+  <Soner ref="soner" v-show="$store.getters.niverenn > 0" />
 </template>
 
 <script>
