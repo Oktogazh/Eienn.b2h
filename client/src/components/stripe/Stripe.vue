@@ -34,6 +34,354 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import lottieWeb from 'lottie-web';
+
+var stripe = window.Stripe(`${process.env.VUE_APP_STRIPE_PK}`),
+elements = stripe.elements(),
+card = undefined;
+
+export default {
+  name: 'Stripe',
+  data() {
+    return {
+      anim: {erminig: null},
+      anvF: '',
+      anvBihan: '',
+      anv: this.anvBihan + ' ' + this.anvF,
+      priz: this.$store.state.stripe.dibabet // Default price
+    }
+  },
+  methods: {
+    changeLoadingStatePrices(boolean) {
+      return boolean; // TODO: create a loading state for the form
+    },
+    createPaymentMethod(elements, stripe) {
+      const customerId = this.$store.state.user.customerId;
+      const self = this;
+      const priceId = this.$store.state.stripe.dibabet;
+      const additionalData = {
+        name: this.anv
+      };
+      // Set up payment method for recurring usage
+
+
+      stripe.createPaymentMethod({
+        type: 'card',
+        card: elements[0],
+        billing_details: additionalData,
+      })
+      .then((result) => {
+        if (!result.error) {
+          self.createSubscription({
+            customerId: customerId,
+            paymentMethodId: result.paymentMethod.id,
+            priceId: priceId,
+          });
+        }
+      });
+    },
+    createSubscription({ customerId, paymentMethodId, priceId }) {
+      const self = this;
+
+      return (
+        axios.post(`${this.$store.state.API}/api/subscribe`, {
+          customerId,
+          paymentMethodId,
+          priceId
+        })
+        .then((result) => {
+          if (result.data.error) {
+            // The card had an error when trying to attach it to a customer.
+            throw result.data.error.message;
+          }
+          return  {
+            // Normalize the result to contain the object returned by Stripe.
+            // Add the additional details we need.
+            subscription: result.data,
+            paymentMethodId: paymentMethodId,
+            priceId: priceId
+          };
+        })
+        // Some payment methods require a customer to be on session
+        // to complete the payment process. Check the status of the
+        // payment intent to handle these actions.
+        .then(self.handlePaymentThatRequiresCustomerAction)
+        // If attaching this card to a Customer object succeeds,
+        // but attempts to charge the customer fail, you
+        // get a requires_payment_method error.
+        .then(self.handleRequiresPaymentMethod)
+        // No more actions required. Provision your service for the user.
+        .then(self.onSubscriptionComplete)
+        .catch((error) => {
+          // An error has happened. Display the failure to the user here.
+          // We utilize the HTML element we created.
+          const err = (error.response)? error.response.data.error.message : null || error.message;
+
+          self.enableInputs()
+          Swal.fire({
+            icon: 'error',
+            text: err
+          });
+        })
+      );
+    },
+    disableInputs() {
+      const container = document.querySelector('.loading');
+      const children = document.getElementById('subscription-form').children;
+      for (let child of children) {
+        child.style.display = "none";
+      }
+
+      this.anim.loading = lottieWeb.loadAnimation({
+        container: container,
+        path: `/loading.json`,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        name: 'loading',
+      });
+    },
+    displayError(event) {
+      this.changeLoadingStatePrices(false);
+      var displayError = document.getElementById('cardElements-errors');
+      var message = displayError.querySelector('.message');
+      if (event.error) {
+        displayError.classList.add('visible');
+        message.textContent = event.error.message;
+      } else {
+        displayError.classList.remove('visible');
+      }
+    },
+    enableInputs() {
+      const children = document.getElementById('subscription-form').children;
+      this.anim.loading.destroy();
+      for (let child of children) {
+        child.style.display = "block";
+      }
+    },
+    handlePaymentThatRequiresCustomerAction({
+      subscription,
+      invoice,
+      priceId,
+      paymentMethodId,
+      isRetry
+    }) {
+      if (subscription && subscription.status === 'active') {
+        // Subscription is active, no customer actions required.
+        return { subscription, priceId, paymentMethodId };
+      }
+
+      // If it's a first payment attempt, the payment intent is on the subscription latest invoice.
+      // If it's a retry, the payment intent will be on the invoice itself.
+      let paymentIntent = invoice ? invoice.payment_intent : subscription.latest_invoice.payment_intent;
+
+      if (
+        paymentIntent.status === 'requires_action' ||
+        (isRetry === true && paymentIntent.status === 'requires_payment_method')
+      ) {
+        return stripe
+        .confirmCardPayment(paymentIntent.client_secret, {
+          payment_method: paymentMethodId,
+        })
+        .then((result) => {
+          if (result.error) {
+            // Start code flow to handle updating the payment details.
+            // Display error message in your UI.
+            // The card was declined (i.e. insufficient funds, card has expired, etc).
+            throw result;
+          } else {
+            if (result.paymentIntent.status === 'succeeded') {
+              // Show a success message to your customer.
+              this.$store.commit('SET_SUB',  {boolean: true, id: subscription.id})
+              this.$store.state.digor.stripe = false;
+              this.$store.state.digor.perzhioù = false;
+              Swal.fire({
+                icon: 'success',
+                title: 'Abonnement Réussi !',
+                text: `Félicitations, vous venez de vous inscrire avec succès.`+
+                ` Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+              })
+              return {
+                priceId: priceId,
+                subscription: subscription,
+                invoice: invoice,
+                paymentMethodId: paymentMethodId,
+              };
+            }
+          }
+        })
+        .catch(({error}) => {
+          throw error;
+        });
+      } else {
+        // No customer action needed.
+        return { subscription, priceId, paymentMethodId };
+      }
+    },
+    handleRequiresPaymentMethod({
+      subscription,
+      paymentMethodId,
+      priceId,
+    }) {
+      if (subscription.status === 'active') {
+        // subscription is active, no customer actions required.
+        return { subscription, priceId, paymentMethodId };
+      } else if (
+        subscription.latest_invoice.payment_intent.status ===
+        'requires_payment_method'
+      ) {
+        // Using localStorage to manage the state of the retry here,
+        // feel free to replace with what you prefer.
+        // Store the latest invoice ID and status.
+        localStorage.setItem('latestInvoiceId', subscription.latest_invoice.id);
+        localStorage.setItem(
+          'latestInvoicePaymentIntentStatus',
+          subscription.latest_invoice.payment_intent.status
+        );
+        throw { error: { message: 'Votre carte a été déclinée' } };
+      } else {
+        return { subscription, priceId, paymentMethodId };
+      }
+    },
+    onSubscriptionComplete(result) {
+      // Payment was successful.
+      if (result.subscription.status === 'active') {
+        // Change your UI to show a success message to your customer.
+        this.$store.commit('SET_SUB', {boolean: true, id: result.subscription.id})
+        this.$store.state.digor.stripe = false;
+        this.$store.state.digor.perzhioù = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Abonnement Réussi !',
+          text: `Félicitations, vous venez de vous abonner avec succès. `+
+          `Vous pouvez maintenant accéder à toutes les leçons de la méthode.`
+        })
+        // `result.subscription.items.data[0].price.product` the customer subscribed to.
+      }
+    },
+    registerElements(elements, containerName) {
+      const className = '.' + containerName;
+      const formContainer = document.querySelector(className);
+      const self = this;
+
+      card.on('change', function (event) {
+        self.displayError(event);
+      });
+
+      var form = document.getElementById('subscription-form');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // TODO: show a loading screen
+        formContainer.classList.add('submitting');
+
+        // TODO: disable all inputs!
+        self.disableInputs();
+
+        // Create a payment method. We only need to pass in one Element
+        // from the Element group in order to create a payment method. We can also pass
+        // in the additional customer data we collected in our form.
+
+        self.createPaymentMethod(elements, stripe);
+      });
+    },
+    retryInvoiceWithNewPaymentMethod({
+      customerId,
+      paymentMethodId,
+      invoiceId,
+      priceId
+    }) {
+      const self = this;
+
+      return (
+        axios.post(`${this.$store.state.API}/api/klask-endro`, {
+          customerId: customerId,
+          paymentMethodId: paymentMethodId,
+          invoiceId: invoiceId
+        })
+        // If the card is declined, display an error to the user.
+        .then((result) => {
+          if (result.data.error) {
+            // The card had an error when trying to attach it to a customer.
+            throw result.data;
+          }
+          return result.data;
+        })
+        // Normalize the result to contain the object returned by Stripe.
+        // Add the additional details we need.
+        .then((invoice) => {
+          return {
+            // Use the Stripe 'object' property on the
+            // returned result to understand what object is returned.
+            invoice: invoice,
+            paymentMethodId: paymentMethodId,
+            priceId: priceId,
+            isRetry: true,
+          };
+        })
+        // Some payment methods require a customer to be on session
+        // to complete the payment process. Check the status of the
+        // payment intent to handle these actions.
+        .then(self.handlePaymentThatRequiresCustomerAction)
+        // No more actions required. Provision your service for the user.
+        .then(self.onSubscriptionComplete)
+        .catch((error) => {
+          // An error has happened. Display the failure to the user here.
+          // We utilize the HTML element we created.
+          const err = (error.response)? error.response.data.error.message : null || error.message;
+
+          self.enableInputs();
+          Swal.fire({
+            icon: 'error',
+            text: err
+          });
+        })
+      );
+    }
+  },
+  mounted() {
+    // Vue integration to Elements from:
+    // https://www.digitalocean.com/community/tutorials/vuejs-stripe-elements-vue-integration
+    if (card) {
+      // if a card were created before
+      // this will destroy the previous one
+      card.destroy('#cardElements');
+    }
+
+    const style = {
+      iconStyle: 'solid',
+      style: {
+        base: {
+          iconColor: '#c4f0ff',
+          color: '#fff',
+          fontWeight: 500,
+          fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+          fontSize: '16px',
+          fontSmoothing: 'antialiased',
+
+          ':-webkit-autofill': {
+            color: '#fce883',
+          },
+          '::placeholder': {
+            color: '#87BBFD',
+          },
+        },
+        invalid: {
+          iconColor: '#ffcfc7',
+          color: '#ffcfc7',
+        },
+      },
+    };
+
+    card = elements.create('card', style);
+    card.mount('#cardElements');
+
+    this.registerElements([card], 'container');
+  }
+}
 </script>
 
 <style scoped>
