@@ -76,10 +76,10 @@ export default {
       const klot = /(^\d+)(@\S+$)/g.exec(live);
       const nivNevez = Number(klot[1]) + ouzhpenn;
       function kavoutLive(sub, niv) {
-        if (!sub && niv === 8) {
+        if (!sub && niv > 7) {
           Swal.fire({text: "Vous devez être abonné pour aller plus loin. " +
           "Allez dans la section 'Abonnement' pour en savoir plus."})
-          return live;
+          return `${7}${klot[2]}`;
         } else {
           return `${nivNevez}${klot[2]}`;
         }
