@@ -8,17 +8,17 @@
     <p v-show="hentennDigor">
       Si la méthode vous plait,
       sachez qu'elle s'inspire d'une méthode similaire que vous pouvez retrouver à
-      <a href="https://www.saysomethingin.com/">cette adresse</a>.
+      <a href="https://www.saysomethingin.com/" target="_blank" >cette adresse</a>.
     </p>
   <h4 @click="kudennDigor = !kudennDigor">Problème ?</h4>
     <p v-show="kudennDigor">
       Si, pour une raison défiant les lois de la physique,
       vous préféreriez la version précédente du site, vous pouvez toujours y accéder via
-      <a href="https://v1.eienn.bzh/">ce lien</a>.
+      <a href="https://v1.eienn.bzh/" target="_blank" >ce lien</a>.
     </p>
     <p v-show="kudennDigor">
       Si vous trouvez un bug, merci de le signaler sur
-      <a href="https://github.com/Oktogazh/Eienn.b2h/issues">GitHub</a>.
+      <a href="https://github.com/Oktogazh/Eienn.b2h/issues" target="_blank" >GitHub</a>.
     </p>
 </template>
 
