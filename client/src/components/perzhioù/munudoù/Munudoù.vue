@@ -3,23 +3,23 @@
   <h2 @click="$emit('klozañ')">←</h2>
 
   <h4 @click="daveDigor = !daveDigor">Contact</h4>
-    <h5 v-show="daveDigor">emgav@eienn.bzh</h5>
+  <h5 v-show="daveDigor">emgav@eienn.bzh</h5>
   <h4 @click="hentennDigor = !hentennDigor">Methode</h4>
-    <p v-show="hentennDigor">
-      Si la méthode vous plait,
-      sachez qu'elle s'inspire d'une méthode similaire que vous pouvez retrouver à
-      <a href="https://www.saysomethingin.com/" target="_blank" >cette adresse</a>.
-    </p>
+  <p v-show="hentennDigor">
+    Si la méthode vous plait,
+    sachez qu'elle s'inspire d'une méthode similaire que vous pouvez retrouver à
+    <a href="https://www.saysomethingin.com/" target="_blank" >cette adresse</a>.
+  </p>
   <h4 @click="kudennDigor = !kudennDigor">Problème ?</h4>
-    <p v-show="kudennDigor">
-      Si, pour une raison défiant les lois de la physique,
-      vous préféreriez la version précédente du site, vous pouvez toujours y accéder via
-      <a href="https://v1.eienn.bzh/" target="_blank" >ce lien</a>.
-    </p>
-    <p v-show="kudennDigor">
-      Si vous trouvez un bug, merci de le signaler sur
-      <a href="https://github.com/Oktogazh/Eienn.b2h/issues" target="_blank" >GitHub</a>.
-    </p>
+  <p v-show="kudennDigor">
+    Si vous trouvez un bug, merci de le signaler par email ou sur
+    <a href="https://github.com/Oktogazh/Eienn.b2h/issues" target="_blank" >GitHub</a>.
+  </p>
+  <p v-show="kudennDigor">
+    Si, pour une raison défiant les lois de la physique,
+    vous préféreriez la version précédente du site, vous pouvez toujours y accéder via
+    <a href="https://v1.eienn.bzh/" target="_blank" >ce lien</a>.
+  </p>
 </template>
 
 <script>
