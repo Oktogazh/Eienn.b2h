@@ -5,6 +5,7 @@
     </div>
     <div class="kreizDehou">
       <div class="gwagig"  @click="gwintañ">
+        <img src="/gwag.svg">
         <span class="kemmennadennig"
           v-if="$store.state.user.past_due && !$store.state.digor.perzhioù">
         </span>
@@ -100,10 +101,15 @@ pre {
 .gwagig {
   position: relative;
   align-self: center;
-  background-image: url(/gwag.svg);
   display: block;
   width: 75%;
   height: 75%;
+  max-width: 75px;
+  max-height: 75px;
+}
+img {
+  width: 100%;
+  height: 100%;
   max-width: 75px;
   max-height: 75px;
 }
