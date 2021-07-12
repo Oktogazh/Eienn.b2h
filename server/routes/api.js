@@ -70,7 +70,7 @@ router.post('/enrolla%C3%B1',
 router.post('/ezel',
   body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).trim(),
   (req, res) => {
-  const email = req.body.email
+  const email = req.body.email;
   User.findOne({'email': email}, (err, user) => {
     res.json({'email': email, 'ezel': !!user})
   })
