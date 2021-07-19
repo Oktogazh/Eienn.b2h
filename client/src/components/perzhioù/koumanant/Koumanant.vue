@@ -14,10 +14,11 @@
       <p>La dernière tentative de paiement a échoué.
         Cela se produit le plus souvent lorsque la carte utilisée pour vous abonner arrive à expiration.
         Durant les sept jours suivant, trois nouvelles tentatives seront effectuées.
-        Vous devriez recevoir un mail à chaque nouvelle tentative vous invitant à mettre à jour votre mode de paiement.
+        A la fin de cette semaine de relance, votre abonnement sera résilié.
+        Vous devrez vous réabonner afin de continuer votre apprentissage.
       </p>
       <p class="past-due">
-        Si vous ne faite rien, votre abonnement prendra fin automatiquement une fois ces sept jours passés.
+
       </p>
     </div>
     <h4 @click="digoumanantiñ">Me désabonner!</h4>
