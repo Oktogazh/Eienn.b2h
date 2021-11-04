@@ -74,7 +74,7 @@ function sendCode(req, res, next) {
         subject: 'Code de vérification',
         text: 'Voici votre code de validation :\n' +
         code +
-        '\nVous pouvez rentrer ce code dans la fenêtre qui s\'est ouverte lors de la création de ce mail, ou bien vous pouvez cliquer sur le lien suivant et complèter l\'opération :\n'+
+        '\nVous pouvez rentrer ce code dans la fenêtre qui s\'est ouverte lors de la création de ce mail, ou bien vous pouvez cliquer sur le lien suivant et compléter l\'opération :\n'+
         'https://eienn.bzh/#/gwiriekaat'
       }
       // Sends the email
