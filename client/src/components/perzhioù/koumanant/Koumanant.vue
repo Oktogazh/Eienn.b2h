@@ -53,7 +53,6 @@ export default {
         })
     },
     digoumanantiñ() {
-      console.log('called!');
       const self = this;
       axios.delete(`${this.$store.state.API}/api/digoumanantiñ/${this.$store.state.user.subscriptionId}`)
         .then(() => {

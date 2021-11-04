@@ -75,7 +75,7 @@ function sendCode(req, res, next) {
         text: 'Voici votre code de validation :\n' +
         code +
         '\nVous pouvez rentrer ce code dans la fenêtre qui s\'est ouverte lors de la création de ce mail, ou bien vous pouvez cliquer sur le lien suivant et complèter l\'opération :\n'+
-        process.env.APP_URI + '#/gwiriekaat'
+        'https://eienn.bzh/#/gwiriekaat'
       }
       // Sends the email
       const transporter = nodemailer.createTransport({
