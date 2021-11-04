@@ -154,12 +154,12 @@ function verify(req, res, next) {
           .then((user) => {
             res.status(200).json(user.verified)
           })
-          .catch(err => res.status(200).json(false));
+          .catch(err => { res.status(401) });
         } else {
-          res.status(200).json(false);
+          res.status(401);
         }
     })
-    .catch( (err) => { res.sendStatus(200).json(false) });
+    .catch( (err) => { res.sendStatus(401); });
 }
 
 module.exports = {
