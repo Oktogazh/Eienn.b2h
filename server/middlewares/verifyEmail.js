@@ -139,24 +139,27 @@ async function sendCodePW(req, res, next) {
 }
 
 function verify(req, res, next) {
-  const code = req.body.kod
-  const user = req.user
+  const code = req.body.kod;
+  const user = req.user;
+
   EmailCode.findOne({code})
-  .then(doc => {
-    (doc._userId.equals(user._id))?
-      User.findById(user._id)
-      .then((user) => {
-        user.verified = true
-        user.save();
-        return user
-      })
-      .then((user) => {
-        res.status(200).json(user.verified)
-      })
-      .catch(err => res.status(401))
-    :console.log('Not the same id');;
-  })
-  .catch( (err) => { res.sendStatus(401) });
+    .then(doc => {
+      if (doc._userId.equals(user._id)) {
+        User.findById(user._id)
+          .then((user) => {
+            user.verified = true
+            user.save();
+            return user
+          })
+          .then((user) => {
+            res.status(200).json(user.verified)
+          })
+          .catch(err => res.status(200).json(false));
+        } else {
+          res.status(200).json(false);
+        }
+    })
+    .catch( (err) => { res.sendStatus(200).json(false) });
 }
 
 module.exports = {
