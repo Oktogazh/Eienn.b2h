@@ -14,10 +14,12 @@ export default {
     Gwagennigoù
   },
   mounted() {
+    const level = this.$store.state.user.live;
+    const live = (level === '-1@br42_fr.1')? '0@br42_fr.1': level;
     this.$store.state.stripe.dibabet = this.$store.state.stripe.prices[0];
     this.$store.dispatch({
       type: 'kargañ',
-      live: this.$store.state.user.live || '0@br42_fr.1',
+      live: live,
       ouzhpenn: false
     })
   }
