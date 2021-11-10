@@ -17,7 +17,7 @@ export default {
     this.$store.state.stripe.dibabet = this.$store.state.stripe.prices[0];
     this.$store.dispatch({
       type: 'kargañ',
-      live: this.$store.state.user.live,
+      live: this.$store.state.user.live || '0@br42_fr.1',
       ouzhpenn: false
     })
   }
