@@ -4,7 +4,7 @@
 
   <h4 @click="daveDigor = !daveDigor">Contact</h4>
   <h5 v-show="daveDigor">emgav@eienn.bzh</h5>
-  <h4 @click="hentennDigor = !hentennDigor">Methode</h4>
+  <h4 @click="hentennDigor = !hentennDigor">Méthode</h4>
   <p v-show="hentennDigor">
     Si la méthode vous plait,
     sachez qu'elle s'inspire d'une méthode similaire que vous pouvez retrouver à
