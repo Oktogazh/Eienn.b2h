@@ -147,6 +147,10 @@ router.get('/lenn/:id',
   serve.klozañ,
   serve.lenn);
 
+router.get('/read/:id',
+  serve.digeriñ,
+  serve.read);
+
 router.get('/selaou/:id',
   serve.digeriñ,/*
   serve.klozañ,*/

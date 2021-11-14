@@ -66,6 +66,47 @@ async function lenn(req, res, next) {
   }
 }
 
+async function read(req, res, next) {
+  const payment_failed = req.user? req.user.payment_failed  : false;
+  const subscriptionActive = req.user? req.user.subscriptionActive: false;
+
+  // if a req.user were populated,
+  // whether or not (user.subscriptionActive === true)
+  // register the advencement of user
+  if (req.user) {
+    const user = await User.findOne({_id: `${req.user.id}`});
+    const nivLive = user.live? /(^\d+)(@\S+$)/g.exec(user.live)[1] : user.learning.file;
+    const niv = Number(nivLive);
+    const nivReq = Number(req.doc);
+
+    // Do not record advencement if user jumped more than one lesson backwards
+    // (eg. following a link to revisions)
+    if (!(Number(niv-1) > nivReq) && (nivReq > 1)) {
+      user.live = `${nivReq-1}${/(^\d+)(@\S+$)/g.exec(req.params.id)[2]}`;
+      await user.save();
+    }
+  }
+
+  try {
+    const client = await MongoClient.connect(`${process.env.MONGODB_URI}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    const db = client.db('courses');
+    const chapter = await db.collection(`${req.coll}`).findOne({_id: `${req.doc}`});
+    client.close();
+    (chapter === null)?
+      res.status(404).end() :
+      res.status('200').json({
+        chapter,
+        payment_failed,
+        subscriptionActive,
+      });
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 async function selaou(req, res, next) {
   const hent = path.join(__dirname, `/../staliad/${req.coll}/${req.doc}.wav`);
 
@@ -98,5 +139,6 @@ module.exports = {
   digeriñ,
   klozañ,
   lenn,
-  selaou
+  read,
+  selaou,
 }
