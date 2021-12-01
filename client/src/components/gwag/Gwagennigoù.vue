@@ -85,7 +85,6 @@ pre {
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
 }
 .kreizDehou {
   position: absolute;
