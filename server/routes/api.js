@@ -147,6 +147,14 @@ router.get('/lenn/:id',
   serve.klozañ,
   serve.lenn);
 
+router.get('/prices/:productId', async function(req, res, next) {
+  const { productId } = req.params;
+  const prices = await stripe.prices.list({
+    product: productId,
+  });
+  res.status(200).json({ prices });
+});
+
 router.get('/read/:id',
   serve.digeriñ,
   serve.read);
