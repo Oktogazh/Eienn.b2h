@@ -21,24 +21,6 @@ async function dilemelKont(req, res, next) {
 
 passport.use(User.createStrategy())
 
-function register(req, res, next) {
-  const user = new User({
-    email: req.body.email,
-  })
-  // Create the user with the specified password
-  User.register(user, req.body.password, (error, user) => {
-    if (error) {
-      // Our register middleware failed
-      next(error)
-      return
-    }
-    // Store user so we can access it in our handler
-    req.user = user
-    // Success!
-    next()
-  })
-}
-
 passport.use(
   new PassportJwt.Strategy(
     // Options
@@ -70,6 +52,24 @@ passport.use(
     }
   )
 )
+
+function register(req, res, next) {
+  const user = new User({
+    email: req.body.email,
+  })
+  // Create the user with the specified password
+  User.register(user, req.body.password, (error, user) => {
+    if (error) {
+      // Our register middleware failed
+      next(error)
+      return
+    }
+    // Store user so we can access it in our handler
+    req.user = user
+    // Success!
+    next()
+  })
+}
 
 function signJWTForUser(req, res) {
   // Get the user (either just signed in or signed up)

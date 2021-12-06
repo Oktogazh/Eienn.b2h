@@ -40,7 +40,6 @@ router.post('/customer',
     // send back the saved id
     res.json({email, id: customer.id})
   }
-
 );
 
 router.delete('/digoumananti%C3%B1/:subscriptionId',
