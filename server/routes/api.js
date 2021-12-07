@@ -8,6 +8,7 @@ const serve = require('../middlewares/serve');
 const { body } = require('express-validator');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { createSubscription } = require('../middlewares/stripe');
 
 
 const router = express.Router();
@@ -17,6 +18,11 @@ router.use(bodyParser.json());
 router.get('/', (req, res) => {
   res.json('hello api');
 });
+
+router.post('/create-subscription',
+  auth.requireJWT,
+  createSubscription,
+);
 
 // Create a new stripe customer
 router.post('/customer',

@@ -32,6 +32,10 @@ var user = new Schema({
       default: false
     },
     subscriptionId: String,
+    subscriptions: {
+      type: Array,
+      default: [],
+    },
     verified: {
       type: Boolean,
       default: false,
