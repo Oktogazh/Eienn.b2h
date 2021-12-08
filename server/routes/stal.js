@@ -4,6 +4,7 @@ const User = mongoose.model('User');
 const auth = require('../middlewares/auth');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require('body-parser');
+const { updateSubscriptions } = require('../middlewares/stripe');
 
 const router = express.Router();
 
@@ -37,6 +38,23 @@ router.post('/',
     // https://stripe.com/docs/billing/webhooks
     // Remove comment to see the various objects sent for this sample
     switch (event.type) {
+      case 'customer.subscription.updated':
+        // Set user.subscriptions = true
+        // Set subscriptionId = subscription
+        // Set PriceId
+        try {
+          const productId = dataObject.plan.product;
+          const { customer } = dataObject;
+          const user = await User.findOne({ customerId: customer });
+
+          const newUsersSubscriptions = await updateSubscriptions(user.subscriptions, dataObject, productId);
+
+          user.subscriptions = newUsersSubscriptions;
+          user.save();
+        } catch (e) {
+          console.error(e);
+        }
+        break;
       case 'invoice.paid':
         // Set subscriptionAtive = true
         // Set subscriptionId = subscription

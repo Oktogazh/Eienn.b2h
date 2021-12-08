@@ -8,11 +8,11 @@ function updateSubscriptions(usersSubs, newSub, productId) {
     current_period_start: newSub.current_period_start,
     current_period_end: newSub.current_period_end,
     productId,
-    status: 'incomplete',
+    status: newSub.status,
   };
   const withoutOldSubAttempts = usersSubs.filter(function(sub, index, arr) {
       // for security reasons, doesn't delete a sub with the same id if active...
-      return ((sub.productId !== productId) || (sub.status === 'active'));
+      return ((sub.productId !== productId) || ((sub.status === 'active') && (newSub.id !== sub.id)));
   });
 
   withoutOldSubAttempts.unshift(subscriptionDataToStore);
@@ -55,4 +55,5 @@ async function createSubscription(req, res, next) {
 
 module.exports = {
   createSubscription,
+  updateSubscriptions,
 }
