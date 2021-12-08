@@ -104,6 +104,7 @@ function signJWTForUser(req, res) {
     'live': live,
     'sub': user.subscriptionActive,
     'subscriptionId': user.subscriptionId || null,
+    'subscriptions': user.subscriptions,
     'verified': user.verified || false
   })
 }
