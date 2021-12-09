@@ -6,7 +6,10 @@ const Schema = mongoose.Schema
 
 var user = new Schema({
     badges: [String],
-    customerId: String,
+    customerId: {
+      type: String,
+      default: null,
+    },
     email: String,
     learning: {
       folder: {

@@ -32,6 +32,7 @@ router.post('/',
     }
     // Extract the object from the event.
     const dataObject = event.data.object;
+    const { customer } = dataObject;
 
     // Handle the event
     // Review important events for Billing webhooks
@@ -44,7 +45,6 @@ router.post('/',
         // Set PriceId
         try {
           const productId = dataObject.plan.product;
-          const { customer } = dataObject;
           const user = await User.findOne({ customerId: customer });
 
           const newUsersSubscriptions = await updateSubscriptions(user.subscriptions, dataObject, productId);
@@ -60,8 +60,7 @@ router.post('/',
         // Set subscriptionId = subscription
         // Set PriceId
         try {
-          const cus = dataObject.customer;
-          var user = await User.findOne({customerId: cus});
+          var user = await User.findOne({ customerId: customer });
           const sub = dataObject.subscription,
           type = dataObject.lines.data[0].price.id;
           subActive = (dataObject.status === 'paid'),
@@ -85,14 +84,29 @@ router.post('/',
         // an invoice.payment_failed event is sent, the subscription becomes past_due.
         // Use this webhook to notify your user that their payment has
         // failed and to retrieve new card details.
-        const customerId = dataObject.customer;
 
         try {
-          const user = await User.findOne({customerId});
+          const user = await User.findOne({customerId: customer});
           user.payment_failed = true
         } catch (e) {
           console.error(e);
         }
+        break;
+      case 'invoice.payment_succeeded':
+        if (dataObject['billing_reason'] == 'subscription_create') {
+          const subscription_id = dataObject['subscription']
+          const payment_intent_id = dataObject['payment_intent']
+
+          // Retrieve the payment intent used to pay the subscription
+          const payment_intent = await stripe.paymentIntents.retrieve(payment_intent_id);
+
+          const subscription = await stripe.subscriptions.update(
+            subscription_id,
+            {
+              default_payment_method: payment_intent.payment_method,
+            },
+          );
+        };
         break;
       case 'customer.subscription.deleted':
         const subscription = dataObject,

@@ -11,8 +11,8 @@ function updateSubscriptions(usersSubs, newSub, productId) {
     status: newSub.status,
   };
   const withoutOldSubAttempts = usersSubs.filter(function(sub, index, arr) {
-      // for security reasons, doesn't delete a sub with the same id if active...
-      return ((sub.productId !== productId) || ((sub.status === 'active') && (newSub.id !== sub.id)));
+      // filters out old incomplete subs or old duplicates
+      return !((sub.status === 'incomplete') || (newSub.id === sub.id));
   });
 
   withoutOldSubAttempts.unshift(subscriptionDataToStore);
