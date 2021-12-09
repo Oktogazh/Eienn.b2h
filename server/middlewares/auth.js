@@ -15,9 +15,9 @@ async function dilemelKont(req, res, next) {
 /**
  * Middleware from https://github.com/Gurenax/express-mongoose-passport-jwt
  */
- const jwtSecret = process.env.JWT_PRIV_KEY
- const jwtAlgorithm = 'HS256'
- const jwtExpiresIn = '7 days'
+ const jwtSecret = process.env.JWT_PRIV_KEY;
+ const jwtAlgorithm = 'HS256';
+ const jwtExpiresIn = 30000000;
 
 passport.use(User.createStrategy())
 
