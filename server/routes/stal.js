@@ -109,12 +109,15 @@ router.post('/',
         };
         break;
       case 'customer.subscription.deleted':
-        const subscription = dataObject,
-        id = subscription.id;
+        const { id } = dataObject;
+
         if (event.request != null) {
           try {
             const user = await User.findOne({subscriptionId: id});
+            const productId = dataObject.plan.product;
+            const newUsersSubscriptions = await updateSubscriptions(user.subscriptions, dataObject, productId);
 
+            user.subscriptions = newUsersSubscriptions;
             user.subscriptionActive = false;
             user.subscriptionId = null;
             user.save()
