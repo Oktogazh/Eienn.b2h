@@ -8,8 +8,7 @@ const serve = require('../middlewares/serve');
 const { body } = require('express-validator');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { createSubscription } = require('../middlewares/stripe');
-
+const { createSubscription, updateSubscriptions } = require('../middlewares/stripe');
 
 const router = express.Router();
 
@@ -57,8 +56,12 @@ router.delete('/digoumananti%C3%B1/:subscriptionId',
       const deletedSubscription = await stripe.subscriptions.del(
         req.params.subscriptionId
       );
-      res.json(deletedSubscription);
+      const { product } = deletedSubscription.plan;
+      const user = await User.findOne({ customerId: deletedSubscription.customer });
 
+      const newUsersSubscriptions = await updateSubscriptions(user.subscriptions, deletedSubscription, product);
+
+      res.json({ subscriptions: newUsersSubscriptions });
     } catch (e) {
       console.error(e);
       res.status('402').json({ error: {message: e} })
