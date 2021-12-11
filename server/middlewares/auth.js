@@ -109,6 +109,16 @@ function signJWTForUser(req, res) {
   })
 }
 
+async function updateUser(req, res, next) {
+  const { email } = req.user;
+
+  const user = await User.findOne({ email });
+
+  res.status(200).json({
+    'email': user.email,
+    'subscriptions': user.subscriptions,
+  })
+}
 
 module.exports = {
   dilemelKont,
@@ -116,5 +126,6 @@ module.exports = {
   register,
   requireJWT: passport.authenticate('jwt', { session: false }),
   signJWTForUser,
-  signIn: passport.authenticate('local', { session: false })
+  signIn: passport.authenticate('local', { session: false }),
+  updateUser,
 }

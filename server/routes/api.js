@@ -121,6 +121,7 @@ router.post('/kevrea%C3%B1',
   auth.signIn,
   // json handler
   auth.signJWTForUser
+  // TODO: merge auth.signJWTForUser and auth.updateUser
 );
 
 router.post('/klask-endro', async (req, res) => {
@@ -213,5 +214,10 @@ router.post('/subscribe', async (req, res) => {
     }})
   }
 });
+
+router.get('/update_user_state',
+  auth.requireJWT,
+  auth.updateUser,
+)
 
 module.exports = router;
