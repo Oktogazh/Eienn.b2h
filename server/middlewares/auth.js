@@ -96,12 +96,23 @@ function signJWTForUser(req, res) {
     user.live : user.learning.file/*folder*/?
       `${user.learning.file}@br42_fr.1` : '0@br42_fr.1';
 
+  const reg = /(^\d+)(@\S+$)/g;
+  const klot = reg.exec(live);
+  const level = klot[1];
+  const chapter = (level === '0') ? undefined : Number(level);
+  const series = (level === '0') ? undefined : process.env.SERIES_ID;
+  const progress = [{
+    chapter,
+    seriesId: series,
+  }];
+
   // Send the token
   res.status(200).json({
     token,
     'customerId': user.customerId || null,
     'email': user.email,
     'live': live,
+    progress,
     'sub': user.subscriptionActive,
     'subscriptionId': user.subscriptionId || null,
     'subscriptions': user.subscriptions,
@@ -109,13 +120,30 @@ function signJWTForUser(req, res) {
   })
 }
 
+// This function is needed in case the user stays connected on several devices
+// the highest chapter get setted as the current state of progress
+function updateProgress(lastProgress, userProgress) {
+  const updatedProgress = userProgress.map((prog) => {
+    if (prog.seriesId === lastProgress.seriesId && (Number(prog.chapter) > Number(lastProgress.chapter))) {
+      return prog
+    }
+    return lastProgress;
+  });
+  return updatedProgress;
+}
+
 async function updateUser(req, res, next) {
   const { email } = req.user;
+  const { lastProgress } = req.body;
 
   const user = await User.findOne({ email });
+  const progress = (lastProgress)? updateProgress(lastProgress, user.progress) : user.progress;
+  user.progress = progress;
+  user.save();
 
   res.status(200).json({
     'email': user.email,
+    progress,
     'subscriptions': user.subscriptions,
   })
 }

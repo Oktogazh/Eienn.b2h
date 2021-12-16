@@ -215,7 +215,7 @@ router.post('/subscribe', async (req, res) => {
   }
 });
 
-router.get('/update_user_state',
+router.post('/update_user_state',
   auth.requireJWT,
   auth.updateUser,
 )

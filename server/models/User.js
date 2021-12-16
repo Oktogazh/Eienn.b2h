@@ -28,6 +28,15 @@ var user = new Schema({
       default: false
     },
     priceId: String,
+    progress: {
+      type: Array,
+      default: [
+        {
+          chapter: null,
+          seriesId: null,
+        }
+      ],
+    },
     ResetPassword: String,
     ResetPasswordExpire: Date,
     subscriptionActive: {
