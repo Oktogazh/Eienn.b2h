@@ -120,30 +120,15 @@ function signJWTForUser(req, res) {
   })
 }
 
-// This function is needed in case the user stays connected on several devices
-// the highest chapter get setted as the current state of progress
-function updateProgress(lastProgress, userProgress) {
-  const updatedProgress = userProgress.map((prog) => {
-    if (prog.seriesId === lastProgress.seriesId && (Number(prog.chapter) > Number(lastProgress.chapter))) {
-      return prog
-    }
-    return lastProgress;
-  });
-  return updatedProgress;
-}
-
 async function updateUser(req, res, next) {
   const { email } = req.user;
   const { lastProgress } = req.body;
 
   const user = await User.findOne({ email });
-  const progress = (lastProgress)? updateProgress(lastProgress, user.progress) : user.progress;
-  user.progress = progress;
-  user.save();
 
   res.status(200).json({
     'email': user.email,
-    progress,
+    progress : user.progress,
     'subscriptions': user.subscriptions,
   })
 }
