@@ -108,7 +108,6 @@ async function read(req, res, next) {
           // Do not record advencement if user jumped more than one lesson backwards
           // (eg. following a link to revisions)
           const updatedChapter = (chapter + 1 >= (oldProgObj.chapter)) ? chapter : oldProgObj.chapter;
-          console.log(oldProgObj.chapter, chapter, updatedChapter);
 
           return { seriesId, chapter: updatedChapter }
         }; // Add Selected here
@@ -119,7 +118,6 @@ async function read(req, res, next) {
     }
 
     const newProgress = updateProgress(userProgress);
-    console.log(newProgress);
     user.progress = newProgress;
     user.save();
   }
