@@ -138,6 +138,55 @@ async function sendCodePW(req, res, next) {
   ]);
 }
 
+function randomLongCode() {
+  return crypto.randomBytes(2**5).toString('hex');
+}
+
+
+async function sendConxnLink(req, res, next) {
+  async.waterfall([
+    function(done) { // Generate the code
+      const code = randomLongCode()
+      return done(null, code);
+    },
+    function(code, done) {
+      // Create the code document
+      const { email } = req.body;
+      console.log('this email is:', email);
+      new EmailCode({
+        email: email,
+        code: code,
+      })
+      // Saving the code in the emailCode collection
+      .save(function (err, code) {
+        if (err) return res.status(500).send({ msg: err.message });
+        done(err, email, code.code)
+      })
+    },
+    function(email, code, done) {
+      const mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Réinisialisation du mot de passe',
+        text: 'Cliquez sur ce lien pour pouvoir réinitialiser votre mot de passe :\n' +
+        `${process.env.APP_URI}#/dashboard?newpsw=${code}`
+      }
+      // Sends the email
+      const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: process.env.EMAIL_ADDRESS,
+          pass: process.env.EMAIL_PASSWORD
+        }
+      })
+      .sendMail(mailOptions, function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); }
+        else return res.status(200).end();
+      })
+    }
+  ]);
+}
+
 function verify(req, res, next) {
   const code = req.body.kod;
   const user = req.user;
@@ -168,5 +217,6 @@ module.exports = {
   poblañ,
   sendCode,
   sendCodePW,
-  verify
+  sendConxnLink,
+  verify,
 }

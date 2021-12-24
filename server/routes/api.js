@@ -173,6 +173,10 @@ router.get('/selaou/:id',
   serve.klozañ,*/
   serve.selaou);
 
+router.post('/send_psw_code',
+  verifyEmail.sendConxnLink,
+);
+
 router.post('/subscribe', async (req, res) => {
   // Attach the payment method to the customer
   try {
