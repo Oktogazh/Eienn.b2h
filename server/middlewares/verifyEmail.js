@@ -169,7 +169,7 @@ async function sendConxnLink(req, res, next) {
         to: email,
         subject: 'Réinisialisation du mot de passe',
         text: 'Cliquez sur ce lien pour pouvoir réinitialiser votre mot de passe :\n' +
-        `${process.env.APP_URI}#/dashboard?newpsw=${code}`
+        `${process.env.APP_URI}?newpsw=${code}#/dashboard`
       }
       // Sends the email
       const transporter = nodemailer.createTransport({
