@@ -97,7 +97,7 @@ async function read(req, res, next) {
   // register the advencement of user
   if (req.user) {
     const user = await User.findOne({ _id: `${req.user.id}` });
-    const userProgress = user.progress;
+    const oldUserProgress = user.progress;
     const { seriesId, chapter } = req;
     const newProgressObject = { seriesId, chapter };
 

@@ -94,7 +94,7 @@ router.post('/goulenn_ger-kuzh',
 
 router.post('/ger-kuzh_nevez',
   verifyEmail.cheñchGerKuzh
-)
+);
 
 router.post('/gwiriekaat',
   auth.requireJWT,
@@ -163,6 +163,11 @@ router.get('/prices/:productId', async function(req, res, next) {
   });
   res.status(200).json({ prices });
 });
+
+router.post('/psw_reinitialization',
+  auth.pswReinitialization,
+  auth.signJWTForUser,
+);
 
 router.get('/read/:id',
   serve.digeriñ,

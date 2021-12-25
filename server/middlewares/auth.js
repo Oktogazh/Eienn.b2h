@@ -1,7 +1,8 @@
-const passport = require('passport')
-const JWT = require('jsonwebtoken')
-const PassportJwt = require('passport-jwt')
-const User = require('../models/User')
+const passport = require('passport');
+const JWT = require('jsonwebtoken');
+const PassportJwt = require('passport-jwt');
+const User = require('../models/User');
+const EmailCode = require('../models/EmailCode');
 
 async function dilemelKont(req, res, next) {
   try {
@@ -51,7 +52,25 @@ passport.use(
         })
     }
   )
-)
+);
+
+async function pswReinitialization(req, res, next) {
+  try {
+    const { password, emailCode } = req.body;
+    const email = await EmailCode.findOne({ code: emailCode })
+      .then(({ email }) => email)
+      .catch((e) => res.status(401).end());
+    const user = await User.findOne({ email });
+
+    user.setPassword(password);
+    user.save();
+    req.user = user;
+
+    next();
+  } catch (e) {
+    res.status(401).end()
+  }
+}
 
 function register(req, res, next) {
   const user = new User({
@@ -101,7 +120,7 @@ function signJWTForUser(req, res) {
   const level = klot[1];
   const chapter = (level === '0') ? undefined : Number(level);
   const series = (level === '0') ? undefined : process.env.SERIES_ID;
-  const progress = [{
+  const progress = user.progress || [{
     chapter,
     seriesId: series,
   }];
@@ -136,6 +155,7 @@ async function updateUser(req, res, next) {
 module.exports = {
   dilemelKont,
   initialize: passport.initialize(),
+  pswReinitialization,
   register,
   requireJWT: passport.authenticate('jwt', { session: false }),
   signJWTForUser,
