@@ -142,7 +142,6 @@ function randomLongCode() {
   return crypto.randomBytes(2**5).toString('hex');
 }
 
-
 async function sendConxnLink(req, res, next) {
   async.waterfall([
     function(done) { // Generate the code
@@ -152,7 +151,6 @@ async function sendConxnLink(req, res, next) {
     function(code, done) {
       // Create the code document
       const { email } = req.body;
-      console.log('this email is:', email);
       new EmailCode({
         email: email,
         code: code,
@@ -169,7 +167,7 @@ async function sendConxnLink(req, res, next) {
         to: email,
         subject: 'Réinisialisation du mot de passe',
         text: 'Cliquez sur ce lien pour pouvoir réinitialiser votre mot de passe :\n' +
-        `${process.env.APP_URI}?newpsw=${code}#/dashboard`
+        `${process.env.APP_URI}?newpsw=${code}&address=${email}#/dashboard`
       }
       // Sends the email
       const transporter = nodemailer.createTransport({
