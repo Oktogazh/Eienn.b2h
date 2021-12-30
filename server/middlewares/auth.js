@@ -61,9 +61,9 @@ async function pswReinitialization(req, res, next) {
       .then(({ email }) => email)
       .catch((e) => res.status(401).end());
     const user = await User.findOne({ email });
+    await user.setPassword(password)
+    await user.save();
 
-    user.setPassword(password);
-    user.save();
     req.user = user;
 
     next();
