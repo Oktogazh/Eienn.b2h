@@ -72,25 +72,42 @@ async function lenn(req, res, next) {
   }
 }
 
-async function read(req, res, next) {
-  function authorize(req) {
-    if (Number(req.chapter) <= req.freeTrial) return true;
+function authorize(req) {
+  if (Number(req.chapter) <= req.freeTrial) return true;
 
-    const { subscriptions } = req.user;
-    const { seriesId, chapter } = req;
-    const prodId = `prod_${seriesId.substring('@'.length)}`;
-    function filter(subObj) {
-      const { productId, status } = subObj;
-      if (productId === prodId && (status === 'active' || status === 'past_due')) return true;
-      return false;
-    }
-
-    const filtered = subscriptions.filter(filter);
-    return (filtered.length > 0);
+  const { subscriptions } = req.user;
+  const { seriesId, chapter } = req;
+  const prodId = `prod_${seriesId.substring('@'.length)}`;
+  function filter(subObj) {
+    const { productId, status } = subObj;
+    if (productId === prodId && (status === 'active' || status === 'past_due')) return true;
+    return false;
   }
 
+  const filtered = subscriptions.filter(filter);
+  return (filtered.length > 0);
+}
+
+function updateProgress(oldUserProgress, newProgressObject) {
+  const {seriesId, chapter } = newProgressObject;
+  const hasStarted = (oldUserProgress.findIndex((e) => e.seriesId === seriesId) !== -1);
+  const updateArray = (oldProgObj) => {
+    if (oldProgObj.seriesId === seriesId) {
+      // Do not record advencement if user jumped more than one lesson backwards
+      // (eg. following a link to revisions)
+      const updatedChapter = (chapter + 1 >= (oldProgObj.chapter)) ? chapter : oldProgObj.chapter;
+
+      return { seriesId, chapter: updatedChapter }
+    }; // Add Selected here
+    return oldProgObj;
+  };
+  if (hasStarted) return oldUserProgress.map(updateArray);
+  else return [newProgressObject, ...oldUserProgress];
+}
+
+async function read(req, res, next) {
   const authorized = authorize(req) || (req.user.subscriptionActive === true);
-  if (!authorized) res.status(401).json({ error: 'Unauthorized'})
+  if (!authorized) res.status(401).json({ error: 'Unauthorized'});
 
   // if a req.user were populated,
   // independently from (authorized)
@@ -101,23 +118,7 @@ async function read(req, res, next) {
     const { seriesId, chapter } = req;
     const newProgressObject = { seriesId, chapter };
 
-    function updateProgress(oldUserProgress) {
-      const hasStarted = (oldUserProgress.findIndex((e) => e.seriesId === seriesId) !== -1)
-      const updateArray = (oldProgObj) => {
-        if (oldProgObj.seriesId === seriesId) {
-          // Do not record advencement if user jumped more than one lesson backwards
-          // (eg. following a link to revisions)
-          const updatedChapter = (chapter + 1 >= (oldProgObj.chapter)) ? chapter : oldProgObj.chapter;
-
-          return { seriesId, chapter: updatedChapter }
-        }; // Add Selected here
-        return progObj;
-      };
-      if (hasStarted) return oldUserProgress.map(updateArray);
-      return [newProgressObject, ...oldUserProgress];
-    }
-
-    const newProgress = updateProgress(userProgress);
+    const newProgress = updateProgress(oldUserProgress, newProgressObject);
     user.progress = newProgress;
     user.save();
   }
