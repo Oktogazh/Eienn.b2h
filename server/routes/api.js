@@ -178,6 +178,10 @@ router.get('/selaou/:id',
   serve.klozañ,*/
   serve.selaou);
 
+router.post('/send_email_verification_link',
+  verifyEmail.sendVerifLink,
+);
+
 router.post('/send_psw_code',
   verifyEmail.sendConxnLink,
 );
@@ -228,5 +232,9 @@ router.post('/update_user_state',
   auth.requireJWT,
   auth.updateUser,
 )
+
+router.post('/verify_email',
+  verifyEmail.verifyEmail,
+);
 
 module.exports = router;

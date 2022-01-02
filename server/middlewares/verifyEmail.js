@@ -185,6 +185,49 @@ async function sendConxnLink(req, res, next) {
   ]);
 }
 
+async function sendVerifLink(req, res, next) {
+  async.waterfall([
+    function(done) { // Generate the code
+      const code = randomLongCode()
+      return done(null, code);
+    },
+    function(code, done) {
+      // Create the code document
+      const email = req.body.address;
+      new EmailCode({
+        email: email,
+        code: code,
+      })
+      // Saving the code in the emailCode collection
+      .save(function (err, code) {
+        if (err) return res.status(500).send({ msg: err.message });
+        done(err, email, code.code)
+      })
+    },
+    function(email, code, done) {
+      const mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Vérification de votre adresse mail',
+        text: 'Cliquez sur ce lien pour vérifier votre adresse mail :\n' +
+        `${process.env.APP_URI}#?verifCode=${code}&address=${email}`
+      }
+      // Sends the email
+      const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: process.env.EMAIL_ADDRESS,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      })
+      .sendMail(mailOptions, function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); }
+        else return res.status(200).end();
+      })
+    }
+  ]);
+}
+
 function verify(req, res, next) {
   const code = req.body.kod;
   const user = req.user;
@@ -209,6 +252,10 @@ function verify(req, res, next) {
     .catch( (err) => { res.sendStatus(401); });
 }
 
+function verifyEmail(req, res, next) {
+  res.status(200).end();
+}
+
 module.exports = {
   cheñchGerKuzh,
   exists,
@@ -216,5 +263,7 @@ module.exports = {
   sendCode,
   sendCodePW,
   sendConxnLink,
+  sendVerifLink,
   verify,
+  verifyEmail,
 }
