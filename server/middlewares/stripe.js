@@ -2,6 +2,28 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const User = require('../models/User');
 const { MongoClient } = require('mongodb');
 
+async function createCustomer(req, res, next) {
+  try {
+    const { email } = req.user;
+    const customer = await stripe.customers.create({
+      email: email,
+      // link the BE userId with the customer
+      metadata: {
+        userId: req.user.id
+      }
+    });
+    //link the customerId to the BE user
+    const user = await User.findOne({ _id: req.user.id })
+    user.customerId = customer.id;
+    delete user.verificationCode;
+    user.save();
+    req.user = user;
+    next();
+  } catch (e) {
+    res.status(401).json(e);
+  }
+}
+
 function updateSubscriptions(usersSubs, newSub, productId) {
   const subscriptionDataToStore = {
     id: newSub.id,
@@ -54,6 +76,7 @@ async function createSubscription(req, res, next) {
 };
 
 module.exports = {
+  createCustomer,
   createSubscription,
   updateSubscriptions,
 }

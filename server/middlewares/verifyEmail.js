@@ -191,15 +191,14 @@ async function sendVerifLink(req, res, next) {
       const code = randomLongCode()
       return done(null, code);
     },
-    function(code, done) {
-      // Create the code document
+    async function(code, done) {
       const email = req.body.address;
-      new EmailCode({
-        email: email,
-        code: code,
-      })
+      const user = await User.findOne({ email });
+      // Create the code document
+      user.verificationCode = code;
+
       // Saving the code in the emailCode collection
-      .save(function (err, code) {
+      user.save(function (err, code) {
         if (err) return res.status(500).send({ msg: err.message });
         done(err, email, code.code)
       })
@@ -252,11 +251,19 @@ function verify(req, res, next) {
     .catch( (err) => { res.sendStatus(401); });
 }
 
-function verifyEmail(req, res, next) {
-  res.status(200).end();
+async function checkingCode(req, res, next) {
+  try {
+    const { address, code } = req.body;
+    req.user = await User.findOne({ email: address, verificationCode: code });
+    next();
+  } catch (e) {
+    console.error(e);
+    res.status(401).json(e);
+  }
 }
 
 module.exports = {
+  checkingCode,
   cheñchGerKuzh,
   exists,
   poblañ,
@@ -265,5 +272,4 @@ module.exports = {
   sendConxnLink,
   sendVerifLink,
   verify,
-  verifyEmail,
 }

@@ -113,7 +113,7 @@ router.post('/',
 
         if (event.request != null) {
           try {
-            const user = await User.findOne({subscriptionId: id});
+            const user = await User.findOne({ customerId: customer });
             const productId = dataObject.plan.product;
             const newUsersSubscriptions = await updateSubscriptions(user.subscriptions, dataObject, productId);
 

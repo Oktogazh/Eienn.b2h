@@ -25,7 +25,7 @@ var user = new Schema({
     passwordHash: String,
     payment_failed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     priceId: String,
     progress: {
@@ -47,6 +47,11 @@ var user = new Schema({
     subscriptions: {
       type: Array,
       default: [],
+    },
+    verificationCode: {
+      type: String,
+      default: null,
+      required: false,
     },
     verified: {
       type: Boolean,

@@ -8,7 +8,7 @@ const serve = require('../middlewares/serve');
 const { body } = require('express-validator');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { createSubscription, updateSubscriptions } = require('../middlewares/stripe');
+const { createCustomer, createSubscription, updateSubscriptions } = require('../middlewares/stripe');
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.post('/customer',
   auth.requireJWT,
   // async creation of the user
   async (req, res) => {
-    const email = req.user.email;
+    const { email } = req.user;
     const customer = await stripe.customers.create({
       email: email,
       // link the BE userId with the customer
@@ -149,12 +149,16 @@ router.post('/klask-endro', async (req, res) => {
   res.send(invoice);
 });
 
-router.delete('/kont', auth.requireJWT, auth.dilemelKont);
+router.delete('/kont',
+  auth.requireJWT,
+  auth.dilemelKont
+);
 
 router.get('/lenn/:id',
   serve.digeriñ,
   serve.klozañ,
-  serve.lenn);
+  serve.lenn
+);
 
 router.get('/prices/:productId', async function(req, res, next) {
   const { productId } = req.params;
@@ -171,12 +175,14 @@ router.post('/psw_reinitialization',
 
 router.get('/read/:id',
   serve.digeriñ,
-  serve.read);
+  serve.read
+);
 
 router.get('/selaou/:id',
   serve.digeriñ,/*
   serve.klozañ,*/
-  serve.selaou);
+  serve.selaou
+);
 
 router.post('/send_email_verification_link',
   verifyEmail.sendVerifLink,
@@ -234,7 +240,9 @@ router.post('/update_user_state',
 )
 
 router.post('/verify_email',
-  verifyEmail.verifyEmail,
+  verifyEmail.checkingCode,
+  createCustomer,
+  auth.signJWTForUser,
 );
 
 module.exports = router;
