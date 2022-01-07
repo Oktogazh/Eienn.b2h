@@ -188,7 +188,7 @@ async function sendConxnLink(req, res, next) {
 async function sendVerifLink(req, res, next) {
   async.waterfall([
     function(done) { // Generate the code
-      const code = randomLongCode()
+      const code = randomLongCode();
       return done(null, code);
     },
     async function(code, done) {
@@ -198,12 +198,13 @@ async function sendVerifLink(req, res, next) {
       user.verificationCode = code;
 
       // Saving the code in the emailCode collection
-      user.save(function (err, code) {
+      user.save(function (err, user) {
         if (err) return res.status(500).send({ msg: err.message });
-        done(err, email, code.code)
+        done(err, email, user.verificationCode)
       })
     },
     function(email, code, done) {
+      console.log({ code });
       const mailOptions = {
         from: process.env.EMAIL_ADDRESS,
         to: email,
