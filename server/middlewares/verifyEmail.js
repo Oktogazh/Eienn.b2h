@@ -254,11 +254,13 @@ function verify(req, res, next) {
 async function checkingCode(req, res, next) {
   try {
     const { address, code } = req.body;
-    req.user = await User.findOne({ email: address, verificationCode: code });
+    const user = await User.findOne({ email: address, verificationCode: code });
+    user.verificationCode = undefined;
+    user.save();
+    req.user = user;
     next();
   } catch (e) {
-    console.error(e);
-    res.status(401).json(e);
+    res.status(200).json({ msg: 'ALREADYVERIFIED' });
   }
 }
 
