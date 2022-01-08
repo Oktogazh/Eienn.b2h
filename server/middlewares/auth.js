@@ -90,6 +90,17 @@ function register(req, res, next) {
   })
 }
 
+function setUserSubs({ subscriptionActive, subscriptionId, subscriptions }) {
+  if (subscriptionActive && (subscriptions.length === 0)) {
+    return {
+      id: subscriptionId,
+      productId: 'prod_IHsM2F6xNmZOD5',
+      status: 'active',
+    };
+  }
+  return subscriptions;
+}
+
 function signJWTForUser(req, res) {
   // Get the user (either just signed in or signed up)
   const user = req.user
@@ -124,6 +135,7 @@ function signJWTForUser(req, res) {
     chapter,
     seriesId: series,
   }];
+  const subscriptions = setUserSubs(user);
 
   // Send the token
   res.status(200).json({
@@ -134,7 +146,7 @@ function signJWTForUser(req, res) {
     progress,
     'sub': user.subscriptionActive,
     'subscriptionId': user.subscriptionId || null,
-    'subscriptions': user.subscriptions,
+    'subscriptions': subscriptions,
     'verified': user.verified || false
   })
 }
