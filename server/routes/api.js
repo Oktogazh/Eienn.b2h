@@ -174,13 +174,16 @@ router.post('/psw_reinitialization',
 );
 
 router.get('/read/:id',
+  (req, res, next) => {
+    req.action = 'read';
+    next();
+  },
   serve.digeriñ,
   serve.read
 );
 
 router.get('/selaou/:id',
-  serve.digeriñ,/*
-  serve.klozañ,*/
+  serve.digeriñ,
   serve.selaou
 );
 

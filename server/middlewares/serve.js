@@ -7,7 +7,7 @@ const fs = require('fs');
 function digeriñ(req, res, next) {
   // Extract the information about the lessons requested
   // from param kentel/:id above
-  const id = req.params.id;
+  const { id } = req.params;
   const reg = /(^\d+)(@\S+$)/g;
   const klot = reg.exec(id);
   // Populate req.doc with a string reprsenting the number of the fetched lesson
@@ -22,7 +22,7 @@ function digeriñ(req, res, next) {
   // when its collection will have been created.
   req.freeTrial = 7;
 
-  if (req.get('Authorization') || Number(req.chapter) > req.freeTrial) {
+  if (req.get('Authorization') || (req.action === 'read' && Number(req.chapter) > req.freeTrial)) {
     // in order to register the advencement of registered people
     // (including new subscriber)
     auth.requireJWT(req, res, next);
@@ -143,7 +143,7 @@ async function read(req, res, next) {
 
 async function selaou(req, res, next) {
   const hent = path.join(__dirname, `/../staliad/${req.coll}/${req.doc}.wav`);
-
+  console.log(hent);
   if (fs.existsSync(hent)) {
     res.sendFile(hent, err => {
       if (err) {
