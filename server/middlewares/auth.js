@@ -90,18 +90,22 @@ function register(req, res, next) {
   })
 }
 
-function setUserSubs({ subscriptionActive, subscriptionId, subscriptions }) {
+async function setUserSubs({ email, subscriptionActive, subscriptionId, subscriptions }) {
   if (subscriptionActive && (subscriptions.length === 0)) {
-    return {
+    const user = await User.findOne({ email })
+    const subs = [{
       id: subscriptionId,
       productId: 'prod_IHsM2F6xNmZOD5',
       status: 'active',
-    };
+    }];
+    user.subscriptions = subs;
+    await user.save();
+    return subs;
   }
   return subscriptions;
 }
 
-function signJWTForUser(req, res) {
+async function signJWTForUser(req, res) {
   // Get the user (either just signed in or signed up)
   const user = req.user
   // Create a signed token
@@ -135,8 +139,7 @@ function signJWTForUser(req, res) {
     chapter,
     seriesId: series,
   }];
-  const subscriptions = setUserSubs(user);
-
+  const subscriptions = await setUserSubs(user);
   // Send the token
   res.status(200).json({
     token,
