@@ -185,46 +185,59 @@ async function sendConxnLink(req, res, next) {
   ]);
 }
 
-async function sendVerifLink(req, res, next) {
-  async.waterfall([
-    function(done) { // Generate the code
-      const code = randomLongCode();
-      return done(null, code);
-    },
-    async function(code, done) {
-      const email = req.body.address;
-      const user = await User.findOne({ email });
-      // Create the code document
-      user.verificationCode = code;
+async function recallUntilReturnUser(email) {
+  var user;
+  while (!user) {
+    user = await User.findOne({ email });
+  }
+  return user;
+}
 
-      // Saving the code in the emailCode collection
-      user.save(function (err, user) {
-        if (err) return res.status(500).send({ msg: err.message });
-        done(err, email, user.verificationCode)
-      })
-    },
-    function(email, code, done) {
-      const mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
-        to: email,
-        subject: 'Vérification de votre adresse mail',
-        text: 'Cliquez sur ce lien pour vérifier votre adresse mail :\n' +
-        `${process.env.APP_URI}#?verifCode=${code}&address=${email}`
+async function sendVerifLink(req, res, next) {
+  try {
+    async.waterfall([
+      function(done) { // Generate the code
+        const code = randomLongCode();
+        return done(null, code);
+      },
+      async function(code, done) {
+        const email = req.body.address;
+        const user = await recallUntilReturnUser(email);
+        // Create the code document
+        user.verificationCode = code;
+
+        // Saving the code in the emailCode collection
+        user.save(function (err, user) {
+          if (err) return res.status(500).send({ msg: err.message });
+          done(err, email, user.verificationCode)
+        })
+      },
+      function(email, code, done) {
+        const mailOptions = {
+          from: process.env.EMAIL_ADDRESS,
+          to: email,
+          subject: 'Vérification de votre adresse mail',
+          text: 'Cliquez sur ce lien pour vérifier votre adresse mail :\n' +
+          `${process.env.APP_URI}#?verifCode=${code}&address=${email}`
+        }
+        // Sends the email
+        const transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: process.env.EMAIL_ADDRESS,
+            pass: process.env.EMAIL_PASSWORD,
+          },
+        })
+        .sendMail(mailOptions, function (err) {
+          if (err) { return res.status(500).send({ msg: err.message }); }
+          else return res.status(200).end();
+        })
       }
-      // Sends the email
-      const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-          user: process.env.EMAIL_ADDRESS,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-      })
-      .sendMail(mailOptions, function (err) {
-        if (err) { return res.status(500).send({ msg: err.message }); }
-        else return res.status(200).end();
-      })
-    }
-  ]);
+    ]);
+  } catch (e) {
+    console.log(e);
+    res.code(401).json(e);
+  }
 }
 
 function verify(req, res, next) {
