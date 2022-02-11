@@ -218,7 +218,7 @@ async function sendVerifLink(req, res, next) {
           to: email,
           subject: 'Vérification de votre adresse mail',
           text: 'Cliquez sur ce lien pour vérifier votre adresse mail :\n' +
-          `${process.env.APP_URI}#?verifCode=${code}&address=${email}`
+          `https://eienn.bzh/#?verifCode=${code}&address=${email}`
         }
         // Sends the email
         const transporter = nodemailer.createTransport({
